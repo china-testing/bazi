@@ -106,13 +106,21 @@ print("\n八字:   同义词：七杀|偏官 偏印|枭神  流岁取天干 解�
 print("="*140)    
 print("{:^28s}{:^28s}{:^28s}{:^28s}".format('年【父-根】', "月【兄弟僚友-苗】", "日【自己配偶-花】", "时【子孙-实】"))
 print("-"*140)
+def check_gan(gan, gans):
+    result = ''
+    if ten_deities[gan]['合'] in gans:
+        result += "合：" + ten_deities[gan]['合']
+    if ten_deities[gan]['冲'] in gans:
+        result += " 冲：" + ten_deities[gan]['冲']
+    return result
+    
 print("{:^30s}{:^30s}{:^30s}{:^30s}".format(
-    '{}{}{}5 [{}]'.format(
-        gans.year, yinyang(gans.year), gan5[gans.year], ten_deities[me][gans.year]),
-    '{}{}{}5 [{}]'.format(
-        gans.month, yinyang(gans.month), gan5[gans.month], ten_deities[me][gans.month]),
-    '{}{}{}5 [{}]'.format(me, yinyang(me),gan5[me], '自己 天元'), 
-    '{}{}{}5 [{}]'.format(gans.time, yinyang(gans.time), gan5[gans.time], ten_deities[me][gans.time]),
+    '{}{}{}5 [{}] {}'.format(
+        gans.year, yinyang(gans.year), gan5[gans.year], ten_deities[me][gans.year], check_gan(gans.year, gans)),
+    '{}{}{}5 [{}] {}'.format(
+        gans.month, yinyang(gans.month), gan5[gans.month], ten_deities[me][gans.month], check_gan(gans.month, gans)),
+    '{}{}{}5 [{}] {}'.format(me, yinyang(me),gan5[me], '自己 天元', check_gan(me, gans)), 
+    '{}{}{}5 [{}] {}'.format(gans.time, yinyang(gans.time), gan5[gans.time], ten_deities[me][gans.time], check_gan(gans.time, gans)),
 ))
 
 empty = empties[zhus[0]]
@@ -139,6 +147,7 @@ for seq, item in enumerate(zhis):
     print("{:^26s}".format(out), end=' ')
 
 print()
+# 输出地支关系
 for seq, item in enumerate(zhis):
   
     output = ''
@@ -177,12 +186,11 @@ else:
 
 
 # 学堂分析
-
 for seq, item in enumerate(statuses):
     if item == '长生':
         print("学堂:", zhis[seq], "\t\t", end=' ')
-    if  nayins[zhus[seq]][-1] == ten_deities[me]['本']:
-        print("正学堂:", nayins[zhus[seq]][-1], "\t\t", end=' ')
+        if  nayins[zhus[seq]][-1] == ten_deities[me]['本']:
+            print("正学堂:", nayins[zhus[seq]], "\t\t", end=' ')
 
 
 #xuetang = xuetangs[ten_deities[me]['本']][1]
@@ -196,8 +204,8 @@ for seq, item in enumerate(statuses):
 for seq, item in enumerate(statuses):
     if item == '建':
         print("词馆:", zhis[seq], "\t\t", end=' ')
-    if  nayins[zhus[seq]][-1] == ten_deities[me]['本']:
-        print("正词馆:", nayins[zhus[seq]][-1], "\t\t", end=' ')
+        if  nayins[zhus[seq]][-1] == ten_deities[me]['本']:
+            print("正词馆:", nayins[zhus[seq]], "\t\t", end=' ')
 
 
 ku = ten_deities[me]['库'][0]    
@@ -334,17 +342,6 @@ def check_subset(gans, db, desc):
                 flag = True
             print(item, db[item])  
     return flag
-
-check_subset(gans, gan_hes, '十干合 https://www.jianshu.com/p/3d770f21c677')
-check_subset(gans, gan_chongs, '十干冲 https://www.jianshu.com/p/ac958d44835f')
-check_subset(zhis, zhi_6hes, '地支六合: 男子忌合绝，女人忌合贵。')		
-if not check_subset(zhis, zhi_3hes, '地支三合'):	 # 如果三合，没必要检查半合
-    check_subset(zhis, zhi_half_3hes, '地支半合')	
-check_subset(zhis, zhi_huis, '地支三会')	
-check_subset(zhis, zhi_chongs, '地支相冲 https://www.jianshu.com/p/ac958d44835f')	
-check_subset(zhis, zhi_poes, '地支相破(破煞): 少年灾滞，财产耗散，兼有折伤之灾。')	
-check_subset(zhis, zhi_haies, '地支相害 六亲损害 再见羊刃、劫煞、官府，为灾尤甚。日时、女命尤忌')	
-check_subset(zhis, zhi_xings, '地支相刑')
 
 
 
