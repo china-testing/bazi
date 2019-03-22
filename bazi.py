@@ -126,6 +126,8 @@ print("{:^30s}{:^30s}{:^30s}{:^30s}".format(
                          ten_deities[me][zhis.time], ten_deities[gans.time][zhis.time]),       
 ))
 
+statuses = [ten_deities[me][item] for item in zhis]
+
 
 for seq, item in enumerate(zhis):
     out = ''
@@ -161,10 +163,58 @@ for item in empty:
     if item in zhis:
         print("空亡", item)
         break
-    
-print("-"*140)    
 
-print(kus)
+
+print("-"*140)   
+
+# 格局分析
+zhi = zhis[1]
+if zhi in wuhangs['土']:
+    print("格局：杂气官\t\t", end=' ')
+else:
+    d = zhi5[zhi]
+    print("格局:", ten_deities[me][max(d, key=d.get)], '\t\t', end=' ')
+
+
+# 学堂分析
+
+for seq, item in enumerate(statuses):
+    if item == '长生':
+        print("学堂:", zhis[seq], "\t\t", end=' ')
+    if  nayins[zhus[seq]][-1] == ten_deities[me]['本']:
+        print("正学堂:", nayins[zhus[seq]][-1], "\t\t", end=' ')
+
+
+#xuetang = xuetangs[ten_deities[me]['本']][1]
+#if xuetang in zhis:
+    #print("学堂:", xuetang, "\t\t", end=' ')
+    #if xuetangs[ten_deities[me]['本']] in zhus:
+        #print("正学堂:", xuetangs[ten_deities[me]['本']], "\t\t", end=' ')
+
+# 学堂分析
+
+for seq, item in enumerate(statuses):
+    if item == '建':
+        print("词馆:", zhis[seq], "\t\t", end=' ')
+    if  nayins[zhus[seq]][-1] == ten_deities[me]['本']:
+        print("正词馆:", nayins[zhus[seq]][-1], "\t\t", end=' ')
+
+
+ku = ten_deities[me]['库'][0]    
+if ku in zhis:
+    print("库：",ku, end=' ')
+
+    for item in zhus: 
+        if ku != zhus[1]:
+            continue
+        if nayins[item][-1] == ten_deities[me]['克']:
+            print("库中有财，其人必丰厚")
+        if nayins[item][-1] == ten_deities[me]['被克']:
+            print(item, ten_deities[me]['被克'])
+            print("绝处无依，其人必滞")    
+            
+print("墓库：", kus)
+
 for item in gan_scores:  
     print("{}[{}]-{} ".format(
         item, ten_deities[me][item], gan_scores[item]),  end='  ')    
