@@ -4,8 +4,6 @@
 # 鸣谢 https://github.com/yuangu/sxtwl_cpp/tree/master/python
 # CreateDate: 2019-2-21
 
-# -*- coding:utf-8 -*-
-
 import  sxtwl
 import argparse
 import collections
@@ -65,6 +63,8 @@ else:
     zhis = Zhis(year=Zhi[day.Lyear2.dz], month=Zhi[day.Lmonth2.dz], 
                 day=Zhi[day.Lday2.dz], time=Zhi[gz.dz])
 me = gans.day
+month = zhis.month
+alls = list(gans) + list(zhis)
 zhus = [item for item in zip(gans, zhis)]
 
 
@@ -83,7 +83,7 @@ for item in list(zhis) + [zhis.month]:
     for gan in zhi5[item]:
         scores[gan5[gan]] += zhi5[item][gan]
         gan_scores[gan] += zhi5[item][gan]
-        
+
 
 # 计算八字强弱
 
@@ -101,35 +101,35 @@ if not options.b:
     Lleap = "闰" if day.Lleap else ""
     print("农历:", end='')
     print("\t{}年{}{}月{}日".format(day.Lyear0 + 1984, Lleap, ymc[day.Lmc], rmc[day.Ldi]))
-
-print("\n八字:   同义词：七杀|偏官 偏印|枭神  流岁取天干 解读：钉钉或微信pythontesting 以下未包含拱合、三合")
+print("-"*140)
+print("甲己-中正土 \t乙庚-仁义金 \t丙辛-威制水 \t丁壬-淫慝木 \t戊癸-无情火 \t解读:钉钉或微信pythontesting")
 print("="*140)    
 print("{:^28s}{:^28s}{:^28s}{:^28s}".format('年【父-根】', "月【兄弟僚友-苗】", "日【自己配偶-花】", "时【子孙-实】"))
 print("-"*140)
 def check_gan(gan, gans):
     result = ''
     if ten_deities[gan]['合'] in gans:
-        result += "合：" + ten_deities[gan]['合']
+        result += "合" + ten_deities[gan]['合']
     if ten_deities[gan]['冲'] in gans:
-        result += " 冲：" + ten_deities[gan]['冲']
+        result += " 冲" + ten_deities[gan]['冲']
     return result
-    
-print("{:^30s}{:^30s}{:^30s}{:^30s}".format(
+
+print("{:^29s}{:^29s}{:^30s}{:^30s}".format(
     '{}{}{}5 [{}] {}'.format(
         gans.year, yinyang(gans.year), gan5[gans.year], ten_deities[me][gans.year], check_gan(gans.year, gans)),
     '{}{}{}5 [{}] {}'.format(
         gans.month, yinyang(gans.month), gan5[gans.month], ten_deities[me][gans.month], check_gan(gans.month, gans)),
-    '{}{}{}5 [{}] {}'.format(me, yinyang(me),gan5[me], '自己 天元', check_gan(me, gans)), 
+    '{}{}{}5 [{}] {}'.format(me, yinyang(me),gan5[me], '天', check_gan(me, gans)), 
     '{}{}{}5 [{}] {}'.format(gans.time, yinyang(gans.time), gan5[gans.time], ten_deities[me][gans.time], check_gan(gans.time, gans)),
 ))
 
 empty = empties[zhus[0]]
-print("{:^30s}{:^30s}{:^30s}{:^30s}".format(
+print("{:^30s}{:^29s}{:^29s}{:^30s}".format(
     "{}{}{} [{}]".format(zhis.year, yinyang(zhis.year), 
                          ten_deities[me][zhis.year], ten_deities[gans.year][zhis.year]),
-    "{}{}{} [{}]【命】地元".format(zhis.month, yinyang(zhis.month), 
-                         ten_deities[me][zhis.month], ten_deities[gans.month][zhis.month]),  
-    "{}{}{} 地元".format(zhis.day, yinyang(zhis.day), ten_deities[me][zhis.day]),   
+    "{}{}{} [{}]【命】地".format(zhis.month, yinyang(zhis.month), 
+                                     ten_deities[me][zhis.month], ten_deities[gans.month][zhis.month]),  
+    "{}{}{} 地".format(zhis.day, yinyang(zhis.day), ten_deities[me][zhis.day]),   
     "{}{}{} [{}]".format(zhis.time, yinyang(zhis.time), 
                          ten_deities[me][zhis.time], ten_deities[gans.time][zhis.time]),       
 ))
@@ -140,16 +140,16 @@ statuses = [ten_deities[me][item] for item in zhis]
 for seq, item in enumerate(zhis):
     out = ''
     multi = 2 if item == zhis.month and seq == 1 else 1
-        
+
     for gan in zhi5[item]:
         out = out + "{}{}{}{} ".format(gan, gan5[gan], zhi5[item][gan]*multi,  
                                        ten_deities[me][gan])
-    print("{:^26s}".format(out), end=' ')
+    print("{:^30s}".format(out), end=' ')
 
 print()
 # 输出地支关系
 for seq, item in enumerate(zhis):
-  
+
     output = ''
     others = zhis[:seq] + zhis[seq+1:] 
     for type_ in zhi_atts[item]:
@@ -160,8 +160,8 @@ for seq, item in enumerate(zhis):
                     output = output + " " + type_ + ":"
                     flag = True
                 output += zhi
-    print("{:^30s}".format(output), end=' ')         
-        
+    print("{:^29s}".format(output), end=' ')         
+
 print()
 for item in zhus:
     print("{:^30s}".format(nayins[item]), end=' ')    
@@ -174,23 +174,69 @@ for item in empty:
         break
 
 
-print("-"*140)   
+print("="*140)   
 
 # 格局分析
 zhi = zhis[1]
 if zhi in wuhangs['土']:
-    print("格局：杂气官\t\t", end=' ')
+    print("格局：杂气官\t", end=' ')
 else:
     d = zhi5[zhi]
-    print("格局:", ten_deities[me][max(d, key=d.get)], '\t\t', end=' ')
+    print("格局:", ten_deities[me][max(d, key=d.get)], '\t', end=' ')
+
+# 天乙贵人
+flag = False
+for items in tianyis[me]:
+    for item in items:
+        if item in zhis:
+            if not flag:
+                print("| 天乙贵人：", end=' ')
+                flag = True
+            print(item, end=' ')
+
+# 天德贵人
+if tiandes[month] in alls:
+    print("| 天德贵人：{}".format(tiandes[month]), end=' ') 
+
+# 月德贵人
+if yuedes[month] in zhis:
+    print("| 月德贵人：{}".format(yuedes[month]), end=' ') 
+
+# 驿马
+if mas[zhis.day] in zhis:
+    for seq, item in enumerate(zhis):
+        if item == mas[zhis.day]:
+            print(ma_zhus[zhus[seq]], zhus[seq])     
+
+# 天罗
+if  nayins[zhus[0]][-1] == '火':			
+    if zhis.day in '戌亥':
+        print("| 天罗：{}".format(zhis.day), end=' ') 
+
+# 地网		
+if  nayins[zhus[0]][-1] in '水土':			
+    if zhis.day in '辰巳':
+        print("| 地网：{}".format(zhis.day), end=' ') 		
+
+# 三奇
+flag = False
+if ['乙','丙', '丁'] == list(gans[:3]) or ['乙','丙', '丁'] == list(gans[1:]):
+    flag = True  
+    print("三奇　乙丙丁", end=' ')  
+if ['甲','戊', '庚'] == list(gans[:3]) or ['甲','戊', '庚'] == list(gans[1:]):
+    flag = True   
+    print("三奇　甲戊庚", end=' ')  
+if ['辛','壬', '癸'] == list(zhis[:3]) or ['辛','壬', '癸'] == list(zhis[1:]):
+    flag = True       
+    print("三奇　辛壬癸", end=' ')    
 
 
 # 学堂分析
 for seq, item in enumerate(statuses):
     if item == '长生':
-        print("学堂:", zhis[seq], "\t\t", end=' ')
+        print("学堂:", zhis[seq], "\t", end=' ')
         if  nayins[zhus[seq]][-1] == ten_deities[me]['本']:
-            print("正学堂:", nayins[zhus[seq]], "\t\t", end=' ')
+            print("正学堂:", nayins[zhus[seq]], "\t", end=' ')
 
 
 #xuetang = xuetangs[ten_deities[me]['本']][1]
@@ -203,9 +249,9 @@ for seq, item in enumerate(statuses):
 
 for seq, item in enumerate(statuses):
     if item == '建':
-        print("词馆:", zhis[seq], "\t\t", end=' ')
+        print("| 词馆:", zhis[seq], end=' ')
         if  nayins[zhus[seq]][-1] == ten_deities[me]['本']:
-            print("正词馆:", nayins[zhus[seq]], "\t\t", end=' ')
+            print("- 正词馆:", nayins[zhus[seq]], end=' ')
 
 
 ku = ten_deities[me]['库'][0]    
@@ -220,16 +266,19 @@ if ku in zhis:
         if nayins[item][-1] == ten_deities[me]['被克']:
             print(item, ten_deities[me]['被克'])
             print("绝处无依，其人必滞")    
-            
-print("墓库：", kus)
 
+print("\n墓库：", kus)
+print("-"*140)
+print(zhi_3hes, "\t生：寅申巳亥 败：子午卯酉　库：辰戌丑未")
+print("三会", zhi_huis)
+print(zhi_6hes)
+print("-"*140)
+print("五行分数", scores, '\t\t八字强弱：', strong, "通常大于29分为强，还需要参考月份、坐支等")
 for item in gan_scores:  
     print("{}[{}]-{} ".format(
         item, ten_deities[me][item], gan_scores[item]),  end='  ')    
-print("\n")
-print("五行分数", scores, '\t\t八字强弱：', strong, "通常大于29分为强，还需要参考月份、坐支等")
-print(zhi_3hes)
-
+print()
+print("-"*140)
 # 出身分析
 cai = ten_deities[me].inverse['财']
 guan = ten_deities[me].inverse['官']
@@ -240,19 +289,19 @@ if cai in births and guan in births:
     #birth = '较好'
 else:
     birth = '一般'
-    
+
 print("出身:", birth)    
 
 gan_shens = []
 for item in gans:
     gan_shens.append(ten_deities[me][item])
-print(gan_shens)
+#print(gan_shens)
 
 zhi_shens = []
 for item in zhis:
     d = zhi5[item]
     zhi_shens.append(ten_deities[me][max(d, key=d.get)])
-print(zhi_shens)
+#print(zhi_shens)
 
 if "伤" in gan_shens + zhi_shens:
     print("伤官: 合神(三合、六合、双鸳合等等)重，男子犯之，耽迷酒色；女人逢之，不媒自嫁。")
@@ -315,13 +364,13 @@ for item in Gan:
     if gan_.count(item) == 3:
         print("三字干：", item, "--", gan3[item])
         break
-    
+
 gan_ = tuple(gans)
 for item in Gan:
     if gan_.count(item) == 4:
         print("四字干：", item, "--", gan4[item])
         break    
-        
+
 zhi_ = tuple(zhis)
 for item in Zhi:
     if zhi_.count(item) > 2:
@@ -358,18 +407,6 @@ if ten_deities[me].inverse[key] in zhis:
 
 
 
-# 三奇
-flag = False
-if ['乙','丙', '丁'] == list(gans[:3]) or ['乙','丙', '丁'] == list(gans[1:]):
-    flag = True   
-if ['甲','戊', '庚'] == list(gans[:3]) or ['甲','戊', '庚'] == list(gans[1:]):
-    flag = True   
-if ['辛','壬', '癸'] == list(zhis[:3]) or ['辛','壬', '癸'] == list(zhis[1:]):
-    flag = True         
-
-
-if flag:
-    print("\n\n三奇：参见https://www.jianshu.com/p/d014a054c38e")     
 
 # 将星分析
 me_zhi = zhis[2]
