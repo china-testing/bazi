@@ -8,6 +8,8 @@ import  sxtwl
 import argparse
 import collections
 import pprint
+import datetime
+
 from bidict import bidict
 
 from datas import *
@@ -62,10 +64,50 @@ else:
                 day=Gan[day.Lday2.tg], time=Gan[gz.tg])
     zhis = Zhis(year=Zhi[day.Lyear2.dz], month=Zhi[day.Lmonth2.dz], 
                 day=Zhi[day.Lday2.dz], time=Zhi[gz.dz])
+    
+    
 me = gans.day
 month = zhis.month
 alls = list(gans) + list(zhis)
 zhus = [item for item in zip(gans, zhis)]
+
+# 计算大运
+seq = Gan.index(gans.year)
+if options.n:
+    if seq % 2 == 0:
+        direction = -1
+    else:
+        direction = 1
+else:
+    if seq % 2 == 0:
+        direction = 1
+    else:
+        direction = -1
+        
+dayuns = []
+print(direction)
+gan_seq = Gan.index(gans.month)
+zhi_seq = Zhi.index(zhis.month)
+for i in range(12):
+    gan_seq += direction
+    zhi_seq += direction
+    dayuns.append(Gan[gan_seq%10] + Zhi[zhi_seq%12])
+    
+print(dayuns)    
+
+# 计算上运时间，有年份时才适用
+birthday = datetime.date(day.y, day.m, day.d) 
+count = 0
+
+for i in range(30):    
+    day_ = sxtwl.Lunar().getDayBySolar(birthday.year, birthday.month, birthday.day)
+    if day_.qk != -1 and day_.qk % 2 == 1:
+        break        
+    birthday += datetime.timedelta(days=direction)
+    count += 1
+
+ages = [count//3 + 10*i for i in range(12)]
+print(list(zip(ages, dayuns)))
 
 
 # 计算五行分数 http://www.131.com.tw/word/b3_2_14.htm
