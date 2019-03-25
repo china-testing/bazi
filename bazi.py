@@ -96,18 +96,19 @@ for i in range(12):
 print(dayuns)    
 
 # 计算上运时间，有年份时才适用
-birthday = datetime.date(day.y, day.m, day.d) 
-count = 0
-
-for i in range(30):    
-    day_ = sxtwl.Lunar().getDayBySolar(birthday.year, birthday.month, birthday.day)
-    if day_.qk != -1 and day_.qk % 2 == 1:
-        break        
-    birthday += datetime.timedelta(days=direction)
-    count += 1
-
-ages = [count//3 + 10*i for i in range(12)]
-print(list(zip(ages, dayuns)))
+if not options.b:
+    birthday = datetime.date(day.y, day.m, day.d) 
+    count = 0
+    
+    for i in range(30):    
+        day_ = sxtwl.Lunar().getDayBySolar(birthday.year, birthday.month, birthday.day)
+        if day_.qk != -1 and day_.qk % 2 == 1:
+            break        
+        birthday += datetime.timedelta(days=direction)
+        count += 1
+    
+    ages = [round(count/3 + 10*i, 2) for i in range(12)]
+    print(list(zip(ages, dayuns)))
 
 
 # 计算五行分数 http://www.131.com.tw/word/b3_2_14.htm
