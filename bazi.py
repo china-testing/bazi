@@ -71,44 +71,7 @@ month = zhis.month
 alls = list(gans) + list(zhis)
 zhus = [item for item in zip(gans, zhis)]
 
-# 计算大运
-seq = Gan.index(gans.year)
-if options.n:
-    if seq % 2 == 0:
-        direction = -1
-    else:
-        direction = 1
-else:
-    if seq % 2 == 0:
-        direction = 1
-    else:
-        direction = -1
-        
-dayuns = []
-print(direction)
-gan_seq = Gan.index(gans.month)
-zhi_seq = Zhi.index(zhis.month)
-for i in range(12):
-    gan_seq += direction
-    zhi_seq += direction
-    dayuns.append(Gan[gan_seq%10] + Zhi[zhi_seq%12])
-    
-print(dayuns)    
 
-# 计算上运时间，有年份时才适用
-if not options.b:
-    birthday = datetime.date(day.y, day.m, day.d) 
-    count = 0
-    
-    for i in range(30):    
-        day_ = sxtwl.Lunar().getDayBySolar(birthday.year, birthday.month, birthday.day)
-        if day_.qk != -1 and day_.qk % 2 == 1:
-            break        
-        birthday += datetime.timedelta(days=direction)
-        count += 1
-    
-    ages = [round(count/3 + 10*i, 2) for i in range(12)]
-    print(list(zip(ages, dayuns)))
 
 
 # 计算五行分数 http://www.131.com.tw/word/b3_2_14.htm
@@ -145,7 +108,8 @@ if not options.b:
     print("农历:", end='')
     print("\t{}年{}{}月{}日".format(day.Lyear0 + 1984, Lleap, ymc[day.Lmc], rmc[day.Ldi]))
 print("-"*140)
-print("甲己-中正土 \t乙庚-仁义金 \t丙辛-威制水 \t丁壬-淫慝木 \t戊癸-无情火 \t解读:钉钉或微信pythontesting")
+print("排盘源码:https://github.com/china-testing/python-api-tesing/blob/master/bazi/bazi.py")
+print("甲己-中正土  乙庚-仁义金  丙辛-威制水  丁壬-淫慝木  戊癸-无情火  解读:钉钉或微信pythontesting")
 print("="*140)    
 print("{:^28s}{:^28s}{:^28s}{:^28s}".format('年【父-根】', "月【兄弟僚友-苗】", "日【自己配偶-花】", "时【子孙-实】"))
 print("-"*140)
@@ -345,6 +309,29 @@ for item in zhis:
     d = zhi5[item]
     zhi_shens.append(ten_deities[me][max(d, key=d.get)])
 #print(zhi_shens)
+shens = gan_shens + zhi_shens
+
+# 食神分析
+if "食" in shens:
+    print("\n食神分析: 格要日主食神俱生旺，无冲破。")
+    print(" 阳日食神暗合官星，阴日食神暗合正印。食神格人聪明、乐观、优雅、多才多艺")
+    print("======================================")  
+    print('''
+    喜:身旺 宜行财乡 逢食看财  忌:身弱 比肩 倒食(偏印)  一名进神　　二名爵星　　三名寿星
+    食多者宜行印运，食少者不宜 月令建禄最佳，时禄次之，更逢贵人运
+    食神重见，变为伤官，令人少子，纵有，或带破拗性，又不可入墓，即是伤官入墓，住寿难延。
+    大忌空亡，更有官煞显露，为太医师巫术数九流之士，若食神逢克，又遇空亡，则不贵，
+    再行死绝或枭运，则因食上气上生灾，翻胃噎食，缺衣食，忍饥寒而已
+    ''')
+    
+    shi_num = shens.count("食")
+    if shi_num > 1:
+        print("食神过多",end=' ')
+    if set(('财','食')) in set(gan_shens[:2] + zhi_shens[:2]):
+        print("祖父荫业丰隆", end='')
+    if set(('财','食')) in set(gan_shens[2:] + zhi_shens[2:]):
+        print("妻男获福，怕母子俱衰绝，两皆无成", end='')    
+    
 
 if "伤" in gan_shens + zhi_shens:
     print("伤官: 合神(三合、六合、双鸳合等等)重，男子犯之，耽迷酒色；女人逢之，不媒自嫁。")
@@ -401,6 +388,50 @@ if sum_index in summarys:
     print("\n\n命")    
     print("=========================")      
     print(summarys[sum_index])
+
+
+# 计算大运
+seq = Gan.index(gans.year)
+if options.n:
+    if seq % 2 == 0:
+        direction = -1
+    else:
+        direction = 1
+else:
+    if seq % 2 == 0:
+        direction = 1
+    else:
+        direction = -1
+        
+dayuns = []
+gan_seq = Gan.index(gans.month)
+zhi_seq = Zhi.index(zhis.month)
+for i in range(12):
+    gan_seq += direction
+    zhi_seq += direction
+    dayuns.append(Gan[gan_seq%10] + Zhi[zhi_seq%12])
+    
+   
+
+# 计算上运时间，有年份时才适用
+print("\n\n大运")    
+print("=========================")  
+if options.b:
+    print(dayuns) 
+else:
+    birthday = datetime.date(day.y, day.m, day.d) 
+    count = 0
+    
+    for i in range(30):    
+        day_ = sxtwl.Lunar().getDayBySolar(birthday.year, birthday.month, birthday.day)
+        if day_.qk != -1 and day_.qk % 2 == 1:
+            break        
+        birthday += datetime.timedelta(days=direction)
+        count += 1
+    
+    ages = [(round(count/3 + 10*i, 2), int(options.year) + 10*i + count//3) for i in range(12)]
+    print(list(zip(ages, dayuns)))
+    
 
 gan_ = tuple(gans)
 for item in Gan:
