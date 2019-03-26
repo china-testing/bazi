@@ -14,12 +14,8 @@ from bidict import bidict
 
 from datas import *
 from sizi import summarys
+from common import *
 
-def yinyang(item):
-    if item in Gan:
-        return '+' if Gan.index(item)%2 == 0 else '-'
-    else:
-        return '+' if Zhi.index(item)%2 == 0 else '-'
 
 description = '''
 
@@ -72,8 +68,6 @@ alls = list(gans) + list(zhis)
 zhus = [item for item in zip(gans, zhis)]
 
 
-
-
 # 计算五行分数 http://www.131.com.tw/word/b3_2_14.htm
 
 scores = {"金":0, "木":0, "水":0, "火":0, "土":0}
@@ -113,13 +107,7 @@ print("甲己-中正土  乙庚-仁义金  丙辛-威制水  丁壬-淫慝木  �
 print("="*140)    
 print("{:^28s}{:^28s}{:^28s}{:^28s}".format('年【父-根】', "月【兄弟僚友-苗】", "日【自己配偶-花】", "时【子孙-实】"))
 print("-"*140)
-def check_gan(gan, gans):
-    result = ''
-    if ten_deities[gan]['合'] in gans:
-        result += "合" + ten_deities[gan]['合']
-    if ten_deities[gan]['冲'] in gans:
-        result += " 冲" + ten_deities[gan]['冲']
-    return result
+
 
 print("{:^29s}{:^29s}{:^30s}{:^30s}".format(
     '{}{}{}5 [{}] {}'.format(
@@ -130,15 +118,17 @@ print("{:^29s}{:^29s}{:^30s}{:^30s}".format(
     '{}{}{}5 [{}] {}'.format(gans.time, yinyang(gans.time), gan5[gans.time], ten_deities[me][gans.time], check_gan(gans.time, gans)),
 ))
 
-empty = empties[zhus[0]]
 print("{:^30s}{:^29s}{:^29s}{:^30s}".format(
-    "{}{}{} [{}]".format(zhis.year, yinyang(zhis.year), 
-                         ten_deities[me][zhis.year], ten_deities[gans.year][zhis.year]),
-    "{}{}{} [{}]【命】地".format(zhis.month, yinyang(zhis.month), 
-                                     ten_deities[me][zhis.month], ten_deities[gans.month][zhis.month]),  
+    "{}{}{} [{}] {}".format(
+        zhis.year, yinyang(zhis.year), ten_deities[me][zhis.year],
+        ten_deities[gans.year][zhis.year], get_empty(zhus[0],zhis.year)),
+    "{}{}{} [{}] {}【命】地".format(
+        zhis.month, yinyang(zhis.month), ten_deities[me][zhis.month],
+        ten_deities[gans.month][zhis.month], get_empty(zhus[1],zhis.month)),  
     "{}{}{} 地".format(zhis.day, yinyang(zhis.day), ten_deities[me][zhis.day]),   
-    "{}{}{} [{}]".format(zhis.time, yinyang(zhis.time), 
-                         ten_deities[me][zhis.time], ten_deities[gans.time][zhis.time]),       
+    "{}{}{} [{}] {}".format(
+        zhis.time, yinyang(zhis.time), ten_deities[me][zhis.time], 
+        ten_deities[gans.time][zhis.time], get_empty(zhus[3],zhis.month)),
 ))
 
 statuses = [ten_deities[me][item] for item in zhis]
@@ -173,12 +163,6 @@ print()
 for item in zhus:
     print("{:^30s}".format(nayins[item]), end=' ')    
 
-print()
-
-for item in empty:
-    if item in zhis:
-        print("空亡", item)
-        break
 
 
 print("="*140)   
@@ -455,16 +439,7 @@ print("="*140)
 print("你属:", me, "特点：--", gan_desc[me],"\n")
 print("年份:", zhis[0], "特点：--", zhi_desc[zhis[0]],"\n")
 
-def check_subset(gans, db, desc):
-    flag = False # 是否找到
-    for item in db:
-        if set(item).issubset(gans):
-            if not flag:
-                print("\n\n{}:".format(desc))
-                print("="*60)   
-                flag = True
-            print(item, db[item])  
-    return flag
+
 
 
 
