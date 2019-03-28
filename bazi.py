@@ -4,7 +4,7 @@
 # 鸣谢 https://github.com/yuangu/sxtwl_cpp/tree/master/python
 # CreateDate: 2019-2-21
 
-import  sxtwl
+import sxtwl
 import argparse
 import collections
 import pprint
@@ -60,12 +60,24 @@ else:
                 day=Gan[day.Lday2.tg], time=Gan[gz.tg])
     zhis = Zhis(year=Zhi[day.Lyear2.dz], month=Zhi[day.Lmonth2.dz], 
                 day=Zhi[day.Lday2.dz], time=Zhi[gz.dz])
-    
-    
+
+
 me = gans.day
 month = zhis.month
 alls = list(gans) + list(zhis)
 zhus = [item for item in zip(gans, zhis)]
+
+gan_shens = []
+for item in gans:
+    gan_shens.append(ten_deities[me][item])
+#print(gan_shens)
+
+zhi_shens = []
+for item in zhis:
+    d = zhi5[item]
+    zhi_shens.append(ten_deities[me][max(d, key=d.get)])
+#print(zhi_shens)
+shens = gan_shens + zhi_shens
 
 
 # 计算五行分数 http://www.131.com.tw/word/b3_2_14.htm
@@ -157,23 +169,32 @@ for seq, item in enumerate(zhis):
                     output = output + " " + type_ + ":"
                     flag = True
                 output += zhi
-    print("{:^29s}".format(output), end=' ')         
+    print("{:^29s}".format(output), end=' ')
 
 print()
 for item in zhus:
-    print("{:^30s}".format(nayins[item]), end=' ')    
+    print("{:^30s}".format(nayins[item]), end=' ')
 
 
-
+print()  
 print("="*140)   
+print(gan_shens)
+print(zhi_shens)
 
 # 格局分析
-zhi = zhis[1]
-if zhi in wuhangs['土']:
-    print("格局：杂气官\t", end=' ')
+if (me, zhis.month) in jianlus:
+    print(jianlu_desc)
+    print("-"*140)
+    print(jianlus[(me, zhis.month)]) 
+    print("-"*140 + "\n")
+
 else:
-    d = zhi5[zhi]
-    print("格局:", ten_deities[me][max(d, key=d.get)], '\t', end=' ')
+    zhi = zhis[1]
+    if zhi in wuhangs['土']:
+        print("格局：杂气官\t", end=' ')
+    else:
+        d = zhi5[zhi]
+        print("格局:", ten_deities[me][max(d, key=d.get)], '\t', end=' ')
 
 # 天乙贵人
 flag = False
@@ -260,7 +281,7 @@ if ku in zhis:
 
 print("\n墓库：", kus)
 print("-"*140)
-print(zhi_3hes, "\t生：寅申巳亥 败：子午卯酉　库：辰戌丑未")
+print(zhi_3hes, " 生：寅申巳亥 败：子午卯酉　库：辰戌丑未")
 print("三会", zhi_huis)
 print(zhi_6hes)
 print("-"*140)
@@ -283,17 +304,7 @@ else:
 
 print("出身:", birth)    
 
-gan_shens = []
-for item in gans:
-    gan_shens.append(ten_deities[me][item])
-#print(gan_shens)
 
-zhi_shens = []
-for item in zhis:
-    d = zhi5[item]
-    zhi_shens.append(ten_deities[me][max(d, key=d.get)])
-#print(zhi_shens)
-shens = gan_shens + zhi_shens
 
 # 食神分析
 if "食" in shens:
@@ -303,22 +314,48 @@ if "食" in shens:
     print('''
     喜:身旺 宜行财乡 逢食看财  忌:身弱 比肩 倒食(偏印)  一名进神　　二名爵星　　三名寿星
     食多者宜行印运，食少者不宜 月令建禄最佳，时禄次之，更逢贵人运
-    食神重见，变为伤官，令人少子，纵有，或带破拗性，又不可入墓，即是伤官入墓，住寿难延。
+    又不可入墓，即是伤官入墓，住寿难延。
     大忌空亡，更有官煞显露，为太医师巫术数九流之士，若食神逢克，又遇空亡，则不贵，
     再行死绝或枭运，则因食上气上生灾，翻胃噎食，缺衣食，忍饥寒而已
     ''')
-    
+
     shi_num = shens.count("食")
     if shi_num > 1:
-        print("食神过多",end=' ')
+        print("食神过多:食神重见，变为伤官，令人少子，纵有，或带破拗性",end=' ')
     if set(('财','食')) in set(gan_shens[:2] + zhi_shens[:2]):
-        print("祖父荫业丰隆", end='')
+        print("祖父荫业丰隆", end=' ')
     if set(('财','食')) in set(gan_shens[2:] + zhi_shens[2:]):
-        print("妻男获福，怕母子俱衰绝，两皆无成", end='')    
+        print("妻男获福，怕母子俱衰绝，两皆无成", end=' ')
+    print("-"*140)
+        
+# 劫财分析
+if "劫" in shens:
+    print("\n劫财(阳刃)分析：阳刃冲合岁君,勃然祸至。身弱不作凶。")
+    print("======================================")  
+    if "劫" == gan_shens[3] or "劫" == zhi_shens[3]:
+        print("劫财阳刃,切忌时逢,岁运并临,灾殃立至,独阳刃以时言,重于年月日也。")
+
+    shi_num = shens.count("食")
+    print("-"*140)
     
 
-if "伤" in gan_shens + zhi_shens:
-    print("伤官: 合神(三合、六合、双鸳合等等)重，男子犯之，耽迷酒色；女人逢之，不媒自嫁。")
+if "财" in shens:
+    print("\n有财")
+    print("======================================")  
+    if "劫" == zhi_shens[0]:
+        print("岁带正马：月令有财或伤食，不犯刑冲分夺，旺祖业丰厚。同类月令且带比肩，或遇运行伤劫 贫")
+    if "劫" == zhi_shens[3]:
+        print("时带正马：无冲刑破劫，主招美妻，得外来财物，生子荣贵，财产丰厚，此非父母之财，乃身外之财，招来产业，宜俭不宜奢。")      
+    if "劫" == zhi_shens[3] and (zhu not in ('壬','癸')):
+        print("天元坐财：喜印食 畏官煞，喜月令旺 ")              
+    if ('官' not in shens) and ('伤' not in shens) and ('食' not in shens):
+        print("财旺生官:若月令财无损克，亦主登科")
+
+    shi_num = shens.count("食")
+    print("-"*140)    
+# 财分析
+if ten_deities[ten_deities[me].inverse["财"]]['库'][-1] in zhis:
+    print("财临库墓: 一生财帛丰厚，因财致官, 天干透土更佳")    
 
 # 子女分析
 boy = ten_deities[me].inverse['食'] if options.n else ten_deities[me].inverse['杀']
@@ -386,7 +423,7 @@ else:
         direction = 1
     else:
         direction = -1
-        
+
 dayuns = []
 gan_seq = Gan.index(gans.month)
 zhi_seq = Zhi.index(zhis.month)
@@ -394,8 +431,8 @@ for i in range(12):
     gan_seq += direction
     zhi_seq += direction
     dayuns.append(Gan[gan_seq%10] + Zhi[zhi_seq%12])
-    
-   
+
+
 
 # 计算上运时间，有年份时才适用
 print("\n\n大运")    
@@ -405,17 +442,17 @@ if options.b:
 else:
     birthday = datetime.date(day.y, day.m, day.d) 
     count = 0
-    
+
     for i in range(30):    
         day_ = sxtwl.Lunar().getDayBySolar(birthday.year, birthday.month, birthday.day)
         if day_.qk != -1 and day_.qk % 2 == 1:
             break        
         birthday += datetime.timedelta(days=direction)
         count += 1
-    
+
     ages = [(round(count/3 + 10*i, 2), int(options.year) + 10*i + count//3) for i in range(12)]
     print(list(zip(ages, dayuns)))
-    
+
 
 gan_ = tuple(gans)
 for item in Gan:
