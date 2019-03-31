@@ -77,7 +77,7 @@ for item in zhis:
     d = zhi5[item]
     zhi_shens.append(ten_deities[me][max(d, key=d.get)])
 #print(zhi_shens)
-shens = gan_shens[:2] + gan_shens[2:] + zhi_shens
+shens = gan_shens[:2] + gan_shens[3:] + zhi_shens
 
 
 # 计算五行分数 http://www.131.com.tw/word/b3_2_14.htm
@@ -187,7 +187,8 @@ if (me, zhis.month) in jianlus:
     print("-"*140)
     print(jianlus[(me, zhis.month)]) 
     print("-"*140 + "\n")
-
+elif (me == '丙' and ('丙','申') in zhus) or (me == '甲' and ('己','巳') in zhus):
+    print("格局：专财. 运行官旺 财神不背,大发财官。忌行伤官、劫财、冲刑、破禄之运。喜身财俱旺")
 else:
     zhi = zhis[1]
     if zhi in wuhangs['土']:
@@ -306,26 +307,53 @@ print("出身:", birth)
 
 
 
+cai_num = shens.count("财")
+jie_num = shens.count("劫")
+bi_num = shens.count("比肩")
+
 # 食神分析
 if "食" in shens:
-    print("\n食神分析: 格要日主食神俱生旺，无冲破。")
+    print("\n食神分析: 格要日主食神俱生旺，无冲破。  食神可生偏财、克杀")
     print(" 阳日食神暗合官星，阴日食神暗合正印。食神格人聪明、乐观、优雅、多才多艺")
     print("======================================")  
     print('''
     喜:身旺 宜行财乡 逢食看财  忌:身弱 比肩 倒食(偏印)  一名进神　　二名爵星　　三名寿星
-    食多者宜行印运，食少者不宜 月令建禄最佳，时禄次之，更逢贵人运
-    又不可入墓，即是伤官入墓，住寿难延。
-    大忌空亡，更有官煞显露，为太医师巫术数九流之士，若食神逢克，又遇空亡，则不贵，
-    再行死绝或枭运，则因食上气上生灾，翻胃噎食，缺衣食，忍饥寒而已
+    月令建禄最佳，时禄次之，更逢贵人运
     ''')
 
     shi_num = shens.count("食")
     if shi_num > 1:
-        print("食神过多:食神重见，变为伤官，令人少子，纵有，或带破拗性",end=' ')
+        print("食神过多:食神重见，变为伤官，令人少子，纵有，或带破拗性. 行印运",end=' ')
     if set(('财','食')) in set(gan_shens[:2] + zhi_shens[:2]):
         print("祖父荫业丰隆", end=' ')
     if set(('财','食')) in set(gan_shens[2:] + zhi_shens[2:]):
         print("妻男获福，怕母子俱衰绝，两皆无成", end=' ')
+    if cai_num >1:
+        print("财多则不清，富而已", end=' ')
+
+    for seq, item in enumerate(gan_shens):
+        if item == '食':
+            if ten_deities[gans[seq]][zhis[seq]] == '墓':
+                print("食入墓，即是伤官入墓，住寿难延。")  
+    
+
+    for seq, item in enumerate(gan_shens):
+        if item == '食' or zhi_shens[seq] == '食':
+            if get_empty(zhus[2],zhis[seq]):
+                print("大忌空亡，更有官煞显露，为太医师巫术数九流之士，若食神逢克，又遇空亡，则不贵，再行死绝或枭运，则因食上气上生灾，翻胃噎食，缺衣食，忍饥寒而已")                     
+
+    # 倒食分析
+    if '偏印' in shens and (me not in ['庚', '辛','壬']) and ten_deities[me] != '建':
+        flag = True
+        for item in zhi5[zhis.day]:
+            if ten_deities[me]['合'] == item:
+                flag = False
+                break
+        if flag:
+            print("倒食:凡命带倒食，福薄寿夭，若有制合没事，主要为地支为天干的杀;日支或者偏印的坐支为日主的建禄状态。偏印和日支的主要成分天干合")  
+            print("凡命有食遇枭，犹尊长之制我，不得自由，作事进退悔懒，有始无终，财源屡成屡败，容貌欹斜，身品琐小，胆怯心虚，凡事无成，克害六亲，幼时克母，长大伤妻子") 
+            print("身旺遇此方为福")
+    print()
     print("-"*140)
 
 # 劫财分析
@@ -339,14 +367,12 @@ if "劫" in shens:
     print("-"*140)
 
 # 财分析
-cai_num = shens.count("财")
+
 if "财" in shens:
     print("\n财分析 **** 喜:旺,印,食,官 忌:比 羊刃 空绝 冲合   财星,天马星,催官星,壮志神 | 杀和偏印呢")
     print("正财之格，主人诚实，行事俭约，赋性聪明，惟有悭吝，若财旺身衰，主妻秉男权，持家干蛊，"
           "又主有好子替力，反得优游之乐，运行比劫，妻妾多危.")
     print("======================================")  
-    if (not options.n) and Gan.index(me)%2 ==0 and "财" in gans:
-        print("")
     if "财" == zhi_shens[0]:
         print("岁带正马：月令有财或伤食，不犯刑冲分夺，旺祖业丰厚。同类月令且带比肩，或遇运行伤劫 贫")
     if "财" == zhi_shens[3]:
@@ -356,9 +382,9 @@ if "财" in shens:
     if ('官' not in shens) and ('伤' not in shens) and ('食' not in shens):
         print("财旺生官:若月令财无损克，亦主登科")
 
-    
+
     if cai_num > 2 and ('劫' not in shens) and ('比肩' not in shens) \
-    and ('比肩' not in shens) and ('印' not in shens):
+       and ('比肩' not in shens) and ('印' not in shens):
         print("财　不重叠多见　财多身弱，柱无印助; 若财多身弱，柱无印助不为福。")
 
     if '印' in shens:
@@ -374,51 +400,34 @@ if "财" in shens:
             if ten_deities[gans[seq]][zhis[seq]] == '长生':   
                 print("财遇长生，田园万顷")  
     print("-"*140)    
+
 # 财库分析
 if ten_deities[ten_deities[me].inverse["财"]]['库'][-1] in zhis:
     print("财临库墓: 一生财帛丰厚，因财致官, 天干透土更佳")   
 if cai_num < 2 and (('劫' in shens) or ('比肩' in shens)):
     print("财少身强，柱有比劫，不为福")   
-    
+
 # 偏财分析
-cai_num = shens.count("财")
-if "财" in shens:
+if "偏财" in shens:
     print("\n偏财分析 **** 喜:旺,印,食,官 忌:比 羊刃 空绝 冲合   财星,天马星,催官星,壮志神 | 杀和偏印呢")
     print("正财之格，主人诚实，行事俭约，赋性聪明，惟有悭吝，若财旺身衰，主妻秉男权，持家干蛊，"
           "又主有好子替力，反得优游之乐，运行比劫，妻妾多危.")
     print("======================================")  
-    if (not options.n) and Gan.index(me)%2 ==0 and "财" in gans:
-        print("")
-    if "财" == zhi_shens[0]:
-        print("岁带正马：月令有财或伤食，不犯刑冲分夺，旺祖业丰厚。同类月令且带比肩，或遇运行伤劫 贫")
-    if "财" == zhi_shens[3]:
-        print("时带正马：无冲刑破劫，主招美妻，得外来财物，生子荣贵，财产丰厚，此非父母之财，乃身外之财，招来产业，宜俭不宜奢。")      
-    if "财" == zhi_shens[2] and (me not in ('壬','癸')):
-        print("天元坐财：喜印食 畏官煞，喜月令旺 ")              
-    if ('官' not in shens) and ('伤' not in shens) and ('食' not in shens):
-        print("财旺生官:若月令财无损克，亦主登科")
 
-    
-    if cai_num > 2 and ('劫' not in shens) and ('比肩' not in shens) \
-    and ('比肩' not in shens) and ('印' not in shens):
-        print("财　不重叠多见　财多身弱，柱无印助; 若财多身弱，柱无印助不为福。")
 
-    if '印' in shens:
-        print("先财后印，反成其福，先印后财，反成其辱是也?")      
-    if '官' in gan_shens:
-        print("官星显露，别无伤损，或更食生印助日主健旺，富贵双全")          
-    if '财' in gan_shens and (('劫' not in shens) and ('比肩' not in shens)):
-        print("财不宜明露")  
-    for seq, item in enumerate(gan_shens):
-        if item == '财':
-            if ten_deities[gans[seq]][zhis[seq]] == '墓':
-                print("财星入墓，必定刑妻")  
-            if ten_deities[gans[seq]][zhis[seq]] == '长生':   
-                print("财遇长生，田园万顷")  
-    print("-"*140)    
-# 财库分析
-if cai_num < 2 and (('劫' in shens) or ('比肩' in shens)):
-    print("财少身强，柱有比劫，不为福")       
+    if ('官' not in shens) and (('劫' in shens) or ('比肩' in shens)):
+        print("切忌有姊妹兄弟分夺，柱无官星，祸患百出。")
+
+    if bi_num + jie_num > 1:
+        print(bi_num, jie_num)
+        print("兄弟辈出: 纵入官乡，发福必渺.")        
+
+    for seq, item in enumerate(zhi_shens):
+        if item == '偏财' or ten_deities[me][zhis[seq]] == '偏财':
+            if get_empty(zhus[2],zhis[seq]):
+                print("空亡 官将不成，财将不住")  
+
+    print("-"*140)      
 
 # 子女分析
 boy = ten_deities[me].inverse['食'] if options.n else ten_deities[me].inverse['杀']
