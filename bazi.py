@@ -355,6 +355,46 @@ if "食" in shens:
             print("身旺遇此方为福")
     print()
     print("-"*140)
+    
+# 伤官分析
+if "伤" in shens:
+    print("\n****伤官分析****: 喜:身旺,财星,印绶,伤尽 忌:身弱,无财,刑冲,入墓枭印　")
+    print(" 多材艺，傲物气高，心险无忌惮，多谋少遂，弄巧成拙，常以天下之人不如己，而人亦惮之、恶之。 一名剥官神　　二名羊刃煞")
+	print(" 身旺用财，身弱用印。用印不忌讳官煞。用印者须去财方能发福")
+	print("星隐显，伤之不尽，岁运再见官星，官来乘旺，再见刑冲破害，刃煞克身，身弱财旺，必主徒流死亡，五行有救，亦残疾。若四柱无官而遇伤煞重者，运入官乡，岁君又遇，若不目疾，必主灾破。")
+    print("======================================")  
+
+    if not '财' in shens:
+        print("伤官无财，主贫穷")
+    if '官' in shens:
+        print("伤官见官，祸患百端:")        
+    if cai_num >1:
+        print("财多则不清，富而已", end=' ')
+
+    for seq, item in enumerate(gan_shens):
+        if item == '食':
+            if ten_deities[gans[seq]][zhis[seq]] == '墓':
+                print("食入墓，即是伤官入墓，住寿难延。")  
+    
+
+    for seq, item in enumerate(gan_shens):
+        if item == '食' or zhi_shens[seq] == '食':
+            if get_empty(zhus[2],zhis[seq]):
+                print("大忌空亡，更有官煞显露，为太医师巫术数九流之士，若食神逢克，又遇空亡，则不贵，再行死绝或枭运，则因食上气上生灾，翻胃噎食，缺衣食，忍饥寒而已")                     
+
+    # 倒食分析
+    if '偏印' in shens and (me not in ['庚', '辛','壬']) and ten_deities[me] != '建':
+        flag = True
+        for item in zhi5[zhis.day]:
+            if ten_deities[me]['合'] == item:
+                flag = False
+                break
+        if flag:
+            print("倒食:凡命带倒食，福薄寿夭，若有制合没事，主要为地支为天干的杀;日支或者偏印的坐支为日主的建禄状态。偏印和日支的主要成分天干合")  
+            print("凡命有食遇枭，犹尊长之制我，不得自由，作事进退悔懒，有始无终，财源屡成屡败，容貌欹斜，身品琐小，胆怯心虚，凡事无成，克害六亲，幼时克母，长大伤妻子") 
+            print("身旺遇此方为福")
+    print()
+    print("-"*140)    
 
 # 劫财分析
 if "劫" in shens:
