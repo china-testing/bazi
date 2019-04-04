@@ -491,34 +491,33 @@ if "官" in shens:
     if zhi_shens[2] in ("伤","杀"):
         print("自坐伤、煞，终有节病")   
         
-    if sha_num > 1:
-        print("七煞重逢")           
-    if "杀" == zhi_shens[2]:
-        print("为人心多性急，阴险怀毒，僭伪谋害，不近人情")      
-    if "杀" == zhi_shens[3]:
-        print(" 时杀：月制干强，其煞反为权印。《经》云：时上偏官身要强，阳刃、冲刑煞敢当，制多要行煞旺运，煞多制少必为殃。")   
-        print(" 一位为妙，年、月、日重见，反主辛苦劳碌。若身旺，煞制太过，喜行煞旺运，或三合煞运，如无制伏，要行制伏运方发。但忌身弱，纵得运扶持发福，运过依旧不济。")   
-        print("《独步》云：时上一位，贵藏在支中，是日，主要旺强名利，方有气。")   
-        print("《古歌》云：时上偏官喜刃冲，身强制伏禄丰隆。正官若也来相混，身弱财多主困穷。") 
-        print("时上偏官一位强，日辰自旺喜非常。有财有印多财禄，定是天生作栋梁。") 
         
-    if "杀" == zhi_shens[0]:
-        print(" 年上七煞：出身寒微，命有贵子。")   
-        print("岁煞一位不宜制，四柱重见却宜制，日主生旺，制伏略多，喜行煞旺地，制伏太过，或煞旺身衰，官煞混杂，岁运如之，碌碌之辈。若制伏不及，运至身衰煞旺乡，必生祸患。")   
-        print("《独步》云：时上一位，贵藏在支中，是日，主要旺强名利，方有气。")   
-        print("《古歌》云：时上偏官喜刃冲，身强制伏禄丰隆。正官若也来相混，身弱财多主困穷。") 
-        print("时上偏官一位强，日辰自旺喜非常。有财有印多财禄，定是天生作栋梁。")         
-    if ('官' in shens) :
-        print("官煞混杂：身弱多夭贫")
+        
+    # 检查天福贵人
+    if (guan, ten_deities[guan].inverse['建']) in zhus:
+        print("天福贵人:主科名巍峨，官职尊崇，多掌丝纶文翰之美!")
+    
+    # 天元坐禄    
+    if guan in zhi5[zhis[2]]:
+        print("天元作禄: 日主与官星并旺,才是贵命。大多不贵即富,即使是命局中有缺点,行到好的大运时,便能一发如雷。")
+        print(tianyuans[ten_deities[me]['本']])         
+        
+    # 岁德正官
+    if gan_shens[0] == '官' or zhi_shens[0] == '官':
+        print("岁德正官: 必生宦族,或荫袭祖父之职,若月居财官分野,运向财官旺地,日主健旺,贵无疑矣。凡年干遇官,福气最重,发达必早。")    
+        
+    # 时上正官
+    if gan_shens[0] == '官' or zhi_shens[0] == '官':
+        print("时上正官: 正官有用不须多，多则伤身少则和，日旺再逢生印绶，定须平步擢高科。")        
 
-    if gan_shens[-1] == '杀' or zhi_shens[-1] == '杀':
-        print("煞临子位，必招悖逆之儿。")
-    for seq, item in enumerate(gan_shens):
-        if item == '杀':
-            if ten_deities[gans[seq]][zhis[seq]] == '长生':   
-                print("七煞遇长生乙位，女招贵夫。")  
     print()
-    print("-"*140)   
+    print("-"*140)  
+# 官库分析
+if ten_deities[ten_deities[me].inverse["官"]]['库'][-1] in zhis:
+    print("官临库墓")   
+    if lu_ku_cai[me] in zhis:
+        print("官印禄库: 有官库，且库中有财")
+    
         
 # 杀(偏官)分析
 if "杀" in shens:
@@ -582,32 +581,6 @@ if "印" in shens:
         print("有阳刃配合,即《经》云:煞无刃不显,逢煞看刃是也。")    
     if "印" in shens:
         print("则煞生印，印生身")           
-    if sha_num > 1:
-        print("七煞重逢")           
-    if "杀" == zhi_shens[2]:
-        print("为人心多性急，阴险怀毒，僭伪谋害，不近人情")      
-    if "杀" == zhi_shens[3]:
-        print(" 时杀：月制干强，其煞反为权印。《经》云：时上偏官身要强，阳刃、冲刑煞敢当，制多要行煞旺运，煞多制少必为殃。")   
-        print(" 一位为妙，年、月、日重见，反主辛苦劳碌。若身旺，煞制太过，喜行煞旺运，或三合煞运，如无制伏，要行制伏运方发。但忌身弱，纵得运扶持发福，运过依旧不济。")   
-        print("《独步》云：时上一位，贵藏在支中，是日，主要旺强名利，方有气。")   
-        print("《古歌》云：时上偏官喜刃冲，身强制伏禄丰隆。正官若也来相混，身弱财多主困穷。") 
-        print("时上偏官一位强，日辰自旺喜非常。有财有印多财禄，定是天生作栋梁。") 
-        
-    if "杀" == zhi_shens[0]:
-        print(" 年上七煞：出身寒微，命有贵子。")   
-        print("岁煞一位不宜制，四柱重见却宜制，日主生旺，制伏略多，喜行煞旺地，制伏太过，或煞旺身衰，官煞混杂，岁运如之，碌碌之辈。若制伏不及，运至身衰煞旺乡，必生祸患。")   
-        print("《独步》云：时上一位，贵藏在支中，是日，主要旺强名利，方有气。")   
-        print("《古歌》云：时上偏官喜刃冲，身强制伏禄丰隆。正官若也来相混，身弱财多主困穷。") 
-        print("时上偏官一位强，日辰自旺喜非常。有财有印多财禄，定是天生作栋梁。")         
-    if ('官' in shens) :
-        print("官煞混杂：身弱多夭贫")
-
-    if gan_shens[-1] == '杀' or zhi_shens[-1] == '杀':
-        print("煞临子位，必招悖逆之儿。")
-    for seq, item in enumerate(gan_shens):
-        if item == '杀':
-            if ten_deities[gans[seq]][zhis[seq]] == '长生':   
-                print("七煞遇长生乙位，女招贵夫。")  
     print()
     print("-"*140)         
 
@@ -855,74 +828,6 @@ if wenxing[me] in zhis:
 if tianyin[me] in zhis:
     print("天印贵人: 此号天印贵，荣达受皇封", me,  tianyin[me])  
 
-
-
-# 官分析
-guan_list = []
-for item in gans + zhis:
-    if item in guans[me]:
-        guan_list.append(item)
-if guan_list:
-    print("\n\n正官:")  
-    print("=========================")   
-    print("财印两扶,柱中不见伤煞,行运引至官乡,大富大贵命也, 月令最佳")  
-    print("大忌刑冲破害、伤官七煞、贪合忘官、劫财分福,为破格")
-    print("=========================")      
-    print("恭喜，有贵人相助！", guan_list)
-
-    # 检查天福贵人
-    if ten_deities[me].inverse['建'] in guan_list:
-        print("天福贵人:主科名巍峨，官职尊崇，多掌丝纶文翰之美!")
-
-    # 岁德正官
-    if gans[0] in guan_list:
-        print("大岁德正官!")
-    if zhis[0] in guan_list:
-        print("小岁德正官!")  
-    # 时上正官
-    if gans[3] in guan_list:
-        print("大时上正官!")
-    if zhis[3] in guan_list:
-        print("小时上正官!")          
-
-
-if len(guan_list) == 1:    
-    guan_chongs = []
-    gui = guan_list[0]
-    for item in gans + zhis:
-        if item in chongs.get(gui, []):
-            guan_chongs.append(item)
-    if guan_chongs:
-        print("官冲",guan_list)    
-
-    guan_xings = []
-    l = list(zhis)
-    if gui in l:
-        l.remove(gui)
-        for item in l:
-            if item in xings[gui]:
-                guan_xings.append(item)
-    if guan_xings:
-        print("官刑",guan_xings) 
-
-if zhus[2] in tianyuans:
-    print("\n\n天元坐禄:")  
-    print("=========================")   
-    print('''
-    金若遇火，有重权，防御刺史臣（如庚午、庚寅、庚戌、辛巳、辛未等日）
-    水若遇土，入官局，可沾侍郎禄（如壬午、壬戌、癸巳、癸丑、癸未等日）
-    木若遇金，主伤衰化煞，为权势若雷（如甲申、甲戌、乙巳、乙酉、乙丑等日）
-    火若遇水，主兵权，为将镇三边（如丙申、丙子、丙辰、丁亥、丁丑等日）
-    土若遇木，为正禄八座三台福（如戊寅、戊辰、己卯、己未、己亥等日）
-    此即白虎持世等格要，日主与官贵相停，偏枯则不成造化，大忌刑冲破害，伤损贵气，不成格矣。
-    如庚午日，坐丁官，喜见甲乙财生官，戊己印生身；忌丙煞杂官，癸水伤官，子冲破午。余干例推。
-    如果日柱的干支本身已构成官星，就不大忌讳冲破。
-    ''')  
-
-    print("=========================")       
-    print(zhus[2])
-
-print(list(gans).count('癸'))
 
 short = min(scores, key=scores.get)
 print("\n\n五行缺{}的建议参见https://www.jianshu.com/p/0ed28f3a7f37".format(short))    
