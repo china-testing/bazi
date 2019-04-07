@@ -114,8 +114,8 @@ if not options.b:
     print("农历:", end='')
     print("\t{}年{}{}月{}日".format(day.Lyear0 + 1984, Lleap, ymc[day.Lmc], rmc[day.Ldi]))
 print("-"*140)
-print("排盘源码:https://github.com/china-testing/python-api-tesing/blob/master/bazi/bazi.py")
-print("甲己-中正土  乙庚-仁义金  丙辛-威制水  丁壬-淫慝木  戊癸-无情火  解读:钉钉或微信pythontesting")
+print("排盘源码: http://t.cn/E6zzQYj \t\t解读:钉钉或微信pythontesting","\t\t墓库：", kus)
+print("甲己-中正土  乙庚-仁义金  丙辛-威制水  丁壬-淫慝木  戊癸-无情火", "  三会:", zhi_huis)
 print("="*140)    
 print("{:^28s}{:^28s}{:^28s}{:^28s}".format('年【父-根】', "月【兄弟僚友-苗】", "日【自己配偶-花】", "时【子孙-实】"))
 print("-"*140)
@@ -153,7 +153,7 @@ for seq, item in enumerate(zhis):
     for gan in zhi5[item]:
         out = out + "{}{}{}{} ".format(gan, gan5[gan], zhi5[item][gan]*multi,  
                                        ten_deities[me][gan])
-    print("{:^30s}".format(out), end=' ')
+    print("{:^27s}".format(out), end=' ')
 
 print()
 # 输出地支关系
@@ -178,8 +178,8 @@ for item in zhus:
 
 print()  
 print("="*140)   
-print(gan_shens)
-print(zhi_shens)
+print(gan_shens, "五行分数", scores, '  八字强弱：', strong, "通常>29为强，需要参考月份、坐支等")
+print(zhi_shens, "　　地支六合:", zhi_6hes)
 
 # 格局分析
 if (me, zhis.month) in jianlus:
@@ -280,13 +280,9 @@ if ku in zhis:
             print(item, ten_deities[me]['被克'])
             print("绝处无依，其人必滞")    
 
-print("\n墓库：", kus)
+print()
 print("-"*140)
 print(zhi_3hes, " 生：寅申巳亥 败：子午卯酉　库：辰戌丑未")
-print("三会", zhi_huis)
-print(zhi_6hes)
-print("-"*140)
-print("五行分数", scores, '\t\t八字强弱：', strong, "通常大于29分为强，还需要参考月份、坐支等")
 for item in gan_scores:  
     print("{}[{}]-{} ".format(
         item, ten_deities[me][item], gan_scores[item]),  end='  ')    
@@ -311,6 +307,14 @@ cai_num = shens.count("财")
 jie_num = shens.count("劫")
 bi_num = shens.count("比肩")
 yin_num = shens.count("印")
+
+sum_index = ''.join([me, '日', *zhus[3]])
+if sum_index in summarys:
+    print("\n\n命")    
+    print("=========================")      
+    print(summarys[sum_index])
+
+
 
 # 食神分析
 if "食" in shens:
@@ -631,11 +635,6 @@ print("{:<25s}  {:<25s}  {:<25}  {:<25s}".format(
     father_state, mother_state, brother_state, sister_state))
 
 print("-"*140)    
-sum_index = ''.join([me, '日', *zhus[3]])
-if sum_index in summarys:
-    print("\n\n命")    
-    print("=========================")      
-    print(summarys[sum_index])
 
 
 # 计算大运
@@ -830,5 +829,5 @@ if tianyin[me] in zhis:
 
 
 short = min(scores, key=scores.get)
-print("\n\n五行缺{}的建议参见https://www.jianshu.com/p/0ed28f3a7f37".format(short))    
+print("\n\n五行缺{}的建议参见 http://t.cn/E6zwOMq".format(short))    
 
