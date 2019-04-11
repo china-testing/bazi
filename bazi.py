@@ -199,7 +199,7 @@ for item in zhus:
 
 print()  
 print("="*140)   
-print(gan_shens, "五行分数", scores, '  八字强弱：', strong, "通常>29为强，需要参考月份、坐支等")
+print(gan_shens, zhi_3hes, " 生：寅申巳亥 败：子午卯酉　库：辰戌丑未")
 print(zhi_shens, "　　地支六合:", zhi_6hes)
 
 # 格局分析
@@ -303,7 +303,7 @@ if ku in zhis:
 
 print()
 print("-"*140)
-print(zhi_3hes, " 生：寅申巳亥 败：子午卯酉　库：辰戌丑未")
+print("五行分数", scores, '  八字强弱：', strong, "通常>29为强，需要参考月份、坐支等")
 for item in gan_scores:  
     print("{}[{}]-{} ".format(
         item, ten_deities[me][item], gan_scores[item]),  end='  ')    
