@@ -212,8 +212,13 @@ elif (me == '丙' and ('丙','申') in zhus) or (me == '甲' and ('己','巳') i
     print("格局：专财. 运行官旺 财神不背,大发财官。忌行伤官、劫财、冲刑、破禄之运。喜身财俱旺")
 else:
     zhi = zhis[1]
+    ge = ''
     if zhi in wuhangs['土']:
-        print("格局：杂气官\t", end=' ')
+        for item in zhi5[zhi]:
+            if item in gans[:2] + gans[3:]:
+                ge = ten_deities[me][item]
+                
+        print("格局：杂气-", ge, end=' ')
     else:
         d = zhi5[zhi]
         print("格局:", ten_deities[me][max(d, key=d.get)], '\t', end=' ')
