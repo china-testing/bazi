@@ -203,16 +203,17 @@ print(gan_shens, zhi_3hes, " 生：寅申巳亥 败：子午卯酉　库：辰�
 print(zhi_shens, "　　地支六合:", zhi_6hes)
 
 # 格局分析
+ge = ''
 if (me, zhis.month) in jianlus:
     print(jianlu_desc)
     print("-"*140)
     print(jianlus[(me, zhis.month)]) 
     print("-"*140 + "\n")
+    ge = '建'
 elif (me == '丙' and ('丙','申') in zhus) or (me == '甲' and ('己','巳') in zhus):
     print("格局：专财. 运行官旺 财神不背,大发财官。忌行伤官、劫财、冲刑、破禄之运。喜身财俱旺")
 else:
     zhi = zhis[1]
-    ge = ''
     if zhi in wuhangs['土']:
         for item in zhi5[zhi]:
             if item in gans[:2] + gans[3:]:
@@ -221,7 +222,8 @@ else:
         print("格局：杂气-", ge, end=' ')
     else:
         d = zhi5[zhi]
-        print("格局:", ten_deities[me][max(d, key=d.get)], '\t', end=' ')
+        ge = ten_deities[me][max(d, key=d.get)]
+        print("格局:", ge, '\t', end=' ')
 
 # 天乙贵人
 flag = False
@@ -334,16 +336,11 @@ jie_num = shens.count("劫")
 bi_num = shens.count("比肩")
 yin_num = shens.count("印")
 
-sum_index = ''.join([me, '日', *zhus[3]])
-if sum_index in summarys:
-    print("\n\n命")    
-    print("=========================")      
-    print(summarys[sum_index])
 
 
 
 # 食神分析
-if "食" in shens:
+if ge == '食':
     print("\n****食神分析****: 格要日主食神俱生旺，无冲破。有财辅助财有用。  食神可生偏财、克杀")
     print(" 阳日食神暗合官星，阴日食神暗合正印。食神格人聪明、乐观、优雅、多才多艺。食居先，煞居后，功名显达。")
     print("======================================")  
@@ -388,7 +385,7 @@ if "食" in shens:
     print("-"*140)
     
 # 伤官分析
-if "伤" in shens:
+if ge == '伤':
     print("\n****伤官分析****: 喜:身旺,财星,印绶,伤尽 忌:身弱,无财,刑冲,入墓枭印　")
     print(" 多材艺，傲物气高，心险无忌惮，多谋少遂，弄巧成拙，常以天下之人不如己，而人亦惮之、恶之。 一名剥官神　　二名羊刃煞")
     print(" 身旺用财，身弱用印。用印不忌讳官煞。用印者须去财方能发福")
@@ -416,7 +413,7 @@ if "伤" in shens:
     print("-"*140)    
 
 # 劫财分析
-if "劫" in shens:
+if ge == '劫':
     print("\n****劫财(阳刃)分析****：阳刃冲合岁君,勃然祸至。身弱不作凶。")
     print("======================================")  
     if "劫" == gan_shens[3] or "劫" == zhi_shens[3]:
@@ -427,7 +424,7 @@ if "劫" in shens:
 
 # 财分析
 
-if "财" in shens:
+if ge == '财':
     print("\n****财分析 **** 喜:旺,印,食,官 忌:比 羊刃 空绝 冲合   财星,天马星,催官星,壮志神 | 杀和偏印呢")
     print("正财之格，主人诚实，行事俭约，赋性聪明，惟有悭吝，若财旺身衰，主妻秉男权，持家干蛊，"
           "又主有好子替力，反得优游之乐，运行比劫，妻妾多危.")
@@ -467,7 +464,7 @@ if cai_num < 2 and (('劫' in shens) or ('比肩' in shens)):
     print("财少身强，柱有比劫，不为福")   
 
 # 偏财分析
-if "偏财" in shens:
+if ge == "偏财":
     print("\n****偏财分析 **** 喜:旺,印,食,官 忌:比 羊刃 空绝 冲合   财星,天马星,催官星,壮志神 | 杀和偏印呢")
     print("正财之格，主人诚实，行事俭约，赋性聪明，惟有悭吝，若财旺身衰，主妻秉男权，持家干蛊，"
           "又主有好子替力，反得优游之乐，运行比劫，妻妾多危.")
@@ -489,20 +486,24 @@ if "偏财" in shens:
     print("-"*140)      
 
 # 官分析
-if "官" in shens:
-    print("\n**** 官分析 **** 喜:身旺 印绶 食神 以财为引 逢官着财   忌：身弱 偏官 伤官 刑冲 泄气 贪合 入墓")
-    print("一曰正官 二曰禄神 最忌刑冲破害、伤官七煞，贪合忘官，劫财比肩等等，遇到这些情况便成为破格")
+if ge == "官":
+    print("\n**** 官分析 ****\n 喜:身旺 印绶 食神 以财为引 逢官着财   忌：身弱 偏官 伤官 刑冲 泄气 贪合 入墓")
+    print("一曰正官 二曰禄神 最忌刑冲破害、伤官七煞，贪合忘官，劫财比肩等等，遇到这些情况便成为破格 财印并存要分开")
     print("======================================")  
     if guan_num > 1:
-        print("正官为六格之首，止许一位，多则不宜。")
+        print("官多变杀，以干为准")
     if "财" in shens and "印" in shens and ("伤" not in shens) and ("杀" not in shens):
         print("官星通过天干显露出来，又得到财、印两方面的扶持，四柱中又没有伤煞，行运再引到官乡，是大富大贵的命。")
-    if "财" in shens:
+    if "财" in shens or "偏财" in shens:
         print("有财辅助")       
-    if "印" in shens:
-        print("有印辅助")   
+    if "印" in shens or "偏印" in shens:
+        print("有印辅助　正官带伤食而用印制，运喜官旺印旺之乡，财运切忌。若印绶叠出，财运亦无害矣。")   
     if "食" in shens:
-        print("又曰凡论官星，略见一位食神坐实，便能损局，惟月令隐禄，见食却为三奇之贵。因为食神和官相合。")    
+        print("又曰凡论官星，略见一位食神坐实，便能损局，有杀则无妨。惟月令隐禄，见食却为三奇之贵。因为食神和官相合。")    
+    if "伤" in shens:
+        print("伤官需要印或偏印来抑制，　有杀也无妨")         
+    if "杀" in shens:
+        print("伤官需要印或偏印来抑制。用劫合煞，则财运可行，伤食可行，身旺，印绶亦可行，只不过复露七煞。若命用伤官合煞，则伤食与财俱可行，而不宜逢印矣。")        
         
     if zhi_shens[2] in ("财","印"):
         print("凡用官，日干自坐财印，终显")           
@@ -538,7 +539,7 @@ if ten_deities[ten_deities[me].inverse["官"]]['库'][-1] in zhis:
     
         
 # 杀(偏官)分析
-if "杀" in shens:
+if ge == "杀":
     print("\n杀(偏官)分析 **** 喜:身旺  印绶  合煞  食制 羊刃  比肩  逢煞看印及刃  以食为引   忌：身弱  财星  正官  刑冲  入墓")
     print("一曰偏官 二曰七煞 三曰五鬼 四曰将星 五曰孤极星 原有制伏,煞出为福,原无制伏,煞出为祸   性情如虎，急躁如风。")
     print("坐长生、临官、帝旺,更多带比肩同类相扶,则能化鬼为官,化煞为权,行运引至印乡,必发富贵。倘岁运再遇煞地,祸不旋踵。")
@@ -581,7 +582,7 @@ if "杀" in shens:
     print("-"*140)      
     
 # 印分析
-if "印" in shens:
+if ge == "印":
     print("\n印分析 **** 喜:食神 天月德 七煞 逢印看煞 以官为引   忌： 刑冲 伤官 死墓 辰戊印怕木 丑未印不怕木")
     print("一曰正印 二曰魁星 三曰孙极星")
     print("以印绶多者为上,月最要,日时次之,年干虽重,须归禄月、日、时,方可取用,若年露印,月日时无,亦不济事。")
@@ -845,3 +846,8 @@ if tianyin[me] in zhis:
 short = min(scores, key=scores.get)
 print("\n\n五行缺{}的建议参见 http://t.cn/E6zwOMq".format(short))    
 
+sum_index = ''.join([me, '日', *zhus[3]])
+if sum_index in summarys:
+    print("\n\n命")    
+    print("=========================")      
+    print(summarys[sum_index])
