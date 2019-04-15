@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 # Author: 钉钉或微信pythontesting 钉钉群21734177 技术支持qq群：630011153 144081101
 # CreateDate: 2019-2-21
-import collections
+from collections import OrderedDict
 from bidict import bidict
 
 Gan = ["甲", "乙", "丙", "丁", "戊", "己", "庚", "辛", "壬", "癸"]
@@ -18,18 +18,18 @@ wuhangs = {
 }
 
 zhi5 = {
-    "子":collections.OrderedDict({"癸":8}), 
-    "丑":collections.OrderedDict({"辛":1,"癸":2, "己":5}), 
-    "寅":collections.OrderedDict({"戊":1,"丙":2, "甲":5}),
-    "卯":collections.OrderedDict({"乙":8}),
-    "辰":collections.OrderedDict({"癸":1,"乙":2, "戊":5}),
-    "巳":collections.OrderedDict({"庚":1,"戊":2, "丙":5}),
-    "午":collections.OrderedDict({"己":3, "丁":5}),
-    "未":collections.OrderedDict({"乙":1,"丁":2, "己":5}),
-    "申":collections.OrderedDict({"戊":1,"壬":2, "庚":5}),
-    "酉":collections.OrderedDict({"辛":8}),
-    "戌":collections.OrderedDict({"丁":1,"辛":2, "戊":5}),
-    "亥":collections.OrderedDict({"甲":3, "壬":5})}
+    "子":OrderedDict({"癸":8}), 
+    "丑":OrderedDict({"辛":1,"癸":2, "己":5}), 
+    "寅":OrderedDict({"戊":1,"丙":2, "甲":5}),
+    "卯":OrderedDict({"乙":8}),
+    "辰":OrderedDict({"癸":1,"乙":2, "戊":5}),
+    "巳":OrderedDict({"庚":1,"戊":2, "丙":5}),
+    "午":OrderedDict({"己":3, "丁":5}),
+    "未":OrderedDict({"乙":1,"丁":2, "己":5}),
+    "申":OrderedDict({"戊":1,"壬":2, "庚":5}),
+    "酉":OrderedDict({"辛":8}),
+    "戌":OrderedDict({"丁":1,"辛":2, "戊":5}),
+    "亥":OrderedDict({"甲":3, "壬":5})}
 
 ShX = ["鼠", "牛", "虎", "兔", "龙", "蛇", "马", "羊", "猴", "鸡", "狗", "猪"]
 numCn = ["零", "一", "二", "三", "四", "五", "六", "七", "八", "九", "十"]
