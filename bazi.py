@@ -213,8 +213,8 @@ if (me, zhis.month) in jianlus:
     print(jianlus[(me, zhis.month)]) 
     print("-"*140 + "\n")
     ge = '建'
-elif (me == '丙' and ('丙','申') in zhus) or (me == '甲' and ('己','巳') in zhus):
-    print("格局：专财. 运行官旺 财神不背,大发财官。忌行伤官、劫财、冲刑、破禄之运。喜身财俱旺")
+#elif (me == '丙' and ('丙','申') in zhus) or (me == '甲' and ('己','巳') in zhus):
+    #print("格局：专财. 运行官旺 财神不背,大发财官。忌行伤官、劫财、冲刑、破禄之运。喜身财俱旺")
 else:
     zhi = zhis[1]
     if zhi in wuhangs['土']:
@@ -335,6 +335,7 @@ print("出身:", birth)
 guan_num = shens.count("官")
 sha_num = shens.count("杀")
 cai_num = shens.count("财")
+piancai_num = shens.count("财")
 jie_num = shens.count("劫")
 bi_num = shens.count("比肩")
 yin_num = shens.count("印")
@@ -395,10 +396,20 @@ if ge == '伤':
     print("官星隐显，伤之不尽，岁运再见官星，官来乘旺，再见刑冲破害，刃煞克身，身弱财旺，必主徒流死亡，五行有救，亦残疾。若四柱无官而遇伤煞重者，运入官乡，岁君又遇，若不目疾，必主灾破。")
     print("======================================")  
 
-    if not '财' in shens:
+    if '财' in shens or '偏财' in shens:
+        print("伤官生财")
+    else:
         print("伤官无财，主贫穷")
+        
+    if '印' in shens or '偏印' in shens:
+        print('印能制伤，所以为贵，反要伤官旺，身稍弱，始为秀气;印旺极深，不必多见，偏正叠出，反为不秀，故伤轻身重而印绶多见，贫穷之格也。')   
+        if '财' in shens or '偏财' in shens:
+            print('财印相克，本不并用，只要干头两清而不相碍；又必生财者，财太旺而带印，佩印者印太重而带财，调停中和，遂为贵格')
     if ('官' in shens) :
         print(shang_guans[ten_deities[me]['本']])   
+        print('金水独宜，然要财印为辅，不可伤官并透。若冬金用官，而又化伤为财，则尤为极秀极贵。若孤官无辅，或官伤并透，则发福不大矣。')
+    if ('杀' in shens) :
+        print("煞因伤而有制，两得其宜，只要无财，便为贵格")   
     if gan_shens[0] == '伤':
         print("年干伤官最重，谓之福基受伤，终身不可除去，若月支更有，甚于伤身七煞")
 
@@ -427,11 +438,22 @@ if ge == '劫':
 
 # 财分析
 
-if ge == '财':
-    print("\n****财分析 **** 喜:旺,印,食,官 忌:比 羊刃 空绝 冲合   财星,天马星,催官星,壮志神 | 杀和偏印呢")
-    print("正财之格，主人诚实，行事俭约，赋性聪明，惟有悭吝，若财旺身衰，主妻秉男权，持家干蛊，"
-          "又主有好子替力，反得优游之乐，运行比劫，妻妾多危.")
-    print("======================================")  
+if ge == '财' or ge == '偏财':
+    print("\n****财分析 **** 喜:旺,印,食,官 忌:比 羊刃 空绝 冲合   财星,天马星,催官星,壮志神")
+    if gan_shens.count('财') + gan_shens.count('偏财') > 1:
+        print('财喜根深，不宜太露，然透一位以清用，格所最喜，不为之露。即非月令用神，若寅透乙、卯透甲之类，一亦不为过，太多则露矣。')
+        print('财旺生官，露亦不忌，盖露不忌，盖露以防劫，生官则劫退，譬如府库钱粮，有官守护，即使露白，谁敢劫之？')
+    if '伤' in gan_shens:
+        print("有伤官，财不能生官")    
+    if '食' in shens:
+        print("有财用食生者，身强而不露官，略带一位比劫，益觉有情")     
+        if '印' in shens or '偏印' in 'shens':
+            print("注意印食冲突")  
+    if '比肩' in shens:
+        print("比肩不吉，但是伤官食神可化!")   
+    if '杀' in shens:
+        print("不论合煞制煞，运喜食伤身旺之方!")          
+    
     if "财" == zhi_shens[0]:
         print("岁带正马：月令有财或伤食，不犯刑冲分夺，旺祖业丰厚。同类月令且带比肩，或遇运行伤劫 贫")
     if "财" == zhi_shens[3]:
@@ -458,27 +480,11 @@ if ge == '财':
                 print("财星入墓，必定刑妻")  
             if ten_deities[gans[seq]][zhis[seq]] == '长生':   
                 print("财遇长生，田园万顷")  
-    print("-"*140)    
-
-# 财库分析
-if ten_deities[ten_deities[me].inverse["财"]]['库'][-1] in zhis:
-    print("财临库墓: 一生财帛丰厚，因财致官, 天干透土更佳")   
-if cai_num < 2 and (('劫' in shens) or ('比肩' in shens)):
-    print("财少身强，柱有比劫，不为福")   
-
-# 偏财分析
-if ge == "偏财":
-    print("\n****偏财分析 **** 喜:旺,印,食,官 忌:比 羊刃 空绝 冲合   财星,天马星,催官星,壮志神 | 杀和偏印呢")
-    print("正财之格，主人诚实，行事俭约，赋性聪明，惟有悭吝，若财旺身衰，主妻秉男权，持家干蛊，"
-          "又主有好子替力，反得优游之乐，运行比劫，妻妾多危.")
-    print("======================================")  
-
 
     if ('官' not in shens) and (('劫' in shens) or ('比肩' in shens)):
         print("切忌有姊妹兄弟分夺，柱无官星，祸患百出。")
 
     if bi_num + jie_num > 1:
-        print(bi_num, jie_num)
         print("兄弟辈出: 纵入官乡，发福必渺.")        
 
     for seq, item in enumerate(zhi_shens):
@@ -486,7 +492,16 @@ if ge == "偏财":
             if get_empty(zhus[2],zhis[seq]):
                 print("空亡 官将不成，财将不住")  
 
-    print("-"*140)      
+    print("-"*140)         
+
+# 财库分析
+if ten_deities[ten_deities[me].inverse["财"]]['库'][-1] in zhis:
+    print("财临库墓: 一生财帛丰厚，因财致官, 天干透土更佳")   
+if cai_num < 2 and (('劫' in shens) or ('比肩' in shens)):
+    print("财少身强，柱有比劫，不为福")   
+
+
+
 
 # 官分析
 if ge == "官":
@@ -552,7 +567,9 @@ if ge == "杀":
     if "财" in shens:
         print("逢煞看财,如身强煞弱,有财星则吉,身弱煞强,有财引鬼盗气,非贫则夭;")
     if "食" in shens:
-        print("有食神透制,即《经》云:一见制伏,却为贵本")       
+        print("有食神透制,即《经》云:一见制伏,却为贵本")   
+        if "财" in shens or "印" in shens or "偏财" in shens or "偏印" in shens:
+            print("煞用食制，不要露财透印，以财能转食生煞，而印能去食护煞也。然而财先食后，财生煞而食以制之，或印先食后，食太旺而印制，则格成大贵。")   
     if "劫" in shens:
         print("有阳刃配合,即《经》云:煞无刃不显,逢煞看刃是也。")    
     if "印" in shens:
@@ -561,12 +578,13 @@ if ge == "杀":
         print("七煞重逢")           
     if "杀" == zhi_shens[2]:
         print("为人心多性急，阴险怀毒，僭伪谋害，不近人情")      
-    if "杀" == zhi_shens[3]:
+    if "杀" == zhi_shens[3] or "杀" == gan_shens[3]:
         print(" 时杀：月制干强，其煞反为权印。《经》云：时上偏官身要强，阳刃、冲刑煞敢当，制多要行煞旺运，煞多制少必为殃。")   
         print(" 一位为妙，年、月、日重见，反主辛苦劳碌。若身旺，煞制太过，喜行煞旺运，或三合煞运，如无制伏，要行制伏运方发。但忌身弱，纵得运扶持发福，运过依旧不济。")   
         print("《独步》云：时上一位，贵藏在支中，是日，主要旺强名利，方有气。")   
         print("《古歌》云：时上偏官喜刃冲，身强制伏禄丰隆。正官若也来相混，身弱财多主困穷。") 
         print("时上偏官一位强，日辰自旺喜非常。有财有印多财禄，定是天生作栋梁。") 
+        print("煞临子位，必招悖逆之儿。")
 
     if "杀" == zhi_shens[0]:
         print(" 年上七煞：出身寒微，命有贵子。")   
@@ -577,8 +595,6 @@ if ge == "杀":
     if ('官' in shens) :
         print("官煞混杂：身弱多夭贫")
 
-    if gan_shens[-1] == '杀' or zhi_shens[-1] == '杀':
-        print("煞临子位，必招悖逆之儿。")
     for seq, item in enumerate(gan_shens):
         if item == '杀':
             if ten_deities[gans[seq]][zhis[seq]] == '长生':   
@@ -587,24 +603,24 @@ if ge == "杀":
     print("-"*140)      
 
 # 印分析
-if ge == "印":
+if ge == "印" or ge == "偏印":
     print("\n印分析 **** 喜:食神 天月德 七煞 逢印看煞 以官为引   忌： 刑冲 伤官 死墓 辰戊印怕木 丑未印不怕木")
     print("一曰正印 二曰魁星 三曰孙极星")
     print("以印绶多者为上,月最要,日时次之,年干虽重,须归禄月、日、时,方可取用,若年露印,月日时无,亦不济事。")
     print("======================================")  
-    if "财" in shens:
-        print("印怕财")
     if "官" in shens:
-        print("官能生印")      
+        print("官能生印。身旺印强，不愁太过，只要官星清纯")      
     if "杀" in shens:
-        print("喜七煞,但煞不可太多,多则伤身。原无七煞,行运遇之则发;原有七煞,行财运,或印绶死绝,或临墓地,皆凶。")           
+        print("喜七煞,但煞不可太多,多则伤身。原无七煞,行运遇之则发;原有七煞,行财运,或印绶死绝,或临墓地,皆凶。")    
+    if "伤" in shens or "食" in shens:
+        print("伤食：身强印旺，恐其太过，泄身以为秀气；若印浅身轻，而用层层伤食，则寒贫之局矣。")     
+    if "财" in shens or "偏财" in shens:
+        print("有印多而用财者，印重身强，透财以抑太过，权而用之，只要根深，无防财破。 若印轻财重，又无劫财以救，则为贪财破印，贫贱之局也。")             
 
     if yin_num > 1:
         print("印绶复遇拱禄、专禄、归禄、鼠贵、夹贵、时贵等格,尤为奇特,但主少子或无子,印绶多者清孤。")  
     if "劫" in shens:
-        print("有阳刃配合,即《经》云:煞无刃不显,逢煞看刃是也。")    
-    if "印" in shens:
-        print("则煞生印，印生身")           
+        print("化印为劫；弃之以就财官")              
     print()
     print("-"*140)         
 
