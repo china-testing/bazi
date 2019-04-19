@@ -32,6 +32,7 @@ def yinyang(item):
     
     
     
+    
 def get_empty(zhu, zhi):
     empty = empties[zhu]
     if zhi in empty:
@@ -45,3 +46,11 @@ def get_zhi_detail(zhi, me, multi=1):
                                        ten_deities[me][gan])
     return out
 
+def check_gong(zhis, n1, n2, me, hes, desc='三合拱'):
+    result = ''
+    if zhis[n1] + zhis[n2] in hes:
+        gong = hes[zhis[n1] + zhis[n2]] 
+        if gong not in zhis:
+            result += "\t{}：{}{}-{}[{}]".format(
+                desc, zhis[n1], zhis[n2], gong, get_zhi_detail(gong, me))
+    return result

@@ -196,31 +196,23 @@ for seq, item in enumerate(zhis):
     print("{:^32s}".format(output), end=' ')
 
 print()
-for item in zhus:
-    print("{:^30s}".format(nayins[item]), end=' ')
+for seq, item in enumerate(zhus):
+    # 检查空亡 
+    result = "{}-{}".format(nayins[item], '亡') if zhis[seq] == wangs[zhis[0]] else nayins[item]
+    # 检查劫杀 
+    result = "{}-{}".format(result, '劫杀') if zhis[seq] == jieshas[zhis[0]] else result
+    print("{:^30s}".format(result), end=' ')
 
 
 print()  
 # 检查三会 三合的拱合
 result = ''
-for i in range(2):
-    if zhis[i*2] + zhis[i*2+1] in gong_he:
-        gong = gong_he[zhis[i*2] + zhis[i*2+1]] 
-        if gong not in zhis:
-            result += "\t三合拱：{}{}-{}[{}]".format(zhis[i*2], zhis[i*2+1], gong, get_zhi_detail(gong, me))
-    if zhis[i*2] + zhis[i*2+1] in gong_hui:
-        gong = gong_hui[zhis[i*2] + zhis[i*2+1]]
-        if gong not in zhis:
-            result += "\t三会拱：{}{}-{}[{}]".format(zhis[i*2], zhis[i*2+1], gong, get_zhi_detail(gong, me))
-    if i == 1:
-        if zhis[1] + zhis[2] in gong_he:
-            gong = gong_he[zhis[1] + zhis[2]]
-            if gong not in zhis:
-                result += "\t三合拱：{}{}-{}[{}]".format(zhis[i*2], zhis[i*2+1], gong, get_zhi_detail(gong, me))
-        if zhis[1] + zhis[2] in gong_hui:
-            gong = gong_hui[zhis[1] + zhis[2]]
-            if gong not in zhis:    
-                result += "\t三会拱：{}{}-{}[{}]".format(zhis[i*2], zhis[i*2+1], gong, get_zhi_detail(gong, me))
+#for i in range(2):
+    #result += check_gong(zhis, i*2, i*2+1, me, gong_he)
+    #result += check_gong(zhis, i*2, i*2+1, me, gong_hui, '三会拱')
+
+result += check_gong(zhis, 1, 2, me, gong_he)
+result += check_gong(zhis, 1, 2, me, gong_hui, '三会拱')
     
 if result:
     print(result)
