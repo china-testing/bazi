@@ -201,9 +201,34 @@ for item in zhus:
 
 
 print()  
+# 检查三会 三合的拱合
+result = ''
+for i in range(2):
+    if zhis[i*2] + zhis[i*2+1] in gong_he:
+        gong = gong_he[zhis[i*2] + zhis[i*2+1]] 
+        if gong not in zhis:
+            result += "\t三合拱：{}{}-{}[{}]".format(zhis[i*2], zhis[i*2+1], gong, get_zhi_detail(gong, me))
+    if zhis[i*2] + zhis[i*2+1] in gong_hui:
+        gong = gong_hui[zhis[i*2] + zhis[i*2+1]]
+        if gong not in zhis:
+            result += "\t三会拱：{}{}-{}[{}]".format(zhis[i*2], zhis[i*2+1], gong, get_zhi_detail(gong, me))
+    if i == 1:
+        if zhis[1] + zhis[2] in gong_he:
+            gong = gong_he[zhis[1] + zhis[2]]
+            if gong not in zhis:
+                result += "\t三合拱：{}{}-{}[{}]".format(zhis[i*2], zhis[i*2+1], gong, get_zhi_detail(gong, me))
+        if zhis[1] + zhis[2] in gong_hui:
+            gong = gong_hui[zhis[1] + zhis[2]]
+            if gong not in zhis:    
+                result += "\t三会拱：{}{}-{}[{}]".format(zhis[i*2], zhis[i*2+1], gong, get_zhi_detail(gong, me))
+    
+if result:
+    print(result)
+
 print("="*140)   
 print(gan_shens, zhi_3hes, " 生：寅申巳亥 败：子午卯酉　库：辰戌丑未")
 print(zhi_shens, "　　地支六合:", zhi_6hes)
+
 
 # 格局分析
 ge = ''

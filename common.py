@@ -13,6 +13,7 @@ import datetime
 from bidict import bidict
 
 from datas import *
+from ganzhi import *
 from sizi import summarys
 
 def check_gan(gan, gans):
@@ -36,4 +37,11 @@ def get_empty(zhu, zhi):
     if zhi in empty:
         return "空"
     return ""
+
+def get_zhi_detail(zhi, me, multi=1):
+    out = ''
+    for gan in zhi5[zhi]:
+        out = out + "{}{}{}{} ".format(gan, gan5[gan], zhi5[zhi][gan]*multi,  
+                                       ten_deities[me][gan])
+    return out
 
