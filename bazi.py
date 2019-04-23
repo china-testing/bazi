@@ -99,10 +99,63 @@ for item in list(zhis) + [zhis.month]:
         scores[gan5[gan]] += zhi5[item][gan]
         gan_scores[gan] += zhi5[item][gan]
 
+# 计算大运
+seq = Gan.index(gans.year)
+if options.n:
+    if seq % 2 == 0:
+        direction = -1
+    else:
+        direction = 1
+else:
+    if seq % 2 == 0:
+        direction = 1
+    else:
+        direction = -1
+
+dayuns = []
+gan_seq = Gan.index(gans.month)
+zhi_seq = Zhi.index(zhis.month)
+for i in range(12):
+    gan_seq += direction
+    zhi_seq += direction
+    dayuns.append(Gan[gan_seq%10] + Zhi[zhi_seq%12])
 
 # 计算八字强弱
+# 子平真诠的计算
+weak = True
+me_status = []
+for item in zhis:
+    me_status.append(ten_deities[me][item])
+    if ten_deities[me][item] in ('长生', '帝旺', '建'):
+        weak = False
+        
 
+if weak:
+    if shens.count('比肩') + me_status.count('库') >2:
+        weak = False
 
+# 计算大运
+seq = Gan.index(gans.year)
+if options.n:
+    if seq % 2 == 0:
+        direction = -1
+    else:
+        direction = 1
+else:
+    if seq % 2 == 0:
+        direction = 1
+    else:
+        direction = -1
+
+dayuns = []
+gan_seq = Gan.index(gans.month)
+zhi_seq = Zhi.index(zhis.month)
+for i in range(12):
+    gan_seq += direction
+    zhi_seq += direction
+    dayuns.append(Gan[gan_seq%10] + Zhi[zhi_seq%12])
+
+# 网上的计算
 me_attrs_ = ten_deities[me].inverse
 strong = gan_scores[me_attrs_['比肩']] + gan_scores[me_attrs_['劫']] \
     + gan_scores[me_attrs_['偏印']] + gan_scores[me_attrs_['印']]
@@ -201,6 +254,8 @@ for seq, item in enumerate(zhus):
     result = "{}-{}".format(nayins[item], '亡') if zhis[seq] == wangs[zhis[0]] else nayins[item]
     # 检查劫杀 
     result = "{}-{}".format(result, '劫杀') if zhis[seq] == jieshas[zhis[0]] else result
+    # 检查元辰
+    result = "{}-{}".format(result, '元辰') if zhis[seq] == Zhi[(Zhi.index(zhis[0]) + direction*-1*5)%12] else result    
     print("{:^30s}".format(result), end=' ')
 
 
@@ -329,8 +384,13 @@ if ku in zhis:
             print("绝处无依，其人必滞")    
 
 print()
+
+# 天元分析
+for item in zhi5[zhis[2]]:    
+    name = ten_deities[me][item]
+    print(self_zuo[name])
 print("-"*140)
-print("五行分数", scores, '  八字强弱：', strong, "通常>29为强，需要参考月份、坐支等")
+print("五行分数", scores, '  八字强弱：', strong, "通常>29为强，需要参考月份、坐支等", "weak:", weak)
 for item in gan_scores:  
     print("{}[{}]-{} ".format(
         item, ten_deities[me][item], gan_scores[item]),  end='  ')    
@@ -411,6 +471,7 @@ if ge == '伤':
     print(" 多材艺，傲物气高，心险无忌惮，多谋少遂，弄巧成拙，常以天下之人不如己，而人亦惮之、恶之。 一名剥官神　　二名羊刃煞")
     print(" 身旺用财，身弱用印。用印不忌讳官煞。用印者须去财方能发福")
     print("官星隐显，伤之不尽，岁运再见官星，官来乘旺，再见刑冲破害，刃煞克身，身弱财旺，必主徒流死亡，五行有救，亦残疾。若四柱无官而遇伤煞重者，运入官乡，岁君又遇，若不目疾，必主灾破。")
+    print("娇贵伤不起、谨慎过头了略显胆小，节俭近于吝啬")
     print("======================================")  
 
     if '财' in shens or '偏财' in shens:
@@ -578,11 +639,14 @@ if ten_deities[ten_deities[me].inverse["官"]]['库'][-1] in zhis:
 # 杀(偏官)分析
 if ge == "杀":
     print("\n杀(偏官)分析 **** 喜:身旺  印绶  合煞  食制 羊刃  比肩  逢煞看印及刃  以食为引   忌：身弱  财星  正官  刑冲  入墓")
-    print("一曰偏官 二曰七煞 三曰五鬼 四曰将星 五曰孤极星 原有制伏,煞出为福,原无制伏,煞出为祸   性情如虎，急躁如风。")
+    print("一曰偏官 二曰七煞 三曰五鬼 四曰将星 五曰孤极星 原有制伏,煞出为福,原无制伏,煞出为祸   性情如虎，急躁如风,尤其是七杀为丙、丁火时。")
     print("坐长生、临官、帝旺,更多带比肩同类相扶,则能化鬼为官,化煞为权,行运引至印乡,必发富贵。倘岁运再遇煞地,祸不旋踵。")
+    print("七杀喜酒色而偏争好斗、爱轩昂而扶弱欺强")
     print("======================================")  
     if "财" in shens:
         print("逢煞看财,如身强煞弱,有财星则吉,身弱煞强,有财引鬼盗气,非贫则夭;")
+    if "比肩" in shens:
+        print("如果比肩比自己弱，可以先挨杀。")        
     if "食" in shens:
         print("有食神透制,即《经》云:一见制伏,却为贵本")   
         if "财" in shens or "印" in shens or "偏财" in shens or "偏印" in shens:
@@ -592,7 +656,12 @@ if ge == "杀":
     if "印" in shens:
         print("印: 则煞生印，印生身")           
     if sha_num > 1:
-        print("七煞重逢")           
+        print("七煞重逢") 
+        if weak:
+            print("弃命从煞，须要会煞从财.四柱无一点比肩印绶方论，如遇运扶身旺，与煞为敌，从煞不专，故为祸患")
+            print("阴干从地支，煞纯者多贵，以阴柔能从物也。阳干从地支，煞纯者亦贵，但次于阴，以阳不受制也。")
+            print("水火金土皆从，惟阳木不能从，死木受斧斤，反遭其伤故也。")
+            print("古歌曰：五阳坐日全逢煞，弃命相从寿不坚，如是五阴逢此地，身衰煞旺吉堪言。")            
     if "杀" == zhi_shens[2]:
         print("为人心多性急，阴险怀毒，僭伪谋害，不近人情")      
     if "杀" == zhi_shens[3] or "杀" == gan_shens[3]:
@@ -620,7 +689,7 @@ if ge == "杀":
     print("-"*140)      
 
 # 印分析
-if ge == "印" or ge == "偏印":
+if ge == "印":
     print("\n印分析 **** 喜:食神 天月德 七煞 逢印看煞 以官为引   忌： 刑冲 伤官 死墓 辰戊印怕木 丑未印不怕木")
     print("一曰正印 二曰魁星 三曰孙极星")
     print("以印绶多者为上,月最要,日时次之,年干虽重,须归禄月、日、时,方可取用,若年露印,月日时无,亦不济事。")
@@ -633,6 +702,28 @@ if ge == "印" or ge == "偏印":
         print("伤食：身强印旺，恐其太过，泄身以为秀气；若印浅身轻，而用层层伤食，则寒贫之局矣。")     
     if "财" in shens or "偏财" in shens:
         print("有印多而用财者，印重身强，透财以抑太过，权而用之，只要根深，无防财破。 若印轻财重，又无劫财以救，则为贪财破印，贫贱之局也。")             
+
+    if yin_num > 1:
+        print("印绶复遇拱禄、专禄、归禄、鼠贵、夹贵、时贵等格,尤为奇特,但主少子或无子,印绶多者清孤。")  
+    if "劫" in shens:
+        print("化印为劫；弃之以就财官")              
+    print()
+    print("-"*140)         
+    
+# 偏印分析
+if ge == "偏印":
+    print("\n印分析 **** 喜:食神 天月德 七煞 逢印看煞 以官为引   忌： 刑冲 伤官 死墓 辰戊印怕木 丑未印不怕木")
+    print("一曰正印 二曰魁星 三曰孙极星")
+    print("以印绶多者为上,月最要,日时次之,年干虽重,须归禄月、日、时,方可取用,若年露印,月日时无,亦不济事。")
+    print("======================================")  
+    if "官" in shens:
+        print("官能生印。身旺印强，不愁太过，只要官星清纯")      
+    if "杀" in shens:
+        print("喜七煞,但煞不可太多,多则伤身。原无七煞,行运遇之则发;原有七煞,行财运,或印绶死绝,或临墓地,皆凶。")    
+    if "伤" in shens or "食" in shens:
+        print("伤食：身强印旺，恐其太过，泄身以为秀气；若印浅身轻，而用层层伤食，则寒贫之局矣。")     
+    if "财" in shens or "偏财" in shens:
+        print("弃印就财。")             
 
     if yin_num > 1:
         print("印绶复遇拱禄、专禄、归禄、鼠贵、夹贵、时贵等格,尤为奇特,但主少子或无子,印绶多者清孤。")  
@@ -690,26 +781,7 @@ print("{:<25s}  {:<25s}  {:<25}  {:<25s}".format(
 print("-"*140)    
 
 
-# 计算大运
-seq = Gan.index(gans.year)
-if options.n:
-    if seq % 2 == 0:
-        direction = -1
-    else:
-        direction = 1
-else:
-    if seq % 2 == 0:
-        direction = 1
-    else:
-        direction = -1
 
-dayuns = []
-gan_seq = Gan.index(gans.month)
-zhi_seq = Zhi.index(zhis.month)
-for i in range(12):
-    gan_seq += direction
-    zhi_seq += direction
-    dayuns.append(Gan[gan_seq%10] + Zhi[zhi_seq%12])
 
 
 
@@ -889,3 +961,19 @@ if sum_index in summarys:
     print("\n\n命")    
     print("=========================")      
     print(summarys[sum_index])
+    
+    
+print("======================================")  
+if '杀' in shens:
+    if yinyang(me) == '+':
+        print("阳杀:话多,热情外向,异性缘好")
+    else:
+        print("阴杀:话少,性格柔和")
+if '印' in shens and '偏财' in shens and '官' in shens:
+    print("印,偏财,官:三奇 怕正财")
+if '偏财' in shens and '杀' in shens:
+    print("男:因女致祸、因色致祸; 女:赔货")
+    
+if '偏财' in shens and '偏印' in shens:
+    print("偏印因偏财而不懒！")    
+    
