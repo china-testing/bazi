@@ -212,22 +212,23 @@ for seq, item in enumerate(zhis):
     print("{:^27s}".format(out), end=' ')
 
 print()
-# 输出地支import关系
+# 输出地支关系
 for seq, item in enumerate(zhis):
 
     output = ''
     others = zhis[:seq] + zhis[seq+1:] 
     for type_ in zhi_atts[item]:
         flag = False
-        if type_ in ('害',"破","会"):
+        if type_ in ('害',"破","会",'刑'):
             continue
         for zhi in zhi_atts[item][type_]:
             if zhi in others:
                 if not flag:
-                    output = output + " " + type_ + ":"
+                    output = output + " " + type_ + ":" if type_ not in ('冲','暗合') else output + " " + type_
                     flag = True
-                output += zhi
-    print("{:^31s}".format(output), end=' ')
+                if type_ not in ('冲','暗合'):
+                    output += zhi
+    print("{:^30s}".format(output), end=' ')
 
 print()
 
