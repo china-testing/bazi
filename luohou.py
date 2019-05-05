@@ -37,7 +37,6 @@ $ python luohou.py -d '2019 6 16'
 parser = argparse.ArgumentParser(description=description,
                                  formatter_class=argparse.RawTextHelpFormatter)
 parser.add_argument('-d', action="store", help=u'year',default="")
-parser.add_argument('-g', action="store_true", default=True, help=u'是否采用公历')
 parser.add_argument('--version', action='version',
                     version='%(prog)s 0.1 Rongzhong xu 2019 05 05')
 options = parser.parse_args()
@@ -50,55 +49,57 @@ if options.d:
     d = datetime.date(int(year), int(month), int(day))
 else:
     d = datetime.datetime.today()
-    year = d.year
-    month = d.month
-    day = d.day
     
-lunar = sxtwl.Lunar();
-if options.g:
-    day = lunar.getDayBySolar(int(year), int(month), int(day))
-else:
-    day = lunar.getDayByLunar(int(year), int(month), int(day))
-
-
-#　计算甲干相合    
-gans = Gans(year=Gan[day.Lyear2.tg], month=Gan[day.Lmonth2.tg], 
-            day=Gan[day.Lday2.tg])
-zhis = Zhis(year=Zhi[day.Lyear2.dz], month=Zhi[day.Lmonth2.dz], 
-            day=Zhi[day.Lday2.dz])
-
-print("\n日期:")
-print("======================================")  
-print("公历:", end='')
-print("\t{}年{}月{}日".format(day.y, day.m, day.d))
-
-Lleap = "闰" if day.Lleap else ""
-print("农历:", end='')
-print("\t{}年{}{}月{}日".format(day.Lyear0 + 1984, Lleap, ymc[day.Lmc], rmc[day.Ldi]))
-print(list(gans))
-print(list(zhis))
-
-day_ganzhi = gans[2] + zhis[2]
-
-if day_ganzhi == year_hous[zhis[0]]:
-    print("年罗猴日: {}年 {}日".format( zhis[0], day_ganzhi))
+def get_hou(d):
+    lunar = sxtwl.Lunar();
+    cal_day = lunar.getDayBySolar(d.year, d.month, d.day)
     
     
-if zhis[2] == yue_hous[ymc[day.Lmc]]:
-    print("月罗猴日", zhis[2]) 
-
-birthday = d  
-for i in range(30):    
-    day_ = sxtwl.Lunar().getDayBySolar(birthday.year, birthday.month, birthday.day)
-    if day_.qk != -1:
-        print(day_.qk)
-        print(jis[(day_.qk + 3)//6])
-        break        
-    birthday += datetime.timedelta(days=-1)
+    #　计算甲干相合    
+    gans = Gans(year=Gan[cal_day.Lyear2.tg], month=Gan[cal_day.Lmonth2.tg], 
+                day=Gan[cal_day.Lday2.tg])
+    zhis = Zhis(year=Zhi[cal_day.Lyear2.dz], month=Zhi[cal_day.Lmonth2.dz], 
+                day=Zhi[cal_day.Lday2.dz])
     
-print("杀师时辰：", end=' ')   
-for item in shi_hous[zhis[2]]:
-    print(item, zhi_time[item], end=' ')
-print()
+    
+    print("公历:", end='')
+    print("{}年{}月{}日".format(cal_day.y, cal_day.m, cal_day.d), end='')
+    
+    Lleap = "闰" if cal_day.Lleap else ""
+    print("\t农历:", end='')
+    print("{}年{}{}月{}日  ".format(cal_day.Lyear0 + 1984, Lleap, ymc[cal_day.Lmc], rmc[cal_day.Ldi]), end='')
+    print('-'.join([''.join(item) for item in zip(gans, zhis)]), end='')
+    
+    print("\t杀师时", end=' ')   
+    for item in shi_hous[zhis[2]]:
+        print(item + zhi_time[item], end=' ')
+    
+    
+    day_ganzhi = gans[2] + zhis[2]
+    
+    if day_ganzhi == year_hous[zhis[0]]:
+        print("\t年猴:{}年{}日".format(zhis[0], day_ganzhi), end=' ')
+        
+        
+    if zhis[2] == yue_hous[ymc[cal_day.Lmc]]:
+        print("\t月罗:{}日".format(zhis[2]), end=' ')
+    
+    if day_ganzhi in tuple(ji_hous.values()):       
+        birthday = d  
+        for i in range(30):    
+            day_ = sxtwl.Lunar().getDayBySolar(birthday.year, birthday.month, birthday.day)
+            if day_.qk != -1:
+                ji = jis[(day_.qk + 3)//6]
+                break        
+            birthday += datetime.timedelta(days=-1)
+           
+        if day_ganzhi == ji_hous[ji]:
+            print("\t季猴:{}季{}日".format(ji, ji_hous[ji]), end=' ')    
+    print()
 
-                     
+
+get_hou(d)      
+
+for i in range(1,366):
+    d_ = d + datetime.timedelta(days=i)
+    get_hou(d_)  
