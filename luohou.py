@@ -30,13 +30,14 @@ Zhis = collections.namedtuple("Zhis", "year month day")
 
 description = '''
 # 年罗猴日
-$ python luohou.py -d '2019 6 16' 
+$ python luohou.py -d "2019 6 16"
 
 '''
 
 parser = argparse.ArgumentParser(description=description,
                                  formatter_class=argparse.RawTextHelpFormatter)
 parser.add_argument('-d', action="store", help=u'year',default="")
+parser.add_argument('-n', action="store", help=u'year',default=32, type=int)
 parser.add_argument('--version', action='version',
                     version='%(prog)s 0.1 Rongzhong xu 2019 05 05')
 options = parser.parse_args()
@@ -72,17 +73,17 @@ def get_hou(d):
     
     print("\t杀师时", end=' ')   
     for item in shi_hous[zhis[2]]:
-        print(item + zhi_time[item], end=' ')
+        print(item + zhi_time[item], end='')
     
     
     day_ganzhi = gans[2] + zhis[2]
     
     if day_ganzhi == year_hous[zhis[0]]:
-        print("\t年猴:{}年{}日".format(zhis[0], day_ganzhi), end=' ')
+        print(" \t年猴:{}年{}日".format(zhis[0], day_ganzhi), end=' ')
         
         
     if zhis[2] == yue_hous[ymc[cal_day.Lmc]]:
-        print("\t月罗:{}日".format(zhis[2]), end=' ')
+        print(" \t月罗:{}日".format(zhis[2]), end=' ')
     
     if day_ganzhi in tuple(ji_hous.values()):       
         birthday = d  
@@ -94,12 +95,12 @@ def get_hou(d):
             birthday += datetime.timedelta(days=-1)
            
         if day_ganzhi == ji_hous[ji]:
-            print("\t季猴:{}季{}日".format(ji, ji_hous[ji]), end=' ')    
+            print(" \t季猴:{}季{}日".format(ji, ji_hous[ji]), end=' ')    
     print()
 
 
 get_hou(d)      
 
-for i in range(1,366):
+for i in range(1,options.n):
     d_ = d + datetime.timedelta(days=i)
     get_hou(d_)  
