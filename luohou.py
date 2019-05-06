@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 # Author: 钉钉或微信pythontesting 钉钉群21734177 技术支持qq群：630011153 144081101
+# 代码地址 https://github.com/china-testing/python-api-tesing/blob/master/bazi/luohou.py
 # 鸣谢 https://github.com/yuangu/sxtwl_cpp/tree/master/python
 # CreateDate: 2019-2-21
 
@@ -69,9 +70,10 @@ def get_hou(d):
     Lleap = "闰" if cal_day.Lleap else ""
     print("\t农历:", end='')
     print("{}年{}{}月{}日  ".format(cal_day.Lyear0 + 1984, Lleap, ymc[cal_day.Lmc], rmc[cal_day.Ldi]), end='')
+    print(' \t',end='')
     print('-'.join([''.join(item) for item in zip(gans, zhis)]), end='')
     
-    print("\t杀师时", end=' ')   
+    print("\t杀师时:", end='')   
     for item in shi_hous[zhis[2]]:
         print(item + zhi_time[item], end='')
     
