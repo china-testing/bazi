@@ -310,6 +310,16 @@ for items in tianyis[me]:
                 print("| 天乙贵人：", end=' ')
                 flag = True
             print(item, end=' ')
+            
+# 玉堂贵人
+flag = False
+for items in yutangs[me]:
+    for item in items:
+        if item in zhis:
+            if not flag:
+                print("| 玉堂贵人：", end=' ')
+                flag = True
+            print(item, end=' ')            
 
 # 天德贵人
 if tiandes[month] in alls:
