@@ -804,6 +804,11 @@ if options.b:
 else:
     birthday = datetime.date(day.y, day.m, day.d) 
     count = 0
+    
+    # 计算星宿
+    d2 = datetime.date(1, 1, 4)
+    print("星宿", xingxius[(birthday - d2).days % 28])
+    
 
     for i in range(30):    
         day_ = sxtwl.Lunar().getDayBySolar(birthday.year, birthday.month, birthday.day)
