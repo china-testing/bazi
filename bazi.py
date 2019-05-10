@@ -809,6 +809,10 @@ else:
     d2 = datetime.date(1, 1, 4)
     print("星宿", xingxius[(birthday - d2).days % 28])
     
+    # 计算建除
+    seq = 12 - Zhi.index(zhis.month)
+    print(jianchus[(Zhi.index(zhis.day) + seq)%12])    
+    
 
     for i in range(30):    
         day_ = sxtwl.Lunar().getDayBySolar(birthday.year, birthday.month, birthday.day)
