@@ -168,7 +168,7 @@ if not options.b:
 
     Lleap = "闰" if day.Lleap else ""
     print("农历:", end='')
-    print("\t{}年{}{}月{}日".format(day.Lyear0 + 1984, Lleap, ymc[day.Lmc], rmc[day.Ldi]))
+    print("\t{}年{}{}月{}日 穿=害".format(day.Lyear0 + 1984, Lleap, ymc[day.Lmc], rmc[day.Ldi]))
 print("-"*140)
 print("排盘源码: http://t.cn/E6zzQYj \t\t解读:钉钉或微信pythontesting","\t\t墓库：", kus)
 print("甲己-中正土  乙庚-仁义金  丙辛-威制水  丁壬-淫慝木  戊癸-无情火", "  三会:", zhi_huis)
