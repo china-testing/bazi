@@ -261,6 +261,35 @@ for seq, item in enumerate(zhus):
 
 
 print()  
+
+# 计算上运时间，有年份时才适用
+print("\n\n大运")    
+print("="*140)  
+if options.b:
+    print(dayuns) 
+else:
+    birthday = datetime.date(day.y, day.m, day.d) 
+    count = 0
+    
+
+    for i in range(30):    
+        day_ = sxtwl.Lunar().getDayBySolar(birthday.year, birthday.month, birthday.day)
+        if day_.qk != -1 and day_.qk % 2 == 1:
+            break        
+        birthday += datetime.timedelta(days=direction)
+        count += 1
+
+    ages = [(round(count/3 + 10*i, 2), int(options.year) + 10*i + count//3) for i in range(12)]
+    print(list(zip(ages, dayuns)))
+    
+    # 计算星宿
+    d2 = datetime.date(1, 1, 4)
+    print("星宿", xingxius[(birthday - d2).days % 28], end=' ')
+    
+    # 计算建除
+    seq = 12 - Zhi.index(zhis.month)
+    print(jianchus[(Zhi.index(zhis.day) + seq)%12])        
+    
 # 检查三会 三合的拱合
 result = ''
 #for i in range(2):
@@ -274,8 +303,10 @@ if result:
     print(result)
 
 print("="*140)   
-print(gan_shens, zhi_3hes, " 生：寅申巳亥 败：子午卯酉　库：辰戌丑未")
-print(zhi_shens, "　　地支六合:", zhi_6hes)
+print(gan_shens)
+print(zhi_shens)
+print(zhi_3hes, "生：寅申巳亥 败：子午卯酉　库：辰戌丑未")
+print("地支六合:", zhi_6hes)
 
 
 # 格局分析
@@ -791,38 +822,6 @@ print("{:<25s}  {:<25s}  {:<25}  {:<25s}".format(
 
 print("-"*140)    
 
-
-
-
-
-
-# 计算上运时间，有年份时才适用
-print("\n\n大运")    
-print("=========================")  
-if options.b:
-    print(dayuns) 
-else:
-    birthday = datetime.date(day.y, day.m, day.d) 
-    count = 0
-    
-    # 计算星宿
-    d2 = datetime.date(1, 1, 4)
-    print("星宿", xingxius[(birthday - d2).days % 28])
-    
-    # 计算建除
-    seq = 12 - Zhi.index(zhis.month)
-    print(jianchus[(Zhi.index(zhis.day) + seq)%12])    
-    
-
-    for i in range(30):    
-        day_ = sxtwl.Lunar().getDayBySolar(birthday.year, birthday.month, birthday.day)
-        if day_.qk != -1 and day_.qk % 2 == 1:
-            break        
-        birthday += datetime.timedelta(days=direction)
-        count += 1
-
-    ages = [(round(count/3 + 10*i, 2), int(options.year) + 10*i + count//3) for i in range(12)]
-    print(list(zip(ages, dayuns)))
 
 
 gan_ = tuple(gans)
