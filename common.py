@@ -26,9 +26,9 @@ def check_gan(gan, gans):
 
 def yinyang(item):
     if item in Gan:
-        return '+' if Gan.index(item)%2 == 0 else '-'
+        return '＋' if Gan.index(item)%2 == 0 else '－'
     else:
-        return '+' if Zhi.index(item)%2 == 0 else '-'
+        return '＋' if Zhi.index(item)%2 == 0 else '－'
     
     
     

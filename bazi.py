@@ -70,7 +70,7 @@ zhus = [item for item in zip(gans, zhis)]
 gan_shens = []
 for seq, item in enumerate(gans):    
     if seq == 2:
-        gan_shens.append('自己')
+        gan_shens.append('己')
     else:
         gan_shens.append(ten_deities[me][item])
 #print(gan_shens)
@@ -131,7 +131,7 @@ for item in zhis:
         
 
 if weak:
-    if shens.count('比肩') + me_status.count('库') >2:
+    if shens.count('比') + me_status.count('库') >2:
         weak = False
 
 # 计算大运
@@ -157,7 +157,7 @@ for i in range(12):
 
 # 网上的计算
 me_attrs_ = ten_deities[me].inverse
-strong = gan_scores[me_attrs_['比肩']] + gan_scores[me_attrs_['劫']] \
+strong = gan_scores[me_attrs_['比']] + gan_scores[me_attrs_['劫']] \
     + gan_scores[me_attrs_['偏印']] + gan_scores[me_attrs_['印']]
 
 if not options.b:
@@ -169,32 +169,37 @@ if not options.b:
     Lleap = "闰" if day.Lleap else ""
     print("农历:", end='')
     print("\t{}年{}{}月{}日 穿=害".format(day.Lyear0 + 1984, Lleap, ymc[day.Lmc], rmc[day.Ldi]))
-print("-"*140)
-print("排盘源码: http://t.cn/E6zzQYj \t\t解读:钉钉或微信pythontesting","\t\t墓库：", kus)
-print("甲己-中正土  乙庚-仁义金  丙辛-威制水  丁壬-淫慝木  戊癸-无情火", "  三会:", zhi_huis)
-print("="*140)    
-print("{:^28s}{:^28s}{:^28s}{:^28s}".format('年【父-根】', "月【兄弟僚友-苗】", "日【自己配偶-花】", "时【子孙-实】"))
-print("-"*140)
+print("-"*120)
+print("排盘源码: http://t.cn/E6zzQYj \t\t解读:钉钉或微信pythontesting","\t\t墓库：", str(kus).replace("'",""))
+print("甲己-中正土  乙庚-仁义金  丙辛-威制水  丁壬-淫慝木  戊癸-无情火", "  三会:", str(zhi_huis).replace("'",""))
+print("="*120)    
+print(' '.join(list(gans)), ' '*10, ' '.join(list(gan_shens)))
+print(' '.join(list(zhis)), ' '*10, ' '.join(list(zhi_shens)))
+print("-"*120)
+print("{1:{0}^12s}{2:{0}^15s}{3:{0}^15s}{4:{0}^15s}".format(chr(12288), '【年】', "【月】", "【日】", "【时】"))
+print("-"*120)
 
 
-print("{:^29s}{:^29s}{:^30s}{:^30s}".format(
-    '{}{}{}5 [{}] {}'.format(
+print("{1:{0}<15s}{2:{0}<15s}{3:{0}<15s}{4:{0}<15s}".format(
+    chr(12288),
+    '{}{}{}【{}】{}'.format(
         gans.year, yinyang(gans.year), gan5[gans.year], ten_deities[me][gans.year], check_gan(gans.year, gans)),
-    '{}{}{}5 [{}] {}'.format(
+    '{}{}{}【{}】{}'.format(
         gans.month, yinyang(gans.month), gan5[gans.month], ten_deities[me][gans.month], check_gan(gans.month, gans)),
-    '{}{}{}5 [{}] {}'.format(me, yinyang(me),gan5[me], '天', check_gan(me, gans)), 
-    '{}{}{}5 [{}] {}'.format(gans.time, yinyang(gans.time), gan5[gans.time], ten_deities[me][gans.time], check_gan(gans.time, gans)),
+    '{}{}{}【{}】{}'.format(me, yinyang(me),gan5[me], '天', check_gan(me, gans)), 
+    '{}{}{}【{}】{}'.format(gans.time, yinyang(gans.time), gan5[gans.time], ten_deities[me][gans.time], check_gan(gans.time, gans)),
 ))
 
-print("{:^30s}{:^29s}{:^29s}{:^30s}".format(
-    "{}{}{} [{}] {}".format(
+print("{1:{0}<15s}{2:{0}<15s}{3:{0}<15s}{4:{0}<15s}".format(
+    chr(12288),
+    "{}{}{}【{}】{}".format(
         zhis.year, yinyang(zhis.year), ten_deities[me][zhis.year],
         ten_deities[gans.year][zhis.year], get_empty(zhus[2],zhis.year)),
-    "{}{}{} [{}] {}【命】地".format(
+    "{}{}{}【{}】{}【命】".format(
         zhis.month, yinyang(zhis.month), ten_deities[me][zhis.month],
         ten_deities[gans.month][zhis.month], get_empty(zhus[2],zhis.month)),  
-    "{}{}{} 地".format(zhis.day, yinyang(zhis.day), ten_deities[me][zhis.day]),   
-    "{}{}{} [{}] {}".format(
+    "{}{}{}【地】".format(zhis.day, yinyang(zhis.day), ten_deities[me][zhis.day]),   
+    "{}{}{}【{}】{}".format(
         zhis.time, yinyang(zhis.time), ten_deities[me][zhis.time], 
         ten_deities[gans.time][zhis.time], get_empty(zhus[2],zhis.time)),
 ))
@@ -207,9 +212,8 @@ for seq, item in enumerate(zhis):
     multi = 2 if item == zhis.month and seq == 1 else 1
 
     for gan in zhi5[item]:
-        out = out + "{}{}{}{} ".format(gan, gan5[gan], zhi5[item][gan]*multi,  
-                                       ten_deities[me][gan])
-    print("{:^27s}".format(out), end=' ')
+        out = out + "{}{}{}　".format(gan, gan5[gan], ten_deities[me][gan])
+    print("{1:{0}<15s}".format(chr(12288), out.rstrip('　')), end='')
 
 print()
 # 输出地支关系
@@ -224,11 +228,12 @@ for seq, item in enumerate(zhis):
         for zhi in zhi_atts[item][type_]:
             if zhi in others:
                 if not flag:
-                    output = output + " " + type_ + ":" if type_ not in ('冲','暗合') else output + " " + type_
+                    output = output + "　" + type_ + "：" if type_ not in ('冲','暗合') else output + "　" + type_
                     flag = True
                 if type_ not in ('冲','暗合'):
                     output += zhi
-    print("{:^30s}".format(output), end=' ')
+        output = output.lstrip('　')
+    print("{1:{0}<15s}".format(chr(12288), output), end='')
 
 print()
 
@@ -244,27 +249,28 @@ for seq, item in enumerate(zhis):
         for zhi in zhi_atts[item][type_]:
             if zhi in others:
                 if not flag:
-                    output = output + " " + type_ + ":"
+                    output = output + "　" + type_ + "："
                     flag = True
                 output += zhi
-    print("{:^32s}".format(output), end=' ')
+    output = output.lstrip('　')
+    print("{1:{0}<15s}".format(chr(12288), output), end='')
 
 print()
 for seq, item in enumerate(zhus):
     # 检查空亡 
-    result = "{}-{}".format(nayins[item], '亡') if zhis[seq] == wangs[zhis[0]] else nayins[item]
+    result = "{}－{}".format(nayins[item], '亡') if zhis[seq] == wangs[zhis[0]] else nayins[item]
     # 检查劫杀 
-    result = "{}-{}".format(result, '劫杀') if zhis[seq] == jieshas[zhis[0]] else result
+    result = "{}－{}".format(result, '劫杀') if zhis[seq] == jieshas[zhis[0]] else result
     # 检查元辰
-    result = "{}-{}".format(result, '元辰') if zhis[seq] == Zhi[(Zhi.index(zhis[0]) + direction*-1*5)%12] else result    
-    print("{:^30s}".format(result), end=' ')
+    result = "{}－{}".format(result, '元辰') if zhis[seq] == Zhi[(Zhi.index(zhis[0]) + direction*-1*5)%12] else result    
+    print("{1:{0}<15s}".format(chr(12288), result), end='')
 
 
 print()  
 
 # 计算上运时间，有年份时才适用
 print("\n\n大运")    
-print("="*140)  
+print("="*120)  
 if options.b:
     print(dayuns) 
 else:
@@ -302,9 +308,8 @@ result += check_gong(zhis, 1, 2, me, gong_hui, '三会拱')
 if result:
     print(result)
 
-print("="*140)   
-print(gan_shens)
-print(zhi_shens)
+print("="*120)   
+
 print(zhi_3hes, "生：寅申巳亥 败：子午卯酉　库：辰戌丑未")
 print("地支六合:", zhi_6hes)
 
@@ -313,9 +318,9 @@ print("地支六合:", zhi_6hes)
 ge = ''
 if (me, zhis.month) in jianlus:
     print(jianlu_desc)
-    print("-"*140)
+    print("-"*120)
     print(jianlus[(me, zhis.month)]) 
-    print("-"*140 + "\n")
+    print("-"*120 + "\n")
     ge = '建'
 #elif (me == '丙' and ('丙','申') in zhus) or (me == '甲' and ('己','巳') in zhus):
     #print("格局：专财. 运行官旺 财神不背,大发财官。忌行伤官、劫财、冲刑、破禄之运。喜身财俱旺")
@@ -431,13 +436,13 @@ print()
 for item in zhi5[zhis[2]]:    
     name = ten_deities[me][item]
     print(self_zuo[name])
-print("-"*140)
+print("-"*120)
 print("五行分数", scores, '  八字强弱：', strong, "通常>29为强，需要参考月份、坐支等", "weak:", weak)
 for item in gan_scores:  
     print("{}[{}]-{} ".format(
         item, ten_deities[me][item], gan_scores[item]),  end='  ')    
 print()
-print("-"*140)
+print("-"*120)
 # 出身分析
 cai = ten_deities[me].inverse['财']
 guan = ten_deities[me].inverse['官']
@@ -456,7 +461,7 @@ sha_num = shens.count("杀")
 cai_num = shens.count("财")
 piancai_num = shens.count("财")
 jie_num = shens.count("劫")
-bi_num = shens.count("比肩")
+bi_num = shens.count("比")
 yin_num = shens.count("印")
 
 
@@ -468,7 +473,7 @@ if ge == '食':
     print(" 阳日食神暗合官星，阴日食神暗合正印。食神格人聪明、乐观、优雅、多才多艺。食居先，煞居后，功名显达。")
     print("======================================")  
     print('''
-    喜:身旺 宜行财乡 逢食看财  忌:身弱 比肩 倒食(偏印)  一名进神　　二名爵星　　三名寿星
+    喜:身旺 宜行财乡 逢食看财  忌:身弱 比 倒食(偏印)  一名进神　　二名爵星　　三名寿星
     月令建禄最佳，时禄次之，更逢贵人运
     ''')
 
@@ -505,7 +510,7 @@ if ge == '食':
             print("凡命有食遇枭，犹尊长之制我，不得自由，作事进退悔懒，有始无终，财源屡成屡败，容貌欹斜，身品琐小，胆怯心虚，凡事无成，克害六亲，幼时克母，长大伤妻子") 
             print("身旺遇此方为福")
     print()
-    print("-"*140)
+    print("-"*120)
 
 # 伤官分析
 if ge == '伤':
@@ -544,7 +549,7 @@ if ge == '伤':
             if get_empty(zhus[2],zhis[seq]):
                 print("大忌空亡，更有官煞显露，为太医师巫术数九流之士，若食神逢克，又遇空亡，则不贵，再行死绝或枭运，则因食上气上生灾，翻胃噎食，缺衣食，忍饥寒而已")                     
     print()
-    print("-"*140)    
+    print("-"*120)    
 
 # 劫财分析
 if ge == '劫':
@@ -554,7 +559,7 @@ if ge == '劫':
         print("劫财阳刃,切忌时逢,岁运并临,灾殃立至,独阳刃以时言,重于年月日也。")
 
     shi_num = shens.count("食")
-    print("-"*140)
+    print("-"*120)
 
 # 财分析
 
@@ -569,13 +574,13 @@ if ge == '财' or ge == '偏财':
         print("有财用食生者，身强而不露官，略带一位比劫，益觉有情")     
         if '印' in shens or '偏印' in 'shens':
             print("注意印食冲突")  
-    if '比肩' in shens:
-        print("比肩不吉，但是伤官食神可化!")   
+    if '比' in shens:
+        print("比不吉，但是伤官食神可化!")   
     if '杀' in shens:
         print("不论合煞制煞，运喜食伤身旺之方!")          
     
     if "财" == zhi_shens[0]:
-        print("岁带正马：月令有财或伤食，不犯刑冲分夺，旺祖业丰厚。同类月令且带比肩，或遇运行伤劫 贫")
+        print("岁带正马：月令有财或伤食，不犯刑冲分夺，旺祖业丰厚。同类月令且带比，或遇运行伤劫 贫")
     if "财" == zhi_shens[3]:
         print("时带正马：无冲刑破劫，主招美妻，得外来财物，生子荣贵，财产丰厚，此非父母之财，乃身外之财，招来产业，宜俭不宜奢。")      
     if "财" == zhi_shens[2] and (me not in ('壬','癸')):
@@ -584,15 +589,15 @@ if ge == '财' or ge == '偏财':
         print("财旺生官:若月令财无损克，亦主登科")
 
 
-    if cai_num > 2 and ('劫' not in shens) and ('比肩' not in shens) \
-       and ('比肩' not in shens) and ('印' not in shens):
+    if cai_num > 2 and ('劫' not in shens) and ('比' not in shens) \
+       and ('比' not in shens) and ('印' not in shens):
         print("财　不重叠多见　财多身弱，柱无印助; 若财多身弱，柱无印助不为福。")
 
     if '印' in shens:
         print("先财后印，反成其福，先印后财，反成其辱是也?")      
     if '官' in gan_shens:
         print("官星显露，别无伤损，或更食生印助日主健旺，富贵双全")          
-    if '财' in gan_shens and (('劫' not in shens) and ('比肩' not in shens)):
+    if '财' in gan_shens and (('劫' not in shens) and ('比' not in shens)):
         print("财不宜明露")  
     for seq, item in enumerate(gan_shens):
         if item == '财':
@@ -601,7 +606,7 @@ if ge == '财' or ge == '偏财':
             if ten_deities[gans[seq]][zhis[seq]] == '长生':   
                 print("财遇长生，田园万顷")  
 
-    if ('官' not in shens) and (('劫' in shens) or ('比肩' in shens)):
+    if ('官' not in shens) and (('劫' in shens) or ('比' in shens)):
         print("切忌有姊妹兄弟分夺，柱无官星，祸患百出。")
 
     if bi_num + jie_num > 1:
@@ -612,12 +617,12 @@ if ge == '财' or ge == '偏财':
             if get_empty(zhus[2],zhis[seq]):
                 print("空亡 官将不成，财将不住")  
 
-    print("-"*140)         
+    print("-"*120)         
 
 # 财库分析
 if ten_deities[ten_deities[me].inverse["财"]]['库'][-1] in zhis:
     print("财临库墓: 一生财帛丰厚，因财致官, 天干透土更佳")   
-if cai_num < 2 and (('劫' in shens) or ('比肩' in shens)):
+if cai_num < 2 and (('劫' in shens) or ('比' in shens)):
     print("财少身强，柱有比劫，不为福")   
 
 
@@ -626,7 +631,7 @@ if cai_num < 2 and (('劫' in shens) or ('比肩' in shens)):
 # 官分析
 if ge == "官":
     print("\n**** 官分析 ****\n 喜:身旺 财印   忌：身弱 偏官 伤官 刑冲 泄气 贪合 入墓")
-    print("一曰正官 二曰禄神 最忌刑冲破害、伤官七煞，贪合忘官，劫财比肩等等，遇到这些情况便成为破格 财印并存要分开")
+    print("一曰正官 二曰禄神 最忌刑冲破害、伤官七煞，贪合忘官，劫财比等等，遇到这些情况便成为破格 财印并存要分开")
     print("运：财旺印衰喜印，忌食伤生财；旺印财衰喜财，喜食伤生财；带伤食用印制；")
     print("带煞伤食不碍。劫合煞财运可行，伤食可行，身旺，印绶亦可行；伤官合煞，则伤食与财俱可行，而不宜逢印")
     print("======================================")  
@@ -670,7 +675,7 @@ if ge == "官":
         print("时上正官: 正官有用不须多，多则伤身少则和，日旺再逢生印绶，定须平步擢高科。")        
 
     print()
-    print("-"*140)  
+    print("-"*120)  
 # 官库分析
 if ten_deities[ten_deities[me].inverse["官"]]['库'][-1] in zhis:
     print("官临库墓")   
@@ -680,15 +685,15 @@ if ten_deities[ten_deities[me].inverse["官"]]['库'][-1] in zhis:
 
 # 杀(偏官)分析
 if ge == "杀":
-    print("\n杀(偏官)分析 **** 喜:身旺  印绶  合煞  食制 羊刃  比肩  逢煞看印及刃  以食为引   忌：身弱  财星  正官  刑冲  入墓")
+    print("\n杀(偏官)分析 **** 喜:身旺  印绶  合煞  食制 羊刃  比  逢煞看印及刃  以食为引   忌：身弱  财星  正官  刑冲  入墓")
     print("一曰偏官 二曰七煞 三曰五鬼 四曰将星 五曰孤极星 原有制伏,煞出为福,原无制伏,煞出为祸   性情如虎，急躁如风,尤其是七杀为丙、丁火时。")
-    print("坐长生、临官、帝旺,更多带比肩同类相扶,则能化鬼为官,化煞为权,行运引至印乡,必发富贵。倘岁运再遇煞地,祸不旋踵。")
+    print("坐长生、临官、帝旺,更多带比同类相扶,则能化鬼为官,化煞为权,行运引至印乡,必发富贵。倘岁运再遇煞地,祸不旋踵。")
     print("七杀喜酒色而偏争好斗、爱轩昂而扶弱欺强")
     print("======================================")  
     if "财" in shens:
         print("逢煞看财,如身强煞弱,有财星则吉,身弱煞强,有财引鬼盗气,非贫则夭;")
-    if "比肩" in shens:
-        print("如果比肩比自己弱，可以先挨杀。")        
+    if "比" in shens:
+        print("如果比比自己弱，可以先挨杀。")        
     if "食" in shens:
         print("有食神透制,即《经》云:一见制伏,却为贵本")   
         if "财" in shens or "印" in shens or "偏财" in shens or "偏印" in shens:
@@ -700,7 +705,7 @@ if ge == "杀":
     if sha_num > 1:
         print("七煞重逢") 
         if weak:
-            print("弃命从煞，须要会煞从财.四柱无一点比肩印绶方论，如遇运扶身旺，与煞为敌，从煞不专，故为祸患")
+            print("弃命从煞，须要会煞从财.四柱无一点比印绶方论，如遇运扶身旺，与煞为敌，从煞不专，故为祸患")
             print("阴干从地支，煞纯者多贵，以阴柔能从物也。阳干从地支，煞纯者亦贵，但次于阴，以阳不受制也。")
             print("水火金土皆从，惟阳木不能从，死木受斧斤，反遭其伤故也。")
             print("古歌曰：五阳坐日全逢煞，弃命相从寿不坚，如是五阴逢此地，身衰煞旺吉堪言。")            
@@ -728,7 +733,7 @@ if ge == "杀":
             if ten_deities[gans[seq]][zhis[seq]] == '长生':   
                 print("七煞遇长生乙位，女招贵夫。")  
     print()
-    print("-"*140)      
+    print("-"*120)      
 
 # 印分析
 if ge == "印":
@@ -750,7 +755,7 @@ if ge == "印":
     if "劫" in shens:
         print("化印为劫；弃之以就财官")              
     print()
-    print("-"*140)         
+    print("-"*120)         
     
 # 偏印分析
 if ge == "偏印":
@@ -772,7 +777,7 @@ if ge == "偏印":
     if "劫" in shens:
         print("化印为劫；弃之以就财官")              
     print()
-    print("-"*140)         
+    print("-"*120)         
 
 # 子女分析
 boy = ten_deities[me].inverse['食'] if options.n else ten_deities[me].inverse['杀']
@@ -809,8 +814,8 @@ mother_state = "母：{} -- {} [{}] {} {}".format(
     ten_deities[mother][zhis[2]], ten_deities[mother][zhis[3]] )
 
 # 兄弟姐妹状态
-brother = ten_deities[me].inverse['劫'] if options.n else ten_deities[me].inverse['比肩']
-sister = ten_deities[me].inverse['比肩'] if options.n else ten_deities[me].inverse['劫'] 
+brother = ten_deities[me].inverse['劫'] if options.n else ten_deities[me].inverse['比']
+sister = ten_deities[me].inverse['比'] if options.n else ten_deities[me].inverse['劫'] 
 brother_state = "兄弟：{} -- {} [{}] {} {}".format(
     brother, ten_deities[brother][zhis[0]], ten_deities[brother][zhis[1]], 
     ten_deities[brother][zhis[2]], ten_deities[brother][zhis[3]] )
@@ -820,7 +825,7 @@ sister_state = "姐妹：{} -- {} [{}] {} {}".format(
 print("{:<25s}  {:<25s}  {:<25}  {:<25s}".format(
     father_state, mother_state, brother_state, sister_state))
 
-print("-"*140)    
+print("-"*120)    
 
 
 
@@ -842,7 +847,7 @@ for item in Zhi:
         print("三字支：", item, "--", zhi3[item])
         break
 
-print("="*140)  
+print("="*120)  
 print("你属:", me, "特点：--", gan_desc[me],"\n")
 print("年份:", zhis[0], "特点：--", zhi_desc[zhis[0]],"\n")
 
