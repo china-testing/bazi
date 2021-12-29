@@ -13,7 +13,7 @@
 - 安裝依赖库
 
 ```python
-pip install  sxtwl bidict
+pip install  sxtwl==1.1.0 bidict
 ```
 
 - linux打开终端或windows打开cmd或git的bash或powercmd等工具
