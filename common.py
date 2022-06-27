@@ -21,7 +21,7 @@ def check_gan(gan, gans):
     if ten_deities[gan]['合'] in gans:
         result += "合" + ten_deities[gan]['合']
     if ten_deities[gan]['冲'] in gans:
-        result += " 冲" + ten_deities[gan]['冲']
+        result += "冲" + ten_deities[gan]['冲']
     return result
 
 def yinyang(item):
