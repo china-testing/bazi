@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# Author: 钉钉或微信pythontesting 钉钉群21734177
-# 鸣谢 https://github.com/yuangu/sxtwl_cpp/tree/master/python
+# Author: 钉钉、抖音或微信pythontesting 钉钉群21734177
 # CreateDate: 2019-2-21
 
 import sxtwl
@@ -48,7 +47,7 @@ if options.b:
     jds = sxtwl.siZhu2Year(getGZ(options.year), getGZ(options.month), getGZ(options.day), getGZ(options.time), options.start, int(options.end));
     for jd in jds:
         t = sxtwl.JD2DD(jd )
-        print("可能出生时间:%d-%d-%d %d:%d:%d"%(t.Y, t.M, t.D, t.h, t.m, round(t.s)))    
+        print("可能出生时间: python bazi.py -g %d %d %d %d :%d:%d"%(t.Y, t.M, t.D, t.h, t.m, round(t.s)))    
     
 else:
 
@@ -79,7 +78,7 @@ zhus = [item for item in zip(gans, zhis)]
 gan_shens = []
 for seq, item in enumerate(gans):    
     if seq == 2:
-        gan_shens.append('己')
+        gan_shens.append('--')
     else:
         gan_shens.append(ten_deities[me][item])
 #print(gan_shens)
@@ -150,6 +149,7 @@ strong = gan_scores[me_attrs_['比']] + gan_scores[me_attrs_['劫']] \
     + gan_scores[me_attrs_['枭']] + gan_scores[me_attrs_['印']]
 
 if not options.b:
+    #print("direction",direction)
     print("\n日期:")
     print("======================================")  
     print("公历:", end='')
@@ -159,7 +159,7 @@ if not options.b:
     print("农历:", end='')
     print("\t{}年{}{}月{}日 穿=害".format(day.getLunarYear(), Lleap, day.getLunarMonth(), day.getLunarDay()))
 print("-"*120)
-print("排盘源码: http://t.cn/E6zzQYj \t\t解读:钉钉或微信pythontesting","\t墓库：", str(kus).replace("'",""))
+print("源码: github.com/china-testing/bazi  解读:钉talk或DOU音或V信pythontesting","  墓库：", str(kus).replace("'",""))
 print("甲己-中正土  乙庚-仁义金  丙辛-威制水  丁壬-淫慝木  戊癸-无情火", "  三会:", str(zhi_huis).replace("'",""))
 print("="*120)    
 
@@ -305,6 +305,7 @@ else:
     
 
     for i in range(30):    
+        #print(birthday)
         day_ = sxtwl.fromSolar(birthday.year, birthday.month, birthday.day)
         #if day_.hasJieQi() and day_.getJieQiJD() % 2 == 1
         if day_.hasJieQi() and day_.getJieQi() % 2 == 1:
@@ -541,7 +542,7 @@ print("出身:", birth)
 guan_num = shens.count("官")
 sha_num = shens.count("杀")
 cai_num = shens.count("财")
-piancai_num = shens.count("财")
+piancai_num = shens.count("才")
 jie_num = shens.count("劫")
 bi_num = shens.count("比")
 yin_num = shens.count("印")
