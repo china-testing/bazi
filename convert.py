@@ -4,7 +4,8 @@
 # CreateDate: 2019-2-21
 
 import argparse
-   
+import subprocess
+
 description = '''
 '''
 parser = argparse.ArgumentParser(description=description,
@@ -15,6 +16,10 @@ parser.add_argument('--version', action='version',
                     version='%(prog)s 0.1 Rongzhong xu 2019 4 12 钉钉或微信pythontesting')
 options = parser.parse_args()
 
+result = ''
 for item in zip(options.gans, options.zhis):
-    print("".join(item), end=' ')
+    result = result + "".join(item) + " "
 
+#subprocess.call("cls", shell=True)
+print(result)
+print(subprocess.check_output("python bazi.py -b " + result, shell=True).decode('gbk'))

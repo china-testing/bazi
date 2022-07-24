@@ -15,6 +15,11 @@ from datas import *
 from sizi import summarys
 from common import *
 
+def gan_zhi_he(zhu):
+    gan, zhi = zhu
+    if ten_deities[gan]['合'] in zhi5[zhi]:
+        return "|"
+    return ""
 
 description = '''
 
@@ -174,8 +179,10 @@ for item in zhi_6hes:
     out = out + "{}{} ".format(item, zhi_6hes[item])
 print(' '.join(list(zhis)), ' '*5, ' '.join(list(zhi_shens)), ' '*5,  "生：寅申巳亥 败：子午卯酉　库：辰戌丑未", ' '*2,  out)
 print("-"*120)
-print("{1:{0}^15s}{2:{0}^15s}{3:{0}^15s}{4:{0}^15s}".format(chr(12288), '【年】{}:{}{}'.format(temps[gans.year],temps[zhis.year],ten_deities[gans.year].inverse['建']), 
-    '【月】{}:{}{}'.format(temps[gans.month],temps[zhis.month], ten_deities[gans.month].inverse['建']), '【日】{}:{}'.format(temps[me], temps[zhis.day]), '【时】{}:{}{}'.format(temps[gans.time], temps[zhis.time], ten_deities[gans.time].inverse['建'])))
+print("{1:{0}^15s}{2:{0}^15s}{3:{0}^15s}{4:{0}^15s}".format(chr(12288), '【年】{}:{}{}{}'.format(temps[gans.year],temps[zhis.year],ten_deities[gans.year].inverse['建'], gan_zhi_he(zhus[0])), 
+    '【月】{}:{}{}{}'.format(temps[gans.month],temps[zhis.month], ten_deities[gans.month].inverse['建'], gan_zhi_he(zhus[1])),
+    '【日】{}:{}{}'.format(temps[me], temps[zhis.day], gan_zhi_he(zhus[2])), 
+    '【时】{}:{}{}{}'.format(temps[gans.time], temps[zhis.time], ten_deities[gans.time].inverse['建'], gan_zhi_he(zhus[3]))))
 print("-"*120)
 
 
@@ -185,7 +192,7 @@ print("{1:{0}<15s}{2:{0}<15s}{3:{0}<15s}{4:{0}<15s}".format(
         gans.year, yinyang(gans.year), gan5[gans.year], ten_deities[me][gans.year], check_gan(gans.year, gans)),
     '{}{}{}【{}】{}'.format(
         gans.month, yinyang(gans.month), gan5[gans.month], ten_deities[me][gans.month], check_gan(gans.month, gans)),
-    '{}{}{}【{}】{}'.format(me, yinyang(me),gan5[me], '天', check_gan(me, gans)),
+    '{}{}{}{}'.format(me, yinyang(me),gan5[me], check_gan(me, gans)),
     '{}{}{}【{}】{}'.format(gans.time, yinyang(gans.time), gan5[gans.time], ten_deities[me][gans.time], check_gan(gans.time, gans)),
 ))
 
