@@ -326,6 +326,7 @@ else:
     for (seq, value) in enumerate(ages):
         gan_ = dayuns[seq][0]
         zhi_ = dayuns[seq][1]
+        fu = '*' if (gan_, zhi_) in zhus else " "
         zhi5_ = ''
         for gan in zhi5[zhi_]:
             zhi5_ = zhi5_ + "{}{}{}　".format(gan, gan5[gan], ten_deities[me][gan]) 
@@ -343,9 +344,9 @@ else:
         if zhi_ in empties[zhus[2]]:
             empty = '空'        
         
-        out = "{1:<4d}{2:<5s}{3}\t{4}:{5}{8}{6:{0}<6s}{12}{7}{8}{9} - {10:{0}<15s} {11}".format(
+        out = "{1:<4d}{2:<5s}{3}{13}\t{4}:{5}{8}{6:{0}<6s}{12}{7}{8}{9} - {10:{0}<15s} {11}".format(
             chr(12288), int(value[0]), '', dayuns[seq],ten_deities[me][gan_], gan_,check_gan(gan_, gans), 
-            zhi_, yinyang(zhi_), ten_deities[me][zhi_], zhi5_, zhi__,empty) 
+            zhi_, yinyang(zhi_), ten_deities[me][zhi_], zhi5_, zhi__,empty, fu) 
         gan_index = Gan.index(gan_)
         zhi_index = Zhi.index(zhi_)
         print(out)
@@ -358,6 +359,8 @@ else:
             yTG = day2.getYearGZ()
             gan2_ = Gan[yTG.tg]
             zhi2_ = Zhi[yTG.dz]
+            fu2 = '*' if (gan2_, zhi2_) in zhus else " "
+            #print(fu2, (gan2_, zhi2_),zhus)
             
             zhi6_ = ''
             for gan in zhi5[zhi2_]:
@@ -375,9 +378,9 @@ else:
             empty = chr(12288)
             if zhi2_ in empties[zhus[2]]:
                 empty = '空'       
-            out = "{1:>3d} {2:<5d}{3}\t{4}:{5}{8}{6:{0}<6s}{12}{7}{8}{9} - {10:{0}<15s} {11}".format(
+            out = "{1:>3d} {2:<5d}{3}{13}\t{4}:{5}{8}{6:{0}<6s}{12}{7}{8}{9} - {10:{0}<15s} {11}".format(
                 chr(12288), int(value[0]) + i, value[1] + i, gan2_+zhi2_,ten_deities[me][gan2_], gan2_,check_gan(gan2_, gans2), 
-                zhi2_, yinyang(zhi2_), ten_deities[me][zhi2_], zhi6_, zhi__,empty) 
+                zhi2_, yinyang(zhi2_), ten_deities[me][zhi2_], zhi6_, zhi__,empty, fu2) 
             print(out)
             
         
