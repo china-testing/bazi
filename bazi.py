@@ -173,11 +173,11 @@ print("="*120)
 out = ''
 for item in zhi_3hes:
     out = out + "{}:{}  ".format(item, zhi_3hes[item])
-print(' '.join(list(gans)), ' '*5, ' '.join(list(gan_shens)),' '*5, out,)
+print('\033[1;36;40m' + ' '.join(list(gans)), ' '*5, ' '.join(list(gan_shens)) + '\033[0m',' '*5, out,)
 out = ''
 for item in zhi_6hes:
     out = out + "{}{} ".format(item, zhi_6hes[item])
-print(' '.join(list(zhis)), ' '*5, ' '.join(list(zhi_shens)), ' '*5,  "生：寅申巳亥 败：子午卯酉　库：辰戌丑未", ' '*2,  out)
+print('\033[1;36;40m' + ' '.join(list(zhis)), ' '*5, ' '.join(list(zhi_shens)) + '\033[0m', ' '*5,  "生：寅申巳亥 败：子午卯酉　库：辰戌丑未", ' '*2,  out)
 print("-"*120)
 print("{1:{0}^15s}{2:{0}^15s}{3:{0}^15s}{4:{0}^15s}".format(chr(12288), '【年】{}:{}{}{}'.format(temps[gans.year],temps[zhis.year],ten_deities[gans.year].inverse['建'], gan_zhi_he(zhus[0])), 
     '【月】{}:{}{}{}'.format(temps[gans.month],temps[zhis.month], ten_deities[gans.month].inverse['建'], gan_zhi_he(zhus[1])),
@@ -186,7 +186,7 @@ print("{1:{0}^15s}{2:{0}^15s}{3:{0}^15s}{4:{0}^15s}".format(chr(12288), '【年�
 print("-"*120)
 
 
-print("{1:{0}<15s}{2:{0}<15s}{3:{0}<15s}{4:{0}<15s}".format(
+print("\033[1;36;40m{1:{0}<15s}{2:{0}<15s}{3:{0}<15s}{4:{0}<15s}\033[0m".format(
     chr(12288),
     '{}{}{}【{}】{}'.format(
         gans.year, yinyang(gans.year), gan5[gans.year], ten_deities[me][gans.year], check_gan(gans.year, gans)),
@@ -196,7 +196,7 @@ print("{1:{0}<15s}{2:{0}<15s}{3:{0}<15s}{4:{0}<15s}".format(
     '{}{}{}【{}】{}'.format(gans.time, yinyang(gans.time), gan5[gans.time], ten_deities[me][gans.time], check_gan(gans.time, gans)),
 ))
 
-print("{1:{0}<15s}{2:{0}<15s}{3:{0}<15s}{4:{0}<15s}".format(
+print("\033[1;36;40m{1:{0}<15s}{2:{0}<15s}{3:{0}<15s}{4:{0}<15s}\033[0m".format(
     chr(12288),
     "{}{}{}【{}】{}".format(
         zhis.year, yinyang(zhis.year), ten_deities[me][zhis.year],
@@ -219,7 +219,7 @@ for seq, item in enumerate(zhis):
 
     for gan in zhi5[item]:
         out = out + "{}{}{}　".format(gan, gan5[gan], ten_deities[me][gan])
-    print("{1:{0}<15s}".format(chr(12288), out.rstrip('　')), end='')
+    print("\033[1;36;40m{1:{0}<15s}\033[0m".format(chr(12288), out.rstrip('　')), end='')
 
 print()
 # 输出地支关系
@@ -239,7 +239,7 @@ for seq, item in enumerate(zhis):
                 if type_ not in ('冲','暗合'):
                     output += zhi
         output = output.lstrip('　')
-    print("{1:{0}<15s}".format(chr(12288), output), end='')
+    print("\033[1;36;40m{1:{0}<15s}\033[0m".format(chr(12288), output), end='')
 
 print()
 
@@ -259,7 +259,7 @@ for seq, item in enumerate(zhis):
                     flag = True
                 output += zhi
     output = output.lstrip('　')
-    print("{1:{0}<15s}".format(chr(12288), output), end='')
+    print("\033[1;36;40m{1:{0}<15s}\033[0m".format(chr(12288), output), end='')
 
 print()
 for seq, item in enumerate(zhus):
