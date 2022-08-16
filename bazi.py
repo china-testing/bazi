@@ -21,6 +21,19 @@ def gan_zhi_he(zhu):
         return "|"
     return ""
 
+def get_gong_kus(zhis):
+    result = []
+    for i in range(3):
+        zhi1 = zhis[i]
+        zhi2 = zhis[i+1]
+        if abs(Zhi.index(zhi1) - Zhi.index(zhi2)) == 2:
+            value = Zhi[(Zhi.index(zhi1) + Zhi.index(zhi2))//2]
+            if value in ("丑", "辰", "未", "戌"):
+                result.append(value)
+    return result
+                
+                
+
 description = '''
 
 '''
@@ -155,7 +168,8 @@ strong = gan_scores[me_attrs_['比']] + gan_scores[me_attrs_['劫']] \
 
 if not options.b:
     #print("direction",direction)
-    print("\n日期:")
+    sex = '女' if options.n else '男'
+    print("\n{}命".format(sex))
     print("======================================")  
     print("公历:", end='')
     print("\t{}年{}月{}日".format(day.getSolarYear(), day.getSolarMonth(), day.getSolarDay()))
@@ -164,7 +178,10 @@ if not options.b:
     print("农历:", end='')
     print("\t{}年{}{}月{}日 穿=害".format(day.getLunarYear(), Lleap, day.getLunarMonth(), day.getLunarDay()))
 print("-"*120)
-print("源码: github.com/china-testing/bazi  解读:钉talk或DOU音或V信pythontesting","  墓库：", str(kus).replace("'",""))
+print("墓库：", str(kus).replace("'",""), "解读:钉ding或v信pythontesting", end=' ')
+for item in zhus:
+    print(''.join(item), end=' ')
+print()
 print("甲己-中正土  乙庚-仁义金  丙辛-威制水  丁壬-淫慝木  戊癸-无情火", "  三会:", str(zhi_huis).replace("'",""))
 print("="*120)    
 
@@ -294,8 +311,10 @@ print()
 # 计算上运时间，有年份时才适用
 
 temps_scores = temps[gans.year] + temps[gans.month] + temps[me] + temps[gans.time] + temps[zhis.year] + temps[zhis.month]*2 + temps[zhis.day] + temps[zhis.time]
-print("五行分数", scores, '  八字强弱：', strong, "通常>29为强，需要参考月份、坐支等", "weak:", weak)
-print("湿度分数", temps_scores,"正为暖燥，负为寒湿，正常区间[-6,6]")
+print("\033[1;36;40m五行分数", scores, '  八字强弱：', strong, "通常>29为强，需要参考月份、坐支等", "weak:", weak)
+
+
+print("湿度分数", temps_scores,"正为暖燥，负为寒湿，正常区间[-6,6] 拱库气：",  get_gong_kus(zhis), "\033[0m")
 for item in gan_scores:  
     print("{}[{}]-{} ".format(
         item, ten_deities[me][item], gan_scores[item]),  end='  ')    
