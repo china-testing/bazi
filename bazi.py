@@ -251,9 +251,9 @@ for seq, item in enumerate(zhis):
         for zhi in zhi_atts[item][type_]:
             if zhi in others:
                 if not flag:
-                    output = output + "　" + type_ + "：" if type_ not in ('冲','暗合') else output + "　" + type_
+                    output = output + "　" + type_ + "：" if type_ not in ('冲','暗') else output + "　" + type_
                     flag = True
-                if type_ not in ('冲','暗合'):
+                if type_ not in ('冲','暗'):
                     output += zhi
         output = output.lstrip('　')
     print("\033[1;36;40m{1:{0}<15s}\033[0m".format(chr(12288), output), end='')
@@ -267,7 +267,7 @@ for seq, item in enumerate(zhis):
     others = zhis[:seq] + zhis[seq+1:] 
     for type_ in zhi_atts[item]:
         flag = False
-        if type_ not in ('害',"破","会"):
+        if type_ not in ('害',"会"):
             continue
         for zhi in zhi_atts[item][type_]:
             if zhi in others:
@@ -363,9 +363,9 @@ else:
         if zhi_ in empties[zhus[2]]:
             empty = '空'        
         
-        out = "{1:<4d}{2:<5s}{3}{13}\t{4}:{5}{8}{6:{0}<6s}{12}{7}{8}{9} - {10:{0}<15s} {11}".format(
+        out = "{1:<4d}{2:<5s}{3} {14} {13}\t{4}:{5}{8}{6:{0}<6s}{12}{7}{8}{9} - {10:{0}<15s} {11}".format(
             chr(12288), int(value[0]), '', dayuns[seq],ten_deities[me][gan_], gan_,check_gan(gan_, gans), 
-            zhi_, yinyang(zhi_), ten_deities[me][zhi_], zhi5_, zhi__,empty, fu) 
+            zhi_, yinyang(zhi_), ten_deities[me][zhi_], zhi5_, zhi__,empty, fu, nayins[(gan_, zhi_)]) 
         gan_index = Gan.index(gan_)
         zhi_index = Zhi.index(zhi_)
         print(out)
@@ -390,6 +390,8 @@ else:
             for item in zhis2:
             
                 for type_ in zhi_atts[zhi2_]:
+                    if type_ == '破':
+                        continue
                     if item in zhi_atts[zhi2_][type_]:
                         zhi__.add(type_ + ":" + item)
             zhi__ = '  '.join(zhi__)
@@ -397,9 +399,9 @@ else:
             empty = chr(12288)
             if zhi2_ in empties[zhus[2]]:
                 empty = '空'       
-            out = "{1:>3d} {2:<5d}{3}{13}\t{4}:{5}{8}{6:{0}<6s}{12}{7}{8}{9} - {10:{0}<15s} {11}".format(
+            out = "{1:>3d} {2:<5d}{3} {14} {13}\t{4}:{5}{8}{6:{0}<6s}{12}{7}{8}{9} - {10:{0}<15s} {11}".format(
                 chr(12288), int(value[0]) + i, value[1] + i, gan2_+zhi2_,ten_deities[me][gan2_], gan2_,check_gan(gan2_, gans2), 
-                zhi2_, yinyang(zhi2_), ten_deities[me][zhi2_], zhi6_, zhi__,empty, fu2) 
+                zhi2_, yinyang(zhi2_), ten_deities[me][zhi2_], zhi6_, zhi__,empty, fu2, nayins[(gan2_, zhi2_)]) 
             print(out)
             
         
@@ -582,7 +584,7 @@ yin_num = shens.count("印")
 # 食神分析
 if ge == '食':
     print("\n****食神分析****: 格要日主食神俱生旺，无冲破。有财辅助财有用。  食神可生偏财、克杀")
-    print(" 阳日食神暗合官星，阴日食神暗合正印。食神格人聪明、乐观、优雅、多才多艺。食居先，煞居后，功名显达。")
+    print(" 阳日食神暗官星，阴日食神暗正印。食神格人聪明、乐观、优雅、多才多艺。食居先，煞居后，功名显达。")
     print("======================================")  
     print('''
     喜:身旺 宜行财乡 逢食看财  忌:身弱 比 倒食(偏印)  一名进神　　二名爵星　　三名寿星
