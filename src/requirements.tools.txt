@@ -1,2 +1,4 @@
 black==22.6.0
 isort==5.2.0
+flake8==4.0.1
+pre-commit==2.19.0

@@ -1,0 +1,23 @@
+repos:
+-   repo: local
+    hooks:
+    - id: isort
+      name: Run isort
+      types: [python]
+      entry: isort
+      language: python
+    - id: black
+      args: # arguments to config black
+        - "--line-length=100"
+      name: Run black
+      entry: black
+      types: [python]
+      language: python
+    - id: flake8
+      args: # arguments to config flake8
+        - "--max-line-length=100"
+        - "--ignore=E203,E266,E501,W503,F403,F401,E402,F821,C901,W605,E712"
+      name: Run flake8
+      entry: flake8
+      types: [python]
+      language: python
