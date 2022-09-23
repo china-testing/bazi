@@ -53,30 +53,8 @@ from common.const import (
     ZHI_DESC_DATA,
     ZHI_HUI_DATA,
 )
-from common.utils import check_gan, check_gong, get_empty, yinyang
+from common.utils import check_gan, check_gong, gan_zhi_he, get_empty, get_gong_kus, yinyang
 from ganzhi import getGZ
-
-
-def gan_zhi_he(zhu):
-    gan, zhi = zhu
-    if TEN_DEITIES[gan]["合"] in ZHI_5_DATA[zhi]:
-        return "|"
-    return ""
-
-
-def get_gong_kus(zhis):
-    result = []
-    for i in range(3):
-        zhi1 = zhis[i]
-        zhi2 = zhis[i + 1]
-        if abs(EARTHLY_BRANCHES.index(zhi1) - EARTHLY_BRANCHES.index(zhi2)) == 2:
-            value = EARTHLY_BRANCHES[
-                (EARTHLY_BRANCHES.index(zhi1) + EARTHLY_BRANCHES.index(zhi2)) // 2
-            ]
-            if value in ("丑", "辰", "未", "戌"):
-                result.append(value)
-    return result
-
 
 description = """
 
@@ -400,7 +378,6 @@ print()
 
 # 输出地支minor关系
 for seq, item in enumerate(zhis):
-
     output = ""
     others = zhis[:seq] + zhis[seq + 1 :]
     for type_ in ZHI_ATT_DATA[item]:
