@@ -43,7 +43,6 @@ INDEX_CONSTELLATION_TUPLE = {
     index: (constellation, "") for index, constellation in enumerate(CONSTELLATIONS)
 }
 
-
 JIAN_CHUS = [
     ("建", "气专而强，宜官府公事等。 宜：赴任、祈福、求嗣、求财、交涉、出行。 忌：上梁、嫁娶、安葬。"),
     ("除", "除旧布新的日子。 宜：祭祀、祈福、嫁娶、出行、入宅、动土、开光、交易。 忌：嫁娶、探病。"),
@@ -560,7 +559,6 @@ SELF_ZUO_DATA = {
     "劫": """""",
 }
 
-
 TEMP_DATA = {
     "甲": 3,
     "乙": 1,
@@ -585,7 +583,6 @@ TEMP_DATA = {
     "戌": 4,
     "亥": -5,
 }
-
 
 ZHI_TIME_DATA = {
     "子": "23-1",
@@ -735,7 +732,6 @@ RMCS = [
     "三十",
     "卅一",
 ]
-
 
 TEN_DEITIES = {
     "甲": bidict(
@@ -1097,7 +1093,6 @@ SHENG_XIAO_DATA = bidict(
     }
 )
 
-
 ZHI_ATT_DATA = {
     "子": {
         "冲": "午",
@@ -1278,7 +1273,6 @@ CHONG_DATA = {
     "亥": "巳",
 }
 
-
 ZHI_6_HE_DATA = {
     "子丑": "土",
     "寅亥": "木",
@@ -1423,7 +1417,6 @@ XING_DATA = {
 
 ZHI_ZI_XINGS = ["辰", "午", "酉", "亥"]
 
-
 GAN_5 = {
     "甲": "木",
     "乙": "木",
@@ -1449,7 +1442,6 @@ GUAN_DATA = {
     "壬": ("己", "午", "未", "丑"),
     "癸": ("戊", "寅", "辰", "巳", "申", "戌"),
 }
-
 
 GAN_DESC_DATA = {
     "甲": """雷龙 梁栋 禄寅;斧斤斫削成其器。木不南奔;喜春运不喜西方,春生,处世安然,必寿。""",
@@ -1504,7 +1496,6 @@ GAN_4 = {
     "壬": "定富足",
     "癸": "人夭亡",
 }
-
 
 ZHI_3 = {
     "子": "婚事重",
@@ -1651,9 +1642,11 @@ SHI_HOUR_DATA = {
     "亥": "辰卯",
 }
 
-GANS = namedtuple("Gans", "year month day")
-ZHIS = namedtuple("Zhis", "year month day")
+GAN_S_YEAR_MONTH_DAY = namedtuple("Gans", "year month day")
+ZHI_S_YEAR_MONTH_DAY = namedtuple("Zhis", "year month day")
 
+GAN_S_YEAR_MONTH_DAY_TIME = namedtuple("Gans", "year month day time")
+ZHI_S_YEAR_MONTH_DAY_TIME = namedtuple("Zhis", "year month day time")
 
 SUMMARY_DATA = {
     "甲日甲子": """

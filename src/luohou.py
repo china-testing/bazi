@@ -13,6 +13,7 @@ import sxtwl
 
 from common.const import (
     EARTHLY_BRANCHES,
+    GAN_S_YEAR_MONTH_DAY,
     HEAVENLY_STEMS,
     JI_HOUR_DATA,
     JIS,
@@ -21,6 +22,7 @@ from common.const import (
     YEAR_HOUR_DATA,
     YMCS,
     YUE_HOUR_DATA,
+    ZHI_S_YEAR_MONTH_DAY,
     ZHI_TIME_DATA,
 )
 
@@ -38,8 +40,6 @@ parser.add_argument("-n", action="store", help="year", default=32, type=int)
 parser.add_argument("--version", action="version", version="%(prog)s 0.1 Rongzhong xu 2019 05 05")
 options = parser.parse_args()
 
-GANS = collections.namedtuple("Gans", "year month day")
-ZHIS = collections.namedtuple("Zhis", "year month day")
 
 if options.d:
     year, month, day = options.d.split()
@@ -53,12 +53,12 @@ def get_hou(d):
     cal_day = lunar.getDayBySolar(d.year, d.month, d.day)
 
     # 　计算甲干相合
-    gans = GANS(
+    gans = GAN_S_YEAR_MONTH_DAY(
         year=HEAVENLY_STEMS[cal_day.Lyear2.tg],
         month=HEAVENLY_STEMS[cal_day.Lmonth2.tg],
         day=HEAVENLY_STEMS[cal_day.Lday2.tg],
     )
-    zhis = ZHIS(
+    zhis = ZHI_S_YEAR_MONTH_DAY(
         year=EARTHLY_BRANCHES[cal_day.Lyear2.dz],
         month=EARTHLY_BRANCHES[cal_day.Lmonth2.dz],
         day=EARTHLY_BRANCHES[cal_day.Lday2.dz],

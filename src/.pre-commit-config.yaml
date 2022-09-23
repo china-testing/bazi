@@ -16,7 +16,7 @@ repos:
     - id: flake8
       args: # arguments to config flake8
         - "--max-line-length=100"
-        - "--ignore=E203,E266,E501,W503,F403,F401,E402,F821,C901,W605,E712"
+        - "--ignore=E203,E266,E501,W503,F403,F401,E402,F821,C901,W605,E712,W291"
       name: Run flake8
       entry: flake8
       types: [python]

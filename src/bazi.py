@@ -16,6 +16,7 @@ from common.const import (
     GAN_4,
     GAN_5,
     GAN_DESC_DATA,
+    GAN_S_YEAR_MONTH_DAY_TIME,
     GONG_HE_DATA,
     GONG_HUI_DATA,
     HEAVENLY_STEMS,
@@ -52,6 +53,7 @@ from common.const import (
     ZHI_ATT_DATA,
     ZHI_DESC_DATA,
     ZHI_HUI_DATA,
+    ZHI_S_YEAR_MONTH_DAY_TIME,
 )
 from common.utils import check_gan, check_gong, gan_zhi_he, get_empty, get_gong_kus, yinyang
 from ganzhi import getGZ
@@ -76,14 +78,12 @@ parser.add_argument("-n", action="store_true", default=False, help="是否为女
 parser.add_argument("--version", action="version", version="%(prog)s 1.0 Rongzhong xu 2022 06 15")
 options = parser.parse_args()
 
-GANS = collections.namedtuple("Gans", "year month day time")
-ZHIS = collections.namedtuple("Zhis", "year month day time")
 
 if options.b:
-    gans = GANS(
+    gans = GAN_S_YEAR_MONTH_DAY_TIME(
         year=options.year[0], month=options.month[0], day=options.day[0], time=options.time[0]
     )
-    zhis = GANS(
+    zhis = ZHI_S_YEAR_MONTH_DAY_TIME(
         year=options.year[1], month=options.month[1], day=options.day[1], time=options.time[1]
     )
     jds = sxtwl.siZhu2Year(
@@ -113,13 +113,13 @@ else:
     dTG = day.getDayGZ()
 
     # 　计算甲干相合
-    gans = GANS(
+    gans = GAN_S_YEAR_MONTH_DAY_TIME(
         year=HEAVENLY_STEMS[yTG.tg],
         month=HEAVENLY_STEMS[mTG.tg],
         day=HEAVENLY_STEMS[dTG.tg],
         time=HEAVENLY_STEMS[gz.tg],
     )
-    zhis = ZHIS(
+    zhis = ZHI_S_YEAR_MONTH_DAY_TIME(
         year=EARTHLY_BRANCHES[yTG.dz],
         month=EARTHLY_BRANCHES[mTG.dz],
         day=EARTHLY_BRANCHES[dTG.dz],
