@@ -24,4 +24,4 @@ for item in zip(options.gans, options.zhis):
 
 # subprocess.call("cls", shell=True)
 print(result)
-print(subprocess.check_output("python bazi.py -b " + result, shell=True).decode("gbk"))
+print(subprocess.check_output(f"python bazi.py -b {result}", shell=True).decode("gbk"))

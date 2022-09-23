@@ -5,14 +5,14 @@
 
 import argparse
 
-from datas import shengxiaos, zhi_atts
+from common.const import SHENG_XIAO_DATA, ZHI_ATT_DATA
 
 
 def output(des, key):
     print()
     print(des, end="")
-    for item in zhi_atts[zhi][key]:
-        print(shengxiaos[item], end="")
+    for item in ZHI_ATT_DATA[zhi][key]:
+        print(SHENG_XIAO_DATA[item], end="")
 
 
 description = """
@@ -26,12 +26,12 @@ parser.add_argument(
 )
 options = parser.parse_args()
 
-if options.shengxiao not in shengxiaos.inverse:
+if options.shengxiao not in SHENG_XIAO_DATA.inverse:
     print("请输入正确的生肖：")
-    print(shengxiaos.inverse.keys())
+    print(SHENG_XIAO_DATA.inverse.keys())
 else:
     print("你的生肖是：", options.shengxiao)
-    zhi = shengxiaos.inverse[options.shengxiao]
+    zhi = SHENG_XIAO_DATA.inverse[options.shengxiao]
     print("你的年支是：", zhi)
     print("=" * 80)
     print("合生肖是合八字的一小部分，有一定参考意义，但是不是全部。")
