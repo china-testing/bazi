@@ -4,11 +4,7 @@
 # CreateDate: 2019-2-21
 
 import argparse
-import logging
 import subprocess
-
-logger = logging.getLogger(__name__)
-
 
 description = """
 """
@@ -27,5 +23,5 @@ for item in zip(options.gans, options.zhis):
     result = result + "".join(item) + " "
 
 # subprocess.call("cls", shell=True)
-logger.info(result)
-logger.info(subprocess.check_output(f"python bazi.py -b {result}", shell=True).decode("gbk"))
+print(result)
+print(subprocess.check_output(f"python bazi.py -b {result}", shell=True).decode("gbk"))

@@ -8,7 +8,6 @@
 import argparse
 import collections
 import datetime
-import logging
 
 import sxtwl
 
@@ -17,14 +16,13 @@ from common.const import (
     HEAVENLY_STEMS,
     JI_HOUR_DATA,
     JIS,
+    RMCS,
     SHI_HOUR_DATA,
     YEAR_HOUR_DATA,
     YMCS,
     YUE_HOUR_DATA,
     ZHI_TIME_DATA,
 )
-
-logger = logging.getLogger(__name__)
 
 description = """
 # 年罗猴日
@@ -66,29 +64,27 @@ def get_hou(d):
         day=EARTHLY_BRANCHES[cal_day.Lday2.dz],
     )
 
-    logger.info("公历:", end="")
-    logger.info(f"{cal_day.y}年{cal_day.m}月{cal_day.d}日", end="")
+    print("公历:", end="")
+    print(f"{cal_day.y}年{cal_day.m}月{cal_day.d}日", end="")
 
     Lleap = "闰" if cal_day.Lleap else ""
-    logger.info("\t农历:", end="")
-    logger.info(
-        f"{cal_day.Lyear0 + 1984}年{Lleap}{YMCS[cal_day.Lmc]}月{RMCS[cal_day.Ldi]}日  ", end=""
-    )
+    print("\t农历:", end="")
+    print(f"{cal_day.Lyear0 + 1984}年{Lleap}{YMCS[cal_day.Lmc]}月{RMCS[cal_day.Ldi]}日  ", end="")
 
-    logger.info(" \t", end="")
-    logger.info("-".join(["".join(item) for item in zip(gans, zhis)]), end="")
+    print(" \t", end="")
+    print("-".join(["".join(item) for item in zip(gans, zhis)]), end="")
 
-    logger.info("\t杀师时:", end="")
+    print("\t杀师时:", end="")
     for item in SHI_HOUR_DATA[zhis[2]]:
-        logger.info(item + ZHI_TIME_DATA[item], end="")
+        print(item + ZHI_TIME_DATA[item], end="")
 
     day_ganzhi = gans[2] + zhis[2]
 
     if day_ganzhi == YEAR_HOUR_DATA[zhis[0]]:
-        logger.info(" \t年猴:{}年{}日".format(zhis[0], day_ganzhi), end=" ")
+        print(" \t年猴:{}年{}日".format(zhis[0], day_ganzhi), end=" ")
 
     if zhis[2] == YUE_HOUR_DATA[YMCS[cal_day.Lmc]]:
-        logger.info(" \t月罗:{}日".format(zhis[2]), end=" ")
+        print(" \t月罗:{}日".format(zhis[2]), end=" ")
 
     if day_ganzhi in tuple(JI_HOUR_DATA.values()):
         birthday = d
@@ -100,8 +96,8 @@ def get_hou(d):
             birthday += datetime.timedelta(days=-1)
 
         if day_ganzhi == JI_HOUR_DATA[ji]:
-            logger.info(" \t季猴:{}季{}日".format(ji, JI_HOUR_DATA[ji]), end=" ")
-    logger.info()
+            print(" \t季猴:{}季{}日".format(ji, JI_HOUR_DATA[ji]), end=" ")
+    print()
 
 
 get_hou(d)
