@@ -6,22 +6,22 @@
 # CreateDate: 2019-2-21
 
 import argparse
-import collections
 import datetime
 
 import sxtwl
 
 from common.const import (
-    EARTHLY_BRANCHES,
+    GAN,
     GAN_S_YEAR_MONTH_DAY,
-    HEAVENLY_STEMS,
     JI_HOUR_DATA,
     JIS,
     RMCS,
     SHI_HOUR_DATA,
     YEAR_HOUR_DATA,
     YMCS,
+    YUE_DATAS,
     YUE_HOUR_DATA,
+    ZHI,
     ZHI_S_YEAR_MONTH_DAY,
     ZHI_TIME_DATA,
 )
@@ -43,34 +43,35 @@ options = parser.parse_args()
 
 if options.d:
     year, month, day = options.d.split()
-    d = datetime.date(int(year), int(month), int(day))
+    date = datetime.date(int(year), int(month), int(day))
 else:
-    d = datetime.datetime.now()
+    date = datetime.datetime.now()
 
 
-def get_hou(d):
-    lunar = sxtwl.Lunar()
-    cal_day = lunar.getDayBySolar(d.year, d.month, d.day)
+def get_hou(datetime_date: datetime.date) -> None:
+    cal_day = sxtwl.fromSolar(datetime_date.year, datetime_date.month, datetime_date.day)
+    # 以立春为界的天干地支
+    y_tg = cal_day.getYearGZ()
+    m_tg = cal_day.getMonthGZ()
+    d_tg = cal_day.getDayGZ()
+    solar_month = YUE_DATAS[cal_day.getLunarMonth() - 1]
 
     # 　计算甲干相合
     gans = GAN_S_YEAR_MONTH_DAY(
-        year=HEAVENLY_STEMS[cal_day.Lyear2.tg],
-        month=HEAVENLY_STEMS[cal_day.Lmonth2.tg],
-        day=HEAVENLY_STEMS[cal_day.Lday2.tg],
+        year=GAN[y_tg.tg],
+        month=GAN[m_tg.tg],
+        day=GAN[d_tg.tg],
     )
     zhis = ZHI_S_YEAR_MONTH_DAY(
-        year=EARTHLY_BRANCHES[cal_day.Lyear2.dz],
-        month=EARTHLY_BRANCHES[cal_day.Lmonth2.dz],
-        day=EARTHLY_BRANCHES[cal_day.Lday2.dz],
+        year=ZHI[y_tg.dz],
+        month=ZHI[m_tg.dz],
+        day=ZHI[d_tg.dz],
     )
-
-    print("公历:", end="")
-    print(f"{cal_day.y}年{cal_day.m}月{cal_day.d}日", end="")
-
-    Lleap = "闰" if cal_day.Lleap else ""
-    print("\t农历:", end="")
-    print(f"{cal_day.Lyear0 + 1984}年{Lleap}{YMCS[cal_day.Lmc]}月{RMCS[cal_day.Ldi]}日  ", end="")
-
+    print(f"公历:{cal_day.getSolarYear()}年{cal_day.getSolarMonth()}月{cal_day.getSolarDay()}日", end="")
+    print(
+        f"\t农历:{cal_day.getLunarYear(False)}年{'闰' if cal_day.isLunarLeap() else ''}{solar_month}月{RMCS[cal_day.getLunarDay()-1]}日",
+        end="",
+    )
     print(" \t", end="")
     print("-".join(["".join(item) for item in zip(gans, zhis)]), end="")
 
@@ -83,25 +84,26 @@ def get_hou(d):
     if day_ganzhi == YEAR_HOUR_DATA[zhis[0]]:
         print(" \t年猴:{}年{}日".format(zhis[0], day_ganzhi), end=" ")
 
-    if zhis[2] == YUE_HOUR_DATA[YMCS[cal_day.Lmc]]:
+    if zhis[2] == YUE_HOUR_DATA[solar_month]:
         print(" \t月罗:{}日".format(zhis[2]), end=" ")
 
     if day_ganzhi in tuple(JI_HOUR_DATA.values()):
-        birthday = d
+        birthday = date
+        ji = None
         for _ in range(30):
-            day_ = sxtwl.Lunar().getDayBySolar(birthday.year, birthday.month, birthday.day)
-            if day_.qk != -1:
-                ji = JIS[(day_.qk + 3) // 6]
+            day_ = sxtwl.fromSolar(birthday.year, birthday.month, birthday.day)
+            if day_.hasJieQi():
+                ji = JIS[(day_.getJieQi() + 3) // 6]
                 break
             birthday += datetime.timedelta(days=-1)
 
-        if day_ganzhi == JI_HOUR_DATA[ji]:
+        if ji and day_ganzhi == JI_HOUR_DATA[ji]:
             print(" \t季猴:{}季{}日".format(ji, JI_HOUR_DATA[ji]), end=" ")
     print()
 
 
-get_hou(d)
+get_hou(date)
 
 for i in range(1, options.n):
-    d_ = d + datetime.timedelta(days=i)
+    d_ = date + datetime.timedelta(days=i)
     get_hou(d_)

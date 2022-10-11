@@ -3,15 +3,14 @@
 # Author: 钉钉、抖音或微信pythontesting 钉钉群21734177
 # CreateDate: 2019-2-21
 import argparse
-import collections
 import datetime
 
 import sxtwl
 from bidict import bidict
 
 from common.const import (
-    EARTHLY_BRANCHES,
     EMPTIES,
+    GAN,
     GAN_3,
     GAN_4,
     GAN_5,
@@ -19,7 +18,6 @@ from common.const import (
     GAN_S_YEAR_MONTH_DAY_TIME,
     GONG_HE_DATA,
     GONG_HUI_DATA,
-    HEAVENLY_STEMS,
     INDEX_CONSTELLATION_TUPLE,
     INDEX_JIAN_CHU_TUPLE,
     JIAN_LU_DATA,
@@ -46,6 +44,7 @@ from common.const import (
     WU_HANG_DATA,
     YU_TANG_DATA,
     YUE_DE_DATA,
+    ZHI,
     ZHI_3,
     ZHI_3_HE_DATA,
     ZHI_5_DATA,
@@ -56,7 +55,7 @@ from common.const import (
     ZHI_S_YEAR_MONTH_DAY_TIME,
 )
 from common.utils import check_gan, check_gong, gan_zhi_he, get_empty, get_gong_kus, yinyang
-from ganzhi import getGZ
+from common.utils.ganzhi import get_gan_zhi
 
 description = """
 
@@ -87,10 +86,10 @@ if options.b:
         year=options.year[1], month=options.month[1], day=options.day[1], time=options.time[1]
     )
     jds = sxtwl.siZhu2Year(
-        getGZ(options.year),
-        getGZ(options.month),
-        getGZ(options.day),
-        getGZ(options.time),
+        get_gan_zhi(options.year),
+        get_gan_zhi(options.month),
+        get_gan_zhi(options.day),
+        get_gan_zhi(options.time),
         options.start,
         int(options.end),
     )
@@ -114,16 +113,16 @@ else:
 
     # 　计算甲干相合
     gans = GAN_S_YEAR_MONTH_DAY_TIME(
-        year=HEAVENLY_STEMS[yTG.tg],
-        month=HEAVENLY_STEMS[mTG.tg],
-        day=HEAVENLY_STEMS[dTG.tg],
-        time=HEAVENLY_STEMS[gz.tg],
+        year=GAN[yTG.tg],
+        month=GAN[mTG.tg],
+        day=GAN[dTG.tg],
+        time=GAN[gz.tg],
     )
     zhis = ZHI_S_YEAR_MONTH_DAY_TIME(
-        year=EARTHLY_BRANCHES[yTG.dz],
-        month=EARTHLY_BRANCHES[mTG.dz],
-        day=EARTHLY_BRANCHES[dTG.dz],
-        time=EARTHLY_BRANCHES[gz.dz],
+        year=ZHI[yTG.dz],
+        month=ZHI[mTG.dz],
+        day=ZHI[dTG.dz],
+        time=ZHI[gz.dz],
     )
 
 
@@ -179,7 +178,7 @@ if weak:
         weak = False
 
 # 计算大运
-seq = HEAVENLY_STEMS.index(gans.year)
+seq = GAN.index(gans.year)
 if options.n:
     if seq % 2 == 0:
         direction = -1
@@ -192,12 +191,12 @@ else:
         direction = -1
 
 dayuns = []
-gan_seq = HEAVENLY_STEMS.index(gans.month)
-zhi_seq = EARTHLY_BRANCHES.index(zhis.month)
+gan_seq = GAN.index(gans.month)
+zhi_seq = ZHI.index(zhis.month)
 for i in range(12):
     gan_seq += direction
     zhi_seq += direction
-    dayuns.append(HEAVENLY_STEMS[gan_seq % 10] + EARTHLY_BRANCHES[zhi_seq % 12])
+    dayuns.append(GAN[gan_seq % 10] + ZHI[zhi_seq % 12])
 
 # 网上的计算
 me_attrs_ = TEN_DEITIES[me].inverse
@@ -402,8 +401,7 @@ for seq, item in enumerate(zhus):
     # 检查元辰
     result = (
         "{}－{}".format(result, "元辰")
-        if zhis[seq]
-        == EARTHLY_BRANCHES[(EARTHLY_BRANCHES.index(zhis[0]) + direction * -1 * 5) % 12]
+        if zhis[seq] == ZHI[(ZHI.index(zhis[0]) + direction * -1 * 5) % 12]
         else result
     )
     print("{1:{0}<15s}".format(chr(12288), result), end="")
@@ -430,7 +428,7 @@ liuqins = bidict(
 )
 
 # 六亲分析
-for item in HEAVENLY_STEMS:
+for item in GAN:
     print(
         "{}:{} {}-{} {} {} {}".format(
             item,
@@ -443,7 +441,7 @@ for item in HEAVENLY_STEMS:
         ),
         end="  ",
     )
-    if HEAVENLY_STEMS.index(item) == 4:
+    if GAN.index(item) == 4:
         print()
 
 print()
@@ -531,8 +529,8 @@ else:
             fu,
             NAYINS[(gan_, zhi_)],
         )
-        gan_index = HEAVENLY_STEMS.index(gan_)
-        zhi_index = EARTHLY_BRANCHES.index(zhi_)
+        gan_index = GAN.index(gan_)
+        zhi_index = ZHI.index(zhi_)
         print(out)
         zhis2 = list(zhis) + [zhi_]
         gans2 = list(gans) + [gan_]
@@ -541,8 +539,8 @@ else:
         for i in range(10):
             day2 = sxtwl.fromSolar(value[1] + i, 5, 1)
             yTG = day2.getYearGZ()
-            gan2_ = HEAVENLY_STEMS[yTG.tg]
-            zhi2_ = EARTHLY_BRANCHES[yTG.dz]
+            gan2_ = GAN[yTG.tg]
+            zhi2_ = ZHI[yTG.dz]
             fu2 = "*" if (gan2_, zhi2_) in zhus else " "
             # print(fu2, (gan2_, zhi2_),zhus)
 
@@ -591,8 +589,8 @@ else:
     print("星宿", INDEX_CONSTELLATION_TUPLE[(birthday - d2).days % 28], end=" ")
 
     # 计算建除
-    seq = 12 - EARTHLY_BRANCHES.index(zhis.month)
-    print(INDEX_JIAN_CHU_TUPLE[(EARTHLY_BRANCHES.index(zhis.day) + seq) % 12])
+    seq = 12 - ZHI.index(zhis.month)
+    print(INDEX_JIAN_CHU_TUPLE[(ZHI.index(zhis.day) + seq) % 12])
 
 # 检查三会 三合的拱合
 result = ""
@@ -1078,19 +1076,19 @@ if ge == "枭":
 
 
 gan_ = tuple(gans)
-for item in HEAVENLY_STEMS:
+for item in GAN:
     if gan_.count(item) == 3:
         print("三字干：", item, "--", GAN_3[item])
         break
 
 gan_ = tuple(gans)
-for item in HEAVENLY_STEMS:
+for item in GAN:
     if gan_.count(item) == 4:
         print("四字干：", item, "--", GAN_4[item])
         break
 
 zhi_ = tuple(zhis)
-for item in EARTHLY_BRANCHES:
+for item in ZHI:
     if zhi_.count(item) > 2:
         print("三字支：", item, "--", ZHI_3[item])
         break
@@ -1101,7 +1099,7 @@ print("年份:", zhis[0], "特点：--", ZHI_DESC_DATA[zhis[0]], "\n")
 
 
 # 羊刃分析
-key = "帝" if HEAVENLY_STEMS.index(me) % 2 == 0 else "冠"
+key = "帝" if GAN.index(me) % 2 == 0 else "冠"
 
 if TEN_DEITIES[me].inverse[key] in zhis:
     print("\n羊刃:", me, TEN_DEITIES[me].inverse[key])

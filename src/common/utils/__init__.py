@@ -1,4 +1,4 @@
-from common.const import EARTHLY_BRANCHES, EMPTIES, GAN_5, HEAVENLY_STEMS, TEN_DEITIES, ZHI_5_DATA
+from common.const import EMPTIES, GAN, GAN_5, TEN_DEITIES, ZHI, ZHI_5_DATA
 
 
 def check_gan(gan, gans):
@@ -11,10 +11,10 @@ def check_gan(gan, gans):
 
 
 def yinyang(item):
-    if item in HEAVENLY_STEMS:
-        return "＋" if HEAVENLY_STEMS.index(item) % 2 == 0 else "－"
+    if item in GAN:
+        return "＋" if GAN.index(item) % 2 == 0 else "－"
     else:
-        return "＋" if EARTHLY_BRANCHES.index(item) % 2 == 0 else "－"
+        return "＋" if ZHI.index(item) % 2 == 0 else "－"
 
 
 def get_empty(zhu, zhi):
@@ -54,10 +54,8 @@ def get_gong_kus(zhis):
     for i in range(3):
         zhi1 = zhis[i]
         zhi2 = zhis[i + 1]
-        if abs(EARTHLY_BRANCHES.index(zhi1) - EARTHLY_BRANCHES.index(zhi2)) == 2:
-            value = EARTHLY_BRANCHES[
-                (EARTHLY_BRANCHES.index(zhi1) + EARTHLY_BRANCHES.index(zhi2)) // 2
-            ]
+        if abs(ZHI.index(zhi1) - ZHI.index(zhi2)) == 2:
+            value = ZHI[(ZHI.index(zhi1) + ZHI.index(zhi2)) // 2]
             if value in ("丑", "辰", "未", "戌"):
                 result.append(value)
     return result

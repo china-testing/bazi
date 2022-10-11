@@ -3,10 +3,10 @@ from collections import OrderedDict, namedtuple
 from bidict import bidict
 
 # 天干
-HEAVENLY_STEMS = ["甲", "乙", "丙", "丁", "戊", "己", "庚", "辛", "壬", "癸"]
+GAN = ["甲", "乙", "丙", "丁", "戊", "己", "庚", "辛", "壬", "癸"]
 
 # 地支
-EARTHLY_BRANCHES = ["子", "丑", "寅", "卯", "辰", "巳", "午", "未", "申", "酉", "戌", "亥"]
+ZHI = ["子", "丑", "寅", "卯", "辰", "巳", "午", "未", "申", "酉", "戌", "亥"]
 
 # 星宿
 CONSTELLATIONS = [
@@ -1627,6 +1627,7 @@ YUE_HOUR_DATA = {
     "十一": "酉",
     "十二": "戌",
 }
+YUE_DATAS = list(YUE_HOUR_DATA.keys())
 SHI_HOUR_DATA = {
     "子": "丑午",
     "丑": "巳亥",
