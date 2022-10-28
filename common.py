@@ -30,6 +30,15 @@ def yinyang(item):
     else:
         return '＋' if Zhi.index(item)%2 == 0 else '－'
     
+def yinyangs(zhis):
+    result = []
+    for item in zhis:
+        result.append(yinyang(item))
+    if set(result) == set('＋'):
+        print("四柱全阳")
+    if set(result) == set('－'):
+        print("四柱全阴")
+    
     
     
     

@@ -108,6 +108,15 @@ for item in zhis:
 #print(zhi_shens)
 shens = gan_shens + zhi_shens
 
+zhi_shens2 = []
+for item in zhis:
+    d = zhi5[item]
+    for item2 in d:
+        if d[item2] > 1:
+            zhi_shens2.append(ten_deities[me][item2])
+shens2 = gan_shens + zhi_shens2
+    
+
 
 # 计算五行分数 http://www.131.com.tw/word/b3_2_14.htm
 
@@ -280,13 +289,18 @@ for seq, item in enumerate(zhis):
 
 print()
 for seq, item in enumerate(zhus):
+
     # 检查空亡 
     result = "{}－{}".format(nayins[item], '亡') if zhis[seq] == wangs[zhis[0]] else nayins[item]
+    
+    # 天干与地支关系
+    result = relations[(gan5[gans[seq]], zhi_wuhangs[zhis[seq]])] + result
+        
     # 检查劫杀 
     result = "{}－{}".format(result, '劫杀') if zhis[seq] == jieshas[zhis[0]] else result
     # 检查元辰
     result = "{}－{}".format(result, '元辰') if zhis[seq] == Zhi[(Zhi.index(zhis[0]) + direction*-1*5)%12] else result    
-    print("{1:{0}<15s}".format(chr(12288), result), end='')
+    print("{1:{0}<15s} ".format(chr(12288), result), end='')
 
 print()
 print("-"*120)
@@ -320,6 +334,352 @@ for item in gan_scores:
         item, ten_deities[me][item], gan_scores[item]),  end='  ')    
 print()
 print("-"*120)
+yinyangs(zhis)
+shen_zhus = list(zip(gan_shens, zhi_shens))
+
+# 比肩分析
+if '比' in gan_shens:
+    print("比：同性相斥。讨厌自己。老是想之前有没有搞错。没有持久性，最多跟你三年。 散财，月上比肩，做事没有定性，不看重钱，感情不持久。不怀疑人家，人心很好。善意好心惹麻烦。年上问题不大。")
+    print("\t天干有比，劳累命：事必躬亲。情感过程多有波折。除非有官杀制服。")
+    
+    if gan_shens.count('比') > 1:
+        print("天干2比肩：难以保守秘密,容易有言辞是非。")
+        
+    for seq, gan_ in enumerate(gan_shens):
+        if gan_ != '比':
+            continue
+        if zhis[seq] in  empties[zhus[2]]:
+            print("比肩坐空亡，不利父亲与妻。年不利父，月不利父和妻，在时则没有关系。女：月柱夫妻缘分偏薄。")
+        if zhi_shens[seq] == '比':
+            print("比坐比-平吉：与官杀对立，无主权。养子：克偏财，泄正印。吉：为朋友尽力；凶：受兄弟朋友拖累。父缘分薄，自我孤僻，男多迟婚")   
+        if zhi_shens[seq] == '劫':
+            print("比肩坐劫:夫妻互恨。")     
+            print("比坐劫-大凶：为忌亲友受损，合作事业中途解散，与妻子不合。如年月3见比，父缘薄或已死别。")   
+            if ten_deities[gans[seq]][zhis[seq]] == '绝':
+                print("比肩坐绝，兄弟不多，或者很难谋面。戊和壬的准确率偏低些。")      
+    if shens2.count('比') > 2:
+        print("比肩过多，兄弟之间缺乏帮助。夫妻有时不太和谐。好友知交相处不会很久。女：感情啰嗦\n易犯无事忙的自我表现。不好意思拒绝他人;对人警惕性低，乐天知命;累积情绪而突然放弃。")
+        if (not '官' in shens) and  (not '杀' in shens):
+            print("比肩多，四柱无正官七杀，性情急躁。")
+
+    if ('比','劫') in shen_zhus:
+        print("同时有比肩和阳刃，父亲先亡。时柱没有关系。女：夫妻互恨")
+    if zhi_shens[2] == '比':
+        print("女日主坐劫:夫妻互恨。")   
+        
+    if '劫' in gan_shens:
+        if set([('比','劫'), ('比','比'),('劫','劫'), ('劫','比')]) & set(shen_zhus):
+            print("女命比劫同柱，感情丰富，多遇争夫。")  
+    #if '劫' in gan_shens:
+        #print("女日主坐劫:夫妻互恨。")         
+
+# 劫财分析
+if '劫' in gan_shens:
+    print("劫财扶助，无微不至。谦虚之中带有傲气。凡事先理情，而后情理。先细节后全局。")
+    print("务实，不喜欢抽象性的空谈。不容易认错，比较倔。有理想，但是不够灵活。不怕闲言闲语干扰。不顾及别人面子。")
+    print("合作事业有始无终。太重细节。做小领导还是可以的。")
+    if shens2.count('劫') > 2:
+        print("婚姻不好。")
+        if (not '官' in shens) and  (not '杀' in shens):
+            print("比肩多，四柱无正官七杀，性情急躁。")    
+    if zhis[2] == '劫':
+        print("日坐劫财，透天干。父早亡，夫妻关系不好。比如财产互相防范；鄙视对方；自己决定，哪怕对方不同意；老夫少妻；身世有差距；斤斤计较；男的一般有双妻。") 
+            
+if zhus[2] in (('壬','子'),('丙','午')):
+    print("日主专位劫财，壬子和丙午，晚婚。不透天干，一般是眼光高、独立性强。女性婚后通常还有自己的事业,能办事。") 
+if ('劫','伤') in shen_zhus or ('伤','劫',) in shen_zhus:
+    print("同一柱中，劫财、阳刃伤官都有，外表华美，富屋穷人，婚姻不稳定，富而不久；年柱不利家长，月柱不利婚姻，时柱不利子女。")      
+ 
+# 偏印分析    
+if '枭' in gan_shens:
+    if shens2.count('枭') > 2:
+        print("偏印过多，性格孤僻，表达太含蓄，要别人猜，说话有时带刺。偏悲观。有偏财和天月德贵人可以改善。有艺术天赋。做事大多有始无终。如四柱全阴，女性声誉不佳。")
+        print("女的偏印多，子女不多。第1克伤食，第2艺术性。")
+        if '伤' in gan_shens: 
+            print("女命偏印多，又与伤官同透，夫离子散。")
+        
+    if gan_shens.count('枭') > 1:
+        print("天干两个偏印：迟婚，独身等，婚姻不好。三偏印，家族人口少，亲属不多。")
+    if shen_zhus[0] == ('枭', '枭'):
+        print("偏印在年，干支俱透，不利于长辈。偏母当令，正母无权，可能是领养，庶出、同父异母等。")
+    for seq, gan_ in enumerate(gan_shens):
+        if gan_ != '枭':
+            continue   
+        if ten_deities[gans[seq]][zhis[seq]] == '绝':
+            print("偏印坐绝，或者天干坐偏印为绝，难以得志。费力不讨好。")          
+for seq, zhi_ in enumerate(zhi_shens):
+    if zhi_ != '枭':
+        continue   
+    if ten_deities[gans[seq]][zhis[seq]] == '绝':
+        print("偏印坐绝，或者天干坐偏印为绝，难以得志。费力不讨好。")       
+if zhi_shens[1]  == '枭' and len(zhi5[zhis[1]]) == 1:
+    print("偏印专位在月支：比较适合音乐，艺术，宗教等。")
+    if gan_shens[1] == '枭':
+        print("干支偏印月柱，专位入格，有慧福浅。")
+if zhus[2] in (('丁','卯'),('癸','酉')):
+    print("日坐偏印：丁卯和癸酉。婚姻不顺。又刑冲，因性格而起争端。")
+    
+if zhis[2] == '枭':
+    print("日坐劫财，透天干。父早亡，夫妻关系不好。比如财产互相防范；鄙视对方；自己决定，哪怕对方不同意；老夫少妻；身世有差距；斤斤计较；男的一般有双妻。") 
+
+if zhi_shens[3]  == '枭' and gan_shens[0]  == '枭':
+    print("偏印透年干-时支，一直受家里影响。")
+    
+# 印分析    
+if '印' in gan_shens:
+    if shens2.count('印') > 2:
+        print("正印多的：聪明有谋略，比较含蓄，不害人，识时务。正印不怕日主死绝，反而怕太强。日主强，正印多，孤寂，不善理财。")
+    for seq, gan_ in enumerate(gan_shens):
+        if gan_ != '印':
+            continue   
+        if ten_deities[gans[seq]][zhis[seq]] in ('绝', '死'):
+            if seq <3:
+                print("正印坐死绝，或天干正印地支有冲刑，不利母亲。时柱不算。")   
+        if zhi_shens[seq] == '财':
+            print("男正印坐正财，夫妻不好。月柱正印坐正财专位，必离婚。在时柱，50多岁才有正常婚姻。")   
+        if zhi_shens[seq] == '印':
+            print("正印坐正印，专位，过于自信。务实，拿得起放得下。女的话大多晚婚。母长寿；女子息迟，头胎恐流产。女四柱没有官杀，没有良缘。男的搞艺术比较好，经商则孤僻，不聚财。")          
+
+        if zhi_shens[seq] == '枭':
+            print("正印坐偏印专位：有多种职业;家庭不吉：亲人有疾或者特别嗜好。子息迟;财务双关。明一套，暗一套。女的双重性格。")   
+            
+        if zhi_shens[seq] == '伤':
+            print("适合清高的职业。不适合追逐名利，女的婚姻不好。")    
+            
+        if zhi_shens[seq] == '劫' and me in ('甲','庚','壬'):
+            print("正印坐阳刃，身心多伤，心疲力竭，偶有因公殉职。主要指月柱。工作看得比较重要。")    
+                        
+            
+    if '杀' in gan_shens and '劫' in zhi_shens and me in ('甲','庚','壬'):
+        print("正印、七杀、阳刃全：女命宗教人，否则独身，清高，身体恐有隐疾，性格狭隘缺耐心。男小疾多，婚姻不佳，恐非婚生子女。")    
+            
+    if '官' in gan_shens or '杀' in gan_shens: 
+        print("身弱官杀和印都透天干，格局佳。")
+    else:
+        print("单独正印主秀气、艺术、文才。性格保守")  
+    if '官' in gan_shens or '杀' in gan_shens or '比' in gan_shens: 
+        print("正印多者，有比肩在天干，不怕财。有官杀在天干也不怕。财不强也没关系。")  
+    else:
+        print("正印怕财。") 
+    if '财' in gan_shens:     
+        print("印和财都透天干，都有根，最好先财后印，一生吉祥。先印后财，能力不错，但多为他人奔波。") 
+        
+# 偏财分析    
+if '才' in gan_shens:
+    print("偏财明现天干，不论是否有根:财富外人可见;实际财力不及外观一半。没钱别人都不相信;协助他人常超过自己的能力")
+    print("偏财出天干，又与天月德贵人同一天干者。在年月有声明远扬的父亲，月时有聪慧的红颜知己。")
+    if '比' in gan_shens or '劫' in gan_shens:
+        print("年月比劫，时干透出偏财。祖业凋零，再白手起家。有刑冲为千金散尽还复来")
+    if '杀' in gan_shens:
+        print("偏财和七杀并位，地支又有根，父子外合心不合。因为偏财生杀攻身。偏财七杀在日时，则为有难伺候的女朋友。")
+    for seq, gan_ in enumerate(gan_shens):
+        if gan_ != '才':
+            continue   
+        if zhi_shens[seq] == '劫':
+            print("偏财坐专位阳刃劫财，父去他乡。可做父缘薄，也可幼年家贫。也可以父先亡，但是要参考第一个大运。")   
+        
+                
+if shens2.count('才') > 2:
+    print("偏财多的人慷慨，得失看淡。花钱一般不会后悔。偏乐观，甚至是浮夸。生活习惯颠倒。适应能力强。有团队精神。得女性欢心。小事很少失信。")
+    print("乐善好施，有团队精神，女命偏财，听父亲的话。时柱偏财女，善于理财，中年以后有事业。")
+if (zhi_shens[2]  == '才' and len(zhi5[zhis[2]]) == 1) or (zhi_shens[3]  == '才' and len(zhi5[zhis[3]]) == 1):
+    print("日时地支坐专位偏财。不见刑冲，时干不是比劫，大运也没有比劫刑冲，晚年发达。")
+    
+    
+    
+# 财分析    
+if '财' in gan_shens:
+    if '官' in gan_shens:
+        print("正官正财并行透出，出身书香门第。")
+    if gan_shens[0] == '财':
+        print("年干正财，富裕家庭，但不利母亲。")
+    if gan_shens.count('财') > 1:
+        print("天干两正财，财源多，大多做好几种生意，好赶潮流，人云亦云。有时会做自己外行的生意。正财多而无根虚而不踏实。重财不富。")
+    for seq, gan_ in enumerate(gan_shens):
+        if gan_ != '财':
+            continue   
+        if zhi_shens[seq] in empties[zhus[2]]:
+            print("财坐空亡，不持久。地支财和空亡在一起，也一样。")
+        if ten_deities[gans[seq]][zhis[seq]] in ('绝', '墓'):
+            print("财坐绝或墓，不利婚姻。")
+
+    for zhi_ in zhis:
+        if zhi_ != '财':
+            continue   
+        if zhi_ in empties[zhus[2]]:
+            print("财坐空亡，不持久。地支财和空亡在一起，也一样。")
+            
+if shens2.count('财') > 2:
+    print("正财多者，为人端正，有信用，简朴稳重。多而有根，日主不在生旺库，身弱惧内。")
+if zhi_shens[1] == '财':
+    print("月令正财，无冲刑，有贤内助，但是母亲与妻子不和。女命月支正财，有务实的婚姻观。")
+if zhi_shens[2] == '财':
+    print("时支正财，一般两个儿子。")
+if zhus[2] in (('戊','子'),):
+    print("日支专位为正财，得勤俭老婆。即戊子。日时专位支正财，又透正官，中年以后发达，独立富贵。") 
+if zhus[2] in (('壬','午'),('癸','巳'),):
+    print("自坐财官印，禄马同乡，大吉。有壬午和癸巳。") 
+    
+    
+# 官分析    
+if '官' in gan_shens:
+    if gan_shens[3] == '官' and len(zhi5[zhis[3]]) == 1:
+        print("官专位时坐地支，男有得力子息。")
+    if gan_shens[3] == '官' and gan_shens[0] == '官':
+        print("年干，时干都为官，对后代和头胎不利。")
+    if (not '财' in gan_shens) and (not '印' in gan_shens):
+        print("官独透天干成格，四柱无财或印，为老实人。")
+    if '伤' in gan_shens:
+        print("正官伤官通根透，又无其他格局，失策。尤其是女命，异地分居居多，婚姻不美满。")
+    if '杀' in gan_shens:
+        print("年月干杀和偏官，30以前婚姻不稳定。月时多为体弱多病。")
+    if gan_shens[1] == '官' in ten_deities[me][zhis[1]] in ('绝', '墓'):
+        print("官在月坐墓绝，不是特殊婚姻就是迟婚。如果与天月德同柱，依然不错。丈夫在库中：1，老夫少妻；2，不为外人所知的亲密感情；3，特殊又合法的婚姻。")
+    if zhi_shens[1] == '官' and gan_shens[1] == '官':
+        print("月柱正官坐正官，婚变。月柱不宜通。坐禄的。")  
+    if zhi_shens[1] == '官' and '伤' in shens:
+        print("月支正官，又成伤官格，难做真正夫妻。有实，无名。")
+    
+    for seq, gan_ in enumerate(gan_shens):
+        if gan_ != '官':
+            continue   
+        if zhi_shens[seq] in ('劫','比') :
+            print("天干正官，地支比肩或劫财，亲友之间不适合合作，但是他适合经营烂摊子。")
+        if zhi_shens[seq] == '杀' :
+            print("正官坐七杀，男命恐有诉讼之灾。女命婚姻不佳。月柱尤其麻烦。年不算，时从轻。")
+        if zhi_shens[seq] == '劫' and me in ('甲','庚','壬'):
+            print("有力不从心之事情。")   
+        if zhi_shens[seq] == '印':
+            print("官坐印，无刑冲合，吉")   
+        
+            
+if shens2.count('官') > 2:
+    print("正官多者，虚名。为人性格温和，比较实在。做七杀看")
+if zhi_shens[2]  == '官' and len(zhi5[zhis[2]]) == 1:
+    print("日坐正官，淑女。")
+    
+    
+    
+# 杀分析    
+if '杀' in gan_shens:
+    print("七杀是非多。但是对男人有时是贵格。比如毛主席等。")
+    if gan_shens[0] == '杀':
+        print("年干七杀，早年不好。或家里穷或身体不好。")
+        if gan_shens[1] == '杀':
+            print("年月天干七杀，家庭复杂。")
+    if '官' in gan_shens:
+        print("官和杀同见天干不佳。")
+    if gan_shens[1] == '杀' and zhi_shens[1] == '杀':
+        print("月柱都是七杀，克得太过。有福不会享。")
+        if '杀' not in zhi_shens2 :
+            print("七杀年月浮现天干，性格好变，不容易定下来。30岁以前不行。")        
+    if '杀' in zhi_shens and '劫' in zhi_shens:
+        print("七杀地支有根时要有阳刃强为佳。杀身两停。")
+    if gan_shens[1] == '杀' and gan_shens[3] == '杀':
+        print("月时天干为七杀：体弱多病")    
+    if gan_shens[0] == '杀' and gan_shens[3] == '杀':
+        print("七杀年干时干：男头胎麻烦（概率），女婚姻有阻碍。")  
+    if ten_deities[me].inverse['杀'] in zhi5[zhis[1]] and gan_shens[3] == '杀':
+        print("七杀在时干，通月支：固执有毅力。")       
+    if '印' in gan_shens:
+        print("身弱杀生印，不少是精明练达的商人。")  
+    if '财' in gan_shens:
+        print("财生杀，如果不是身弱有印，不佳。")  
+        for zhi_ in zhis: 
+            if set((ten_deities[me].inverse['杀'], ten_deities[me].inverse['财'])) in set(zhi5[zhi_]):
+                print("杀不喜与财同根透出，这样杀的力量太强。")  
+
+
+    for seq, gan_ in enumerate(gan_shens):
+        if gan_ != '杀':
+            continue   
+        if zhi_shens[seq] == '杀' :
+            print("杀坐杀，六亲缘分薄。时柱则没关系。")
+        if get_empty(zhus[2],zhis[seq]) == '空':
+            print("七杀坐空亡，女命夫缘薄。")
+        
+            
+if shens2.count('杀') > 2:
+    print("杀多者如果无制，性格刚强。打抱不平，不易听人劝。女的喜欢佩服的人。")
+if zhi_shens[2]  == '杀' and len(zhi5[zhis[2]]) == 1:
+    print("天元坐杀：乙酉，己卯，如无食神，阳刃，性急，聪明，对人不信任。如果七杀还透出月干无制，体弱多病，甚至夭折。如果在时干，晚年不好。")
+    
+# 食分析    
+if '食' in gan_shens:
+    print("成格的情况下，寿命比较好。食神和偏财格比较长寿。食神厚道，为人不慷慨。食神有口福。")
+    if '枭' in gan_shens:
+        print("男的食神碰到偏印，身体不好。怕偏印，正印要好一点。四柱透出偏财可解。")
+        if '劫' in gan_shens:
+            print("食神不宜与劫财、偏印齐出干。体弱多病。")
+        if '杀' in gan_shens:
+            print("食神不宜与杀、偏印齐成格。体弱多病。")
+    if '食' in zhi_shens:
+        print("食神天透地藏，女命阳日主适合社会性职业，阴日主适合上班族。")
+    if not '财' in gan_shens:
+        print("食神多，要食伤生财才好，无财难发。")
+    if '伤' in gan_shens:
+        print("食伤混杂：食神和伤官同透天干：志大才疏。")
+    if '杀' in gan_shens:
+        print("食神制杀，杀不是主格，施舍后后悔。")
+
+
+
+    for seq, gan_ in enumerate(gan_shens):
+        if gan_ != '食':
+            continue   
+        if zhi_shens[seq] =='劫':
+            print("食神坐阳刃，辛劳。")
+        
+            
+if shens2.count('食') > 2:
+    print("四个及以上的为多，做伤官处理。食神多，要食伤生财才好，无财难发。")
+    if '劫' in gan_shens or '比' in gan_shens:
+        print("食神带比劫，好施舍，乐于做社会服务。")
+        
+if ('杀', '食') in shen_zhus or ( '食', '杀') in shen_zhus:
+    print("食神与七杀同一柱，易怒。食神制杀，最好食在前。有一定概率。")
+    
+if ('枭', '食') in shen_zhus or ( '食', '枭') in shen_zhus:
+    print("女命最怕食神偏印同一柱。不利后代。")
+    
+if zhi_shens[2]  == '食' and len(zhi5[zhis[2]]) == 1:
+    print("日支食神专位容易发胖，有福。只有2日：癸卯，己酉。男命有有助之妻。")
+    
+
+
+# 伤分析    
+if '伤' in gan_shens:
+    print("伤官有才华，但是清高。要生财，或者印制。")
+
+    if '印' in gan_shens and ('财' not in gan_shens):
+        print("伤官配印，无财，有手艺，但是不善于理财。有一定个性")
+    if gan_shens[0] == '伤' and gan_shens[1] == '伤' and (not '伤' in zhi_shens2):
+        print("年月天干都浮现伤官，亲属少。")
+
+    if zhi_shens[1]  == '伤' and len(zhi5[zhis[1]]) == 1 and gan_shens[1] == '伤':
+        print("月柱：伤官坐专位伤官，夫缘不定。假夫妻。比如老板和小蜜。")
+
+
+    for seq, gan_ in enumerate(gan_shens):
+        if gan_ != '伤':
+            continue   
+        if zhi_shens[seq] =='劫':
+            print("伤官地支坐阳刃，力不从心。背禄逐马，克官劫财。影响15年。伤官坐劫财：只适合纯粹之精明商人或严谨掌握财之人。")
+        if zhi_shens[seq] == '杀' :
+            print("正官坐七杀，男命恐有诉讼之灾。女命婚姻不佳。月柱尤其麻烦。年不算，时从轻。")
+        if zhi_shens[seq] == '劫' and me in ('甲','庚','壬'):
+            print("有力不从心之事情。")   
+        if zhi_shens[seq] == '印':
+            print("官坐印，无刑冲合，吉")   
+        
+            
+if shens2.count('伤') > 2:
+    print("女命伤官多，即使不入伤官格，也缘分浅，多有苦情。")
+        
+    
+if zhi_shens[2]  == '伤' and len(zhi5[zhis[2]]) == 1:
+    print("女命婚姻宫伤官：克夫。男的对妻子不利。只有庚子日。")
+        
 
 print("\n\n大运")    
 print("="*120)  
