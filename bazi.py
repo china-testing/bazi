@@ -308,26 +308,33 @@ print()
 strs = ['','','','',]
 
 
+all_shens = set()
 
 for item in year_shens:
     for i in (1,2,3):
         if zhis[i] in year_shens[item][zhis.year]:    
             strs[i] = item if not strs[i] else strs[i] + chr(12288) + item
+            all_shens.add(item)
             
 for item in month_shens:
     for i in range(4):
-        if gans[i] in month_shens[item][zhis.month]:     
+        if gans[i] in month_shens[item][zhis.month] or zhis[i] in month_shens[item][zhis.month]:     
             strs[i] = item if not strs[i] else strs[i] + chr(12288) + item
+            if i == 2 and gans[i] in month_shens[item][zhis.month]:
+                strs[i] = strs[i] + "●"
+            all_shens.add(item)
             
 for item in day_shens:
     for i in (0,1,3):
         if zhis[i] in day_shens[item][zhis.day]:     
-            strs[i] = item if not strs[i] else strs[i] + chr(12288) + item            
+            strs[i] = item if not strs[i] else strs[i] + chr(12288) + item    
+            all_shens.add(item)
             
 for item in g_shens:
     for i in range(4):
         if zhis[i] in g_shens[item][me]:    
             strs[i] = item if not strs[i] else strs[i] + chr(12288) + item
+            all_shens.add(item)
 #print(strs)           
 for seq in range(2):
     print("{1:{0}<15s} ".format(chr(12288), strs[seq]), end='')
@@ -336,7 +343,12 @@ for seq in range(2,4):
        
 print()
 print("-"*120)
+print("调候：", tiaohous['{}{}'.format(me, zhis[1])])
 
+for item in all_shens:
+    print(item, ":",  shens_infos[item])
+
+print("-"*120)
 
 
 children = ['食','伤'] if options.n else ['官','杀']
@@ -456,13 +468,13 @@ if '比' in gan_shens:
             if gan_ != '比':
                 continue
             if zhis[seq] in  empties[zhus[2]]:
-                print("比肩坐空亡，不利父亲与妻。年不利父，月不利父和妻，在时则没有关系。女：月柱夫妻缘分偏薄。")
+                print("比肩坐空亡，不利父亲与妻。年不利父，月不利父和妻，在时则没有关系。女：月柱30岁前结婚夫妻缘分偏薄。")
             if zhi_shens[seq] == '比':
                 print("比坐比-平吉：与官杀对立，无主权。养子：克偏财，泄正印。吉：为朋友尽力；凶：受兄弟朋友拖累。父缘分薄，自我孤僻，男多迟婚")   
             if zhi_shens[seq] == '劫':
                 print("父亲先亡。女比肩坐劫:夫妻互恨。还有刑冲，女恐有不测之灾：比如车祸、开刀和意外等。")     
                 print("比坐劫-大凶：为忌亲友受损，合作事业中途解散，与妻子不合。如年月3见比，父缘薄或已死别。")   
-                if ten_deities[gans[seq]][zhis[seq]] == '绝':
+                if ten_deities[gans[seq]][zhis[seq]] == '绝' and seq < 2:
                     print("比肩坐绝，兄弟不多，或者很难谋面。戊和壬的准确率偏低些。")   
 if zhi_shens[2] == '比':
     print("日支比：男的克妻。对家务事有家长式领导；钱来得不容易且有时有小损财。")
@@ -474,15 +486,15 @@ if '比' in (gan_shens[3],zhi_shens[3]):
 
 # 劫财分析
 if '劫' in gan_shens:
-    print("劫财扶助，无微不至。谦虚之中带有傲气。凡事先理情，而后情理。先细节后全局。性刚强、精明干练、女命不适合干透支藏。")
+    print("劫财扶助，无微不至。劫财多者谦虚之中带有傲气。凡事先理情，而后情理。先细节后全局。性刚强、精明干练、女命不适合干透支藏。")
     print("务实，不喜欢抽象性的空谈。不容易认错，比较倔。有理想，但是不够灵活。不怕闲言闲语干扰。不顾及别人面子。")
-    print("合作事业有始无终。太重细节。做小领导还是可以的。有志向，自信。")
+    print("合作事业有始无终。太重细节。做小领导还是可以的。有志向，自信。杀或食透干可解所有负面。")
     if shens2.count('劫') > 2:
         print('----劫财过多, 婚姻不好')
         if (not '官' in shens) and  (not '杀' in shens):
             print("比肩多，四柱无正官七杀，性情急躁。")   
     if zhis[2] == '劫':
-        print("日坐劫财，透天干。父早亡，夫妻关系不好。比如财产互相防范；鄙视对方；自己决定，哪怕对方不同意；老夫少妻；身世有差距；斤斤计较；男的一般有双妻。") 
+        print("日坐劫财，透天干。在年父早亡，在月夫妻关系不好。比如财产互相防范；鄙视对方；自己决定，哪怕对方不同意；老夫少妻；身世有差距；斤斤计较；敢爱敢恨的后遗症，以上多针对女。\n男的一般有双妻。天干有杀或食可解。") 
             
 if zhus[2] in (('壬','子'),('丙','午')):
     print("日主专位劫财，壬子和丙午，晚婚。不透天干，一般是眼光高、独立性强。女性婚后通常还有自己的事业,能办事。") 
@@ -494,7 +506,7 @@ if gan_shens[0] == '劫':
         
 if '劫' in (gan_shens[1],zhi_shens[1]):
     print("月柱劫：容易孤注一掷，30岁以前难稳定。男早婚不利。")
-if '比' in (gan_shens[3],zhi_shens[3]):
+if '劫' in (gan_shens[3],zhi_shens[3]):
     print("时柱劫：只要不是去经济大权还好。")   
 if zhi_shens[2] == '劫':
     print("日支劫：男的克妻。如再透月或时天干，有严重内忧外患。")
