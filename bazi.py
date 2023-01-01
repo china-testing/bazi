@@ -501,6 +501,9 @@ if '比' in (gan_shens[1],zhi_shens[1]):
     print("月柱比：三十岁以前难有成就。冒进、不稳定。女友不持久、大男子主义。")
 if '比' in (gan_shens[3],zhi_shens[3]):
     print("时柱比：与亲人意见不合。")
+
+if shens.count('比') + shens.count('劫') > 1:
+    print("比劫大于2，男：感情阻碍、事业起伏不定。")
     
 
 
@@ -630,6 +633,13 @@ if '印' in gan_shens:
     if '财' in gan_shens:     
         print("印和财都透天干，都有根，最好先财后印，一生吉祥。先印后财，能力不错，但多为他人奔波。(男)") 
         
+if zhi_shens[3]  == '印' and len(zhi5[zhis[3]]) == 1:
+    print("时支专位正印。男忙碌到老。女的子女各居一方。亲情淡薄。")  
+    
+if gan_shens[3]  == '印' and '印' in zhi_shen3[3]:
+    print("时柱正印格，不论男女，老年辛苦。女的到死都要控制家产。子女无缘。")   
+
+        
 # 偏财分析    
 if '才' in gan_shens:
     print("偏财明现天干，不论是否有根:财富外人可见;实际财力不及外观一半。没钱别人都不相信;协助他人常超过自己的能力")
@@ -699,8 +709,7 @@ if shens2.count('财') > 2:
     if '财' in zhi_shens2 and (me not in zhi_shens2):
         print("正财多而有根，日主不在生旺库，身弱惧内。")   
         
-cai_ = ten_deities[me].inverse['财']
-if ten_deities[cai_][zhis.month] in ('建','帝'):
+if zhi_shens[1] == '财':
     print("女命月支正财，有务实的婚姻观。")
     
 if zhi_shens[1] == '财':
