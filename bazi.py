@@ -440,7 +440,26 @@ if zhi_shens[1] == '比':
     if me in ('壬'):
         print("\t 壬：戊申时辰佳；")  
     if me in ('癸'):
-        print("\t 癸：己亥时辰佳")          
+        print("\t 癸：己亥时辰佳")      
+        
+        
+# 甲分析 
+
+if me == '甲':
+    if zhis.count('辰') > 1 or zhis.count('戌') > 1:
+        print("甲日：辰或戌多、性能急躁不能忍。")
+    if zhis[2] == '子':
+        print("甲子：调候要火。")
+    if zhis[2] == '寅':
+        print("甲寅：有主见之人，需要财官旺支。")        
+    if zhis[2] == '辰':
+        print("甲辰：印库、性柔和而有实权。")   
+    if zhis[2] == '午':
+        print("甲午：一生有财、调候要水。")        
+    if zhis[2] == '戌':
+        print("甲戌：自坐伤官，不易生财，为人仁善。")    
+    if zhis[2] == '戌':
+        print("甲戌：自坐伤官，不易生财，为人仁善。")          
 
 # 比肩分析
 if '比' in gan_shens:
@@ -1146,6 +1165,7 @@ piancai_num = shens.count("才")
 jie_num = shens.count("劫")
 bi_num = shens.count("比")
 yin_num = shens.count("印")
+
 
 
 
