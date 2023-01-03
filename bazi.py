@@ -31,6 +31,30 @@ def get_gong_kus(zhis):
             if value in ("丑", "辰", "未", "戌"):
                 result.append(value)
     return result
+
+
+def get_shens(gans, zhis, gan_, zhi_):
+    
+    all_shens = []
+    for item in year_shens:
+        if zhi_ in year_shens[item][zhis.year]:    
+            all_shens.append(item)
+                
+    for item in month_shens:
+        if gan_ in month_shens[item][zhis.month] or zhi_ in month_shens[item][zhis.month]:     
+            all_shens.append(item)
+                
+    for item in day_shens:
+        if zhi_ in day_shens[item][zhis.day]:     
+            all_shens.append(item)
+                
+    for item in g_shens:
+        if zhi_ in g_shens[item][me]:    
+            all_shens.append(item) 
+    if all_shens:  
+        return "  神:" + ' '.join(all_shens)
+    else:
+        return ""
                 
                 
 
@@ -344,6 +368,9 @@ for seq in range(2):
     print("{1:{0}<15s} ".format(chr(12288), strs[seq]), end='')
 for seq in range(2,4):
     print("{1:{0}<14s} ".format(chr(12288), strs[seq]), end='')
+    
+
+
        
 print()
 print("-"*120)
@@ -965,11 +992,22 @@ else:
         if zhi_ in empties[zhus[2]]:
             empty = '空'        
         
+        jia = ""
+        if gan_ in gans:
+            for i in range(4):
+                if gan_ == gans[i]:
+                    if abs(Zhi.index(zhi_) - Zhi.index(zhis[i])) == 2:
+                        jia = jia + "  --夹：" +  Zhi[( Zhi.index(zhi_) + Zhi.index(zhis[i]) )//2]
+                    if abs( Zhi.index(zhi_) - Zhi.index(zhis[i]) ) == 10:
+                        jia = jia + "  --夹：" +  Zhi[(Zhi.index(zhi_) + Zhi.index(zhis[i]))%12]
+                
         out = "{1:<4d}{2:<5s}{3} {15} {14} {13}  {4}:{5}{8}{6:{0}<6s}{12}{7}{8}{9} - {10:{0}<15s} {11}".format(
             chr(12288), int(value[0]), '', dayuns[seq],ten_deities[me][gan_], gan_,check_gan(gan_, gans), 
             zhi_, yinyang(zhi_), ten_deities[me][zhi_], zhi5_, zhi__,empty, fu, nayins[(gan_, zhi_)], ten_deities[me][zhi_]) 
         gan_index = Gan.index(gan_)
         zhi_index = Zhi.index(zhi_)
+        out = out + jia + get_shens(gans, zhis, gan_, zhi_)
+        
         print(out)
         zhis2 = list(zhis) + [zhi_]
         gans2 = list(gans) + [gan_]
@@ -1004,6 +1042,19 @@ else:
             out = "{1:>3d} {2:<5d}{3} {15} {14} {13}  {4}:{5}{8}{6:{0}<6s}{12}{7}{8}{9} - {10:{0}<13s} {11}".format(
                 chr(12288), int(value[0]) + i, value[1] + i, gan2_+zhi2_,ten_deities[me][gan2_], gan2_,check_gan(gan2_, gans2), 
                 zhi2_, yinyang(zhi2_), ten_deities[me][zhi2_], zhi6_, zhi__,empty, fu2, nayins[(gan2_, zhi2_)], ten_deities[me][zhi2_]) 
+            
+            jia = ""
+            if gan2_ in gans2:
+                for i in range(5):
+                    if gan2_ == gans2[i]:
+                        if abs(Zhi.index(zhi2_) - Zhi.index(zhis2[i])) == 2:
+                            # print(2, zhi2_, zhis2[i])
+                            jia = jia + "  --夹：" +  Zhi[( Zhi.index(zhi2_) + Zhi.index(zhis2[i]) )//2]
+                        if abs( Zhi.index(zhi2_) - Zhi.index(zhis2[i]) ) == 10:
+                            # print(10, zhi2_, zhis2[i])
+                            jia = jia + "  --夹：" +  Zhi[(Zhi.index(zhi2_) + Zhi.index(zhis2[i]))%12]  
+                            
+            out = out + jia + get_shens(gans, zhis, gan2_, zhi2_)
             print(out)
             
         
