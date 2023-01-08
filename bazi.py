@@ -374,7 +374,8 @@ for seq in range(2,4):
        
 print()
 print("-"*120)
-print("调候：", tiaohous['{}{}'.format(me, zhis[1])])
+print("调候：", tiaohous['{}{}'.format(me, zhis[1])], "\t##金不换大运：", jinbuhuan['{}{}'.format(me, zhis[1])])
+print("金不换大运：说明：", jins['{}'.format(me)])
 
 for item in all_shens:
     print(item, ":",  shens_infos[item])
@@ -484,9 +485,7 @@ if me == '甲':
     if zhis[2] == '午':
         print("甲午：一生有财、调候要水。")        
     if zhis[2] == '戌':
-        print("甲戌：自坐伤官，不易生财，为人仁善。")    
-    if zhis[2] == '戌':
-        print("甲戌：自坐伤官，不易生财，为人仁善。")          
+        print("甲戌：自坐伤官，不易生财，为人仁善。")       
 
 # 比肩分析
 if '比' in gan_shens:
