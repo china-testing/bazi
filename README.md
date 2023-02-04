@@ -36,6 +36,7 @@ pip install  sxtwl bidict
 ```
 
 Windows下如果安装sxtwl报错，安装 [BuildTools_Full.exe](https://url97.ctfile.com/f/18113597-800958828-d3b94d?p=2274) 点击普通下载，不用注册，访问密码: 2274
+注意：sxtwl可能不支持python3.11。 Linux下的兼容性会好很多。
 
 - linux打开终端或windows打开cmd或git的bash或powercmd等工具
 

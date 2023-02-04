@@ -53,23 +53,28 @@ else:
     d = datetime.datetime.today()
     
 def get_hou(d):
-    lunar = sxtwl.Lunar();
-    cal_day = lunar.getDayBySolar(d.year, d.month, d.day)
+    cal_day = sxtwl.fromSolar(d.year, d.month, d.day)
     
     
     #　计算甲干相合    
-    gans = Gans(year=Gan[cal_day.Lyear2.tg], month=Gan[cal_day.Lmonth2.tg], 
-                day=Gan[cal_day.Lday2.tg])
-    zhis = Zhis(year=Zhi[cal_day.Lyear2.dz], month=Zhi[cal_day.Lmonth2.dz], 
-                day=Zhi[cal_day.Lday2.dz])
+    gz = cal_day.getHourGZ(10)
+    yTG = cal_day.getYearGZ()
+    mTG = cal_day.getMonthGZ()
+    dTG  = cal_day.getDayGZ()
+    
+    
+    gans = Gans(year=Gan[yTG.tg], month=Gan[mTG.tg], 
+                day=Gan[dTG.tg])
+    zhis = Zhis(year=Zhi[yTG.dz], month=Zhi[mTG.dz], 
+                day=Zhi[dTG.dz])
     
     
     print("公历:", end='')
-    print("{}年{}月{}日".format(cal_day.y, cal_day.m, cal_day.d), end='')
+    print("{}年{}月{}日".format(d.year, d.month, d.day), end='')
     
-    Lleap = "闰" if cal_day.Lleap else ""
+    Lleap = "闰" if cal_day.isLunarLeap() else ""
     print("\t农历:", end='')
-    print("{}年{}{}月{}日  ".format(cal_day.Lyear0 + 1984, Lleap, ymc[cal_day.Lmc], rmc[cal_day.Ldi]), end='')
+    print("{}年{}{}月{}日  ".format(cal_day.getLunarYear(), Lleap,cal_day.getLunarMonth(), cal_day.getLunarDay()), end='')
     print(' \t',end='')
     print('-'.join([''.join(item) for item in zip(gans, zhis)]), end='')
     
@@ -84,15 +89,15 @@ def get_hou(d):
         print(" \t年猴:{}年{}日".format(zhis[0], day_ganzhi), end=' ')
         
         
-    if zhis[2] == yue_hous[ymc[cal_day.Lmc]]:
+    if zhis[2] == yue_hous[ymc[cal_day.getLunarMonth()]]:
         print(" \t月罗:{}日".format(zhis[2]), end=' ')
     
     if day_ganzhi in tuple(ji_hous.values()):       
         birthday = d  
         for i in range(30):    
-            day_ = sxtwl.Lunar().getDayBySolar(birthday.year, birthday.month, birthday.day)
-            if day_.qk != -1:
-                ji = jis[(day_.qk + 3)//6]
+            day_ = sxtwl.fromSolar(birthday.year, birthday.month, birthday.day)
+            if day_.hasJieQi():
+                ji = jis[(day_.getJieQi() + 3)//6]
                 break        
             birthday += datetime.timedelta(days=-1)
            
