@@ -529,11 +529,11 @@ if '比' in gan_shens:
                 print("月柱比坐食，易得贵人相助。")
             if zhi_shens[1] == '伤':
                 print("月柱比坐伤，一生只有小财气，难富贵。")    
-            if zhi_shen[1] == '比':
+            if zhi_shens[1] == '比':
                 print("月柱比坐比，单亲家庭，一婚不能到头。地支三合或三会比，天干2比也如此。")
-            if zhi_shen[1] == '财':
+            if zhi_shens[1] == '财':
                 print("月柱比坐财，不利妻，也主父母身体不佳。因亲友、人情等招财物的无谓损失。")      
-            if zhi_shen[1] == '杀':
+            if zhi_shens[1] == '杀':
                 print("月柱比坐杀，稳重。")                   
         
         
@@ -721,6 +721,20 @@ if zhi_shens[3]  == '印' and len(zhi5[zhis[3]]) == 1:
     
 if gan_shens[3]  == '印' and '印' in zhi_shen3[3]:
     print("时柱正印格，不论男女，老年辛苦。女的到死都要控制家产。子女无缘。")   
+    
+if gan_shens.count('印') + gan_shens.count('枭') > 1:
+    print("印枭在年干月干，性格迂腐，故作清高，女子息迟，婚姻有阻碍。印枭在时干，不利母子，性格不和谐。")  
+    
+yin = ten_deities[me].inverse['印']
+yin_lu = ten_deities[yin].inverse['建']
+xiao = ten_deities[me].inverse['枭']
+xiao_lu = ten_deities[xiao].inverse['建']
+
+if zhis[1] in (yin_lu, xiao_lu) :
+    print("印或枭在月支，有压制丈夫的心态。")  
+    
+if zhis[3] in (yin_lu, xiao_lu) :
+    print("印或枭在时支，夫灾子寡。")  
 
         
 # 偏财分析    
@@ -822,10 +836,29 @@ if '财' == gan_shens[3] or  '财' == zhi_shens[3]:
 if (not '财' in shens2) and (not '才' in shens2):
     print("四柱无财，即便逢财运，也是虚名虚利. 男的晚婚")
     
+    
+shang = ten_deities[me].inverse['财']
+#print("shang", shang, ten_deities[shang].inverse['建'], zhi_shens)
+if ten_deities[shang].inverse['建'] in zhis:
+    print("女命一财得所，红颜失配。")  
+    
 # 官分析    
 if '官' in gan_shens:
     if '官' in zhi_shens:
         print("官若成格：忌伤；忌混杂；基础78。有伤用财通关或印制。混杂用合或者身官两停。日主弱则不可扶。")
+        
+        if '比' in gan_shens or '劫' in gan_shens:
+            print("官格透比或劫：故做清高或有洁癖的文人。")
+
+        if '伤' in gan_shens:
+            print("官格透伤：表里不一。")    
+            
+        if '财' in gan_shens or '才' in gan_shens:
+            print("官格透财：聚财。")     
+            
+        if '印' in gan_shens:
+            print("官格透印：人品清雅。")   
+
         
     if (gan_shens[0] == '官' and gan_shens[1] == '官') or (gan_shens[1] == '官' and '官' in zhi_shen3[1]):
         print("官月重叠：女易离婚，早婚不吉利。为人性格温和。")
@@ -873,6 +906,9 @@ if shens2.count('官') > 2 and '官' in gan_shens and '官' in zhi_shens2:
 if zhi_shens[2]  == '官' and len(zhi5[zhis[2]]) == 1:
     print("日坐正官，淑女。")
     
+if gan_shens.count('官') > 2 :
+    print("天干2官，女下有弟妹要照顾，一生为情所困。")   
+    
     
     
 # 杀分析    
@@ -880,6 +916,18 @@ if '杀' in gan_shens:
     print("七杀是非多。但是对男人有时是贵格。比如毛主席等。七杀坐刑或冲，夫妻不和。成格基础85可杀生印或食制印、身杀两停、阳刃驾杀。")
     if '杀' in zhi_shens:
         print("杀格：喜食神制，要食在前，杀在后。阳刃驾杀：杀在前，刃在后。身杀两停：比如甲寅日庚申月。杀印相生，忌食同成格。")
+        
+        if '比' in gan_shens or '劫' in gan_shens:
+            print("杀格透比或劫：性急但还有分寸。")
+
+        if '杀' in gan_shens:
+            print("杀格透官：精明琐屑，不怕脏。")    
+            
+        if '食' in gan_shens or '伤' in gan_shens:
+            print("杀格透食伤：外表宁静，内心刚毅。")     
+            
+        if '印' in gan_shens:
+            print("杀格透印：圆润、精明干练。")   
         
     if (gan_shens[0] == '杀' and gan_shens[1] == '杀') :
         print("杀月干年干重叠：不是老大，出身平常，多灾，为人不稳重。")
@@ -930,6 +978,13 @@ if zhi_shens[2]  == '杀' and len(zhi5[zhis[2]]) == 1:
     
 if zhus[2] in (('丁', '卯'), ('丁', '亥'), ('丁', '未')) and zhis.time == '子':
     print("七杀坐桃花，如有刑冲，引感情引祸。忌讳午运。")
+    
+if gan_shens.count('杀') > 2 :
+    print("天干2杀，不是老大、性格浮躁不持久。")   
+
+shang = ten_deities[me].inverse['杀']
+if ten_deities[shang].inverse['建'] in zhis:
+    print("女地支有杀的禄：丈夫条件还可以。对外性格急，对丈夫还算顺从。")  
      
 # 食分析    
 if '食' in gan_shens:
@@ -1010,11 +1065,17 @@ if '伤' in gan_shens:
             
 if shens2.count('伤') > 2:
     print("女命伤官多，即使不入伤官格，也缘分浅，多有苦情。")
+    if gan_shens.count('伤') > 2:
+        print("天干2伤官：性骄，六亲不靠。婚前诉说家人，婚后埋怨老公。30岁以前为婚姻危机期。")
         
     
 if zhi_shens[2]  == '伤' and len(zhi5[zhis[2]]) == 1:
     print("女命婚姻宫伤官：克夫。男的对妻子不利。只有庚子日。")
-        
+    
+shang = ten_deities[me].inverse['伤']
+#print("shang", shang, ten_deities[shang].inverse['建'], zhi_shens)
+if ten_deities[shang].inverse['建'] in zhis:
+    print("女命地支伤官禄：婚姻受不得穷。")        
 
 print("\n\n大运")    
 print("="*120)  
