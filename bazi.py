@@ -132,8 +132,8 @@ for item in zhis:
 #print(zhi_shens)
 shens = gan_shens + zhi_shens
 
-zhi_shens2 = [] # 地支的所有神，包含余气和尾气
-zhi_shen3 = []
+zhi_shens2 = [] # 地支的所有神，包含余气和尾气, 混合在一起
+zhi_shen3 = [] # 地支所有神，字符串格式
 for item in zhis:
     d = zhi5[item]
     tmp = ''
@@ -376,6 +376,13 @@ print()
 print("-"*120)
 print("调候：", tiaohous['{}{}'.format(me, zhis[1])], "\t##金不换大运：", jinbuhuan['{}{}'.format(me, zhis[1])])
 print("金不换大运：说明：", jins['{}'.format(me)])
+if len(set('寅申巳亥')&set(zhis)) == 0:
+    print("缺四生：一生不敢作为")
+if len(set('子午卯酉')&set(zhis)) == 0:
+    print("缺四柱地支缺四正，一生避是非")
+if len(set('辰戌丑未')&set(zhis)) == 0:
+    print("四柱地支缺四库，一生没有潜伏性凶灾。")
+
 
 for item in all_shens:
     print(item, ":",  shens_infos[item])
@@ -427,8 +434,8 @@ if zhus[2] in (('庚','辰'), ('庚','戌'),('壬','辰'), ('戊','戌'),):
     print("魁罡四柱曰多同，贵气朝来在此中，日主独逢冲克重，财官显露祸无穷。魁罡重叠是贵人，天元健旺喜临身，财官一见生灾祸，刑煞俱全定苦辛。")
 
 # 金神格
-if zhus[3] in (('乙','丑'), ('乙','巳'),('癸','酉')):
-    print("金神格：基础97，时柱己丑、乙巳、癸酉。只有甲和己日，甲日为主，甲子、甲辰最突出。月支通金火2局为佳命。不通可以选其他格")
+if zhus[3] in (('乙','丑'), ('己','巳'),('癸','酉')):
+    print("金神格：基础97，时柱乙丑、己巳、癸酉。只有甲和己日，甲日为主，甲子、甲辰最突出。月支通金火2局为佳命。不通可以选其他格")
     
 # 六阴朝阳
 if me == '辛' and zhis.time == '子':
@@ -715,7 +722,13 @@ if '印' in gan_shens:
         print("正印怕财。") 
     if '财' in gan_shens:     
         print("印和财都透天干，都有根，最好先财后印，一生吉祥。先印后财，能力不错，但多为他人奔波。(男)") 
-        
+       
+       
+if zhi_shens[1]  == '印':
+    print("月支印：女命觉得丈夫不如自己，分居是常态，自己有能力。")  
+    if gan_shens[1]  == '印':
+        print("月干支印：男权重于名，女命很自信，与夫平权。")      
+            
 if zhi_shens[3]  == '印' and len(zhi5[zhis[3]]) == 1:
     print("时支专位正印。男忙碌到老。女的子女各居一方。亲情淡薄。")  
     
@@ -969,6 +982,8 @@ for seq, gan_ in enumerate(gan_shens):
         print("七杀坐七杀，六亲福薄。")
     if get_empty(zhus[2],zhis[seq]) == '空':
         print("七杀坐空亡，女命夫缘薄。")
+    if zhis[seq] == '食':
+        print("七杀坐食：易有错误判断。")
         
             
 if shens2.count('杀') > 2:
@@ -985,6 +1000,7 @@ if gan_shens.count('杀') > 2 :
 shang = ten_deities[me].inverse['杀']
 if ten_deities[shang].inverse['建'] in zhis:
     print("女地支有杀的禄：丈夫条件还可以。对外性格急，对丈夫还算顺从。")  
+    
      
 # 食分析    
 if '食' in gan_shens:
@@ -1034,8 +1050,23 @@ if ('枭', '食') in shen_zhus or ( '食', '枭') in shen_zhus:
     
 if zhi_shens[2]  == '食' and len(zhi5[zhis[2]]) == 1:
     print("日支食神专位容易发胖，有福。只有2日：癸卯，己酉。男命有有助之妻。")
+if zhi_shens[2]  == '食' and zhi_shens[2]  == '杀':
+    print("自坐食神，时支杀专，二者不出天干，多成败，最后失局。")  
     
+if zhi_shens[2]  == '食':
+    print("自坐食神，相敬相助，即使透枭也无事，不过心思不定，做事毅力不足，也可能假客气。")
 
+if '食' in zhi_shen3[3] and '枭' in zhi_shen3[3] + gan_shens[3]:
+    print("时支食神逢偏印：体弱，慢性病，女的一婚不到头。")  
+    
+if zhis[2] in kus and zhi_shen3[2][2] in ('食', '伤'):
+    print("自坐食伤库：总觉得钱不够花。")
+    
+if  '食' in (gan_shens[0], zhi_shens[0]):
+    print("年柱食：可三代同堂。")
+
+if zhis[3] in kus and zhi_shen3[3][2] in ('食', '伤') and ('食' in zhi_shen3[1] or '伤' in zhi_shen3[1]):
+    print("时食库，月食当令，孤克。")
 
 # 伤分析    
 if '伤' in gan_shens:
@@ -1070,7 +1101,7 @@ if shens2.count('伤') > 2:
         
     
 if zhi_shens[2]  == '伤' and len(zhi5[zhis[2]]) == 1:
-    print("女命婚姻宫伤官：克夫。男的对妻子不利。只有庚子日。")
+    print("女命婚姻宫伤官：强势克夫。男的对妻子不利。只有庚子日。")
     
 shang = ten_deities[me].inverse['伤']
 #print("shang", shang, ten_deities[shang].inverse['建'], zhi_shens)
@@ -1185,11 +1216,11 @@ else:
             all_zhis = set(zhis2) | set(zhi2_)
             if set('戌亥辰巳').issubset(all_zhis):
                 out = out + "  天罗地网：戌亥辰巳"
-            if set('寅申巳亥').issubset(all_zhis):
+            if set('寅申巳亥').issubset(all_zhis) and len(set('寅申巳亥')&set(zhis)) == 2 :
                 out = out + "  四生：寅申巳亥"   
-            if set('子午卯酉').issubset(all_zhis):
+            if set('子午卯酉').issubset(all_zhis) and len(set('子午卯酉')&set(zhis)) == 2 :
                 out = out + "  四败：子午卯酉"  
-            if set('辰戌丑未').issubset(all_zhis):
+            if set('辰戌丑未').issubset(all_zhis) and len(set('辰戌丑未')&set(zhis)) == 2 :
                 out = out + "  四库：辰戌丑未"             
             print(out)
             
