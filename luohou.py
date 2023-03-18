@@ -19,8 +19,8 @@ year_hous = {'子':'癸酉', '丑':'甲戌', '寅':'丁亥', '卯':'甲子', '�
              '戌':'丁未', '亥':'甲申'}
 
 ji_hous = {'春':'乙卯','夏':'丙午','秋':'庚申','冬':'辛酉'}
-yue_hous = {'正':'亥', '二':'子', '三':'丑', '四':'寅', '五':'卯', '六':'辰', 
-            '七':'巳', '八':'午', '九':'未', '十':'申', '十一':'酉', '十二':'戌'}
+yue_hous = {1:'亥', 2:'子', 3:'丑', 4:'寅', 5:'卯', 6:'辰', 
+            7:'巳', 8:'午', 9:'未', 10:'申', 11:'酉', 12:'戌'}
 shi_hous = {'子':'丑午', '丑':'巳亥', '寅':'寅午', '卯':'辰戌', '辰':'巳丑', 
             '巳':'辰戌', '午':'卯申', '未':'午辰', '申':'戌丑', '酉':'子午', 
             '戌':'卯午', '亥':'辰卯'}
@@ -38,7 +38,7 @@ $ python luohou.py -d "2019 6 16"
 parser = argparse.ArgumentParser(description=description,
                                  formatter_class=argparse.RawTextHelpFormatter)
 parser.add_argument('-d', action="store", help=u'year',default="")
-parser.add_argument('-n', action="store", help=u'year',default=32, type=int)
+parser.add_argument('-n', action="store", help=u'days',default=32, type=int)
 parser.add_argument('--version', action='version',
                     version='%(prog)s 0.1 Rongzhong xu 2019 05 05')
 options = parser.parse_args()
@@ -87,9 +87,8 @@ def get_hou(d):
     
     if day_ganzhi == year_hous[zhis[0]]:
         print(" \t年猴:{}年{}日".format(zhis[0], day_ganzhi), end=' ')
-        
-        
-    if zhis[2] == yue_hous[ymc[cal_day.getLunarMonth()]]:
+    
+    if zhis[2] == yue_hous[cal_day.getLunarMonth()]:
         print(" \t月罗:{}日".format(zhis[2]), end=' ')
     
     if day_ganzhi in tuple(ji_hous.values()):       
