@@ -354,12 +354,14 @@ print()
 strs = ['','','','',]
 
 all_shens = set()
+all_shens_list = []
 
 for item in year_shens:
     for i in (1,2,3):
         if zhis[i] in year_shens[item][zhis.year]:    
             strs[i] = item if not strs[i] else strs[i] + chr(12288) + item
             all_shens.add(item)
+            all_shens_list.append(item)
             
 for item in month_shens:
     for i in range(4):
@@ -368,18 +370,23 @@ for item in month_shens:
             if i == 2 and gans[i] in month_shens[item][zhis.month]:
                 strs[i] = strs[i] + "●"
             all_shens.add(item)
+            all_shens_list.append(item)
             
 for item in day_shens:
     for i in (0,1,3):
         if zhis[i] in day_shens[item][zhis.day]:     
             strs[i] = item if not strs[i] else strs[i] + chr(12288) + item    
             all_shens.add(item)
+            all_shens_list.append(item)
             
 for item in g_shens:
     for i in range(4):
         if zhis[i] in g_shens[item][me]:    
             strs[i] = item if not strs[i] else strs[i] + chr(12288) + item
             all_shens.add(item)
+            all_shens_list.append(item)
+            
+# print(all_shens_list)
 #print(strs)           
 for seq in range(2):
     print("{1:{0}<15s} ".format(chr(12288), strs[seq]), end='')
@@ -462,6 +469,7 @@ shi_ku = ten_deities[shi]['库'][0]
 
 print("调候：", tiaohous['{}{}'.format(me, zhis[1])], "\t##金不换大运：", jinbuhuan['{}{}'.format(me, zhis[1])])
 print("金不换大运：说明：", jins['{}'.format(me)])
+print("格局选用：", ges[ten_deities[me]['本']][zhis[1]])
 if len(set('寅申巳亥')&set(zhis)) == 0:
     print("缺四生：一生不敢作为")
 if len(set('子午卯酉')&set(zhis)) == 0:
@@ -484,9 +492,20 @@ if zhis[1:].count(piancai_lu) + zhis[1:].count(cai_lu) + zhis[1:].count(piancai_
     
 if zhis[1:].count(guan_lu) + zhis[1:].count(guan_di) == 0:
     print("月日时支没有官的禄旺。")
+    
+if emptie4s.get(zhus[2], 0) != 0:
+    if scores[emptie4s.get(zhus[2], 0)] == 0:
+        print("四大空亡：33岁以前身体不佳！")
 
 for item in all_shens:
     print(item, ":",  shens_infos[item])
+    
+if options.n:
+    print("#"*20, "女命")
+    if all_shens_list.count("驿马") > 1:
+        print("二逢驿马，母家荒凉。P110 丙申 丙申 甲寅 丁卯")
+    if gan_shens[0] == '伤':
+        print("年上伤官：带疾生产。P110 戊寅 戊午 丁未 丁未")    
 
 print("-"*120)
             
