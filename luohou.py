@@ -219,9 +219,9 @@ print("谷雨", jieqis['谷雨'].toFullString())
 print("夏至", jieqis['夏至'].toFullString())
 print("处暑", jieqis['处暑'].toFullString())
 print("霜降", jieqis['霜降'].toFullString())
-print("冬至",jieqis['DONG_ZHI'].toFullString())
-xiazhi = datetime.datetime.strptime(jieqis['夏至'].toFullString().split('星')[0].strip(), "%Y-%m-%d %H:%M:%S")
-dongzhi = datetime.datetime.strptime(jieqis['冬至'].toFullString().split('星')[0].strip(), "%Y-%m-%d %H:%M:%S")
+print("今年冬至", jieqis['DONG_ZHI'].toFullString())
+xiazhi = datetime.datetime.strptime(' '.join(jieqis['夏至'].toFullString().split(' ')[:2]), "%Y-%m-%d %H:%M:%S")
+dongzhi = datetime.datetime.strptime(' '.join(jieqis['DONG_ZHI'].toFullString().split(' ')[:2]), "%Y-%m-%d %H:%M:%S")
 
 
 
