@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 # Author: 钉钉或微信pythontesting 钉钉群21734177 技术支持qq群：630011153 144081101
 # CreateDate: 2019-2-21
+import datetime
 from collections import OrderedDict
 from bidict import bidict
 
@@ -27,6 +28,13 @@ wuhangs = {
     '土':"戊己丑辰未戌",         
 }
 
+ganzhi60 = bidict({
+    1:"甲子", 13:"丙子", 25:"戊子", 37:"庚子", 49:"壬子", 2:"乙丑", 14:"丁丑", 26:"己丑", 38:"辛丑", 50:"癸丑", 
+    3:"丙寅", 15:"戊寅", 27:"庚寅", 39:"壬寅", 51:"甲寅", 4:"丁卯", 16:"己卯", 28:"辛卯", 40:"癸卯", 52:"乙卯", 
+    5:"戊辰", 17:"庚辰", 29:"壬辰", 41:"甲辰", 53:"丙辰", 6:"己巳", 18:"辛巳", 30:"癸巳", 42:"乙巳", 54:"丁巳", 
+    7:"庚午", 19:"壬午", 31:"甲午", 43:"丙午", 55:"戊午", 8:"辛未", 20:"癸未", 32:"乙未", 44:"丁未", 56:"己未", 
+    9:"壬申", 21:"甲申", 33:"丙申", 45:"戊申", 57:"庚申", 10:"癸酉", 22:"乙酉", 34:"丁酉", 46:"己酉", 58:"辛酉", 
+    11:"甲戌", 23:"丙戌", 35:"戊戌", 47:"庚戌", 59:"壬戌", 12:"乙亥", 24:"丁亥", 36:"己亥", 48:"辛亥", 60:"癸亥"})
 
 
 zhi5 = {
@@ -349,11 +357,41 @@ def getGZ(gzStr):
             break   
     return sxtwl.GZ(tg, dz)
 
+def get_jizhu(gan, zhi):
+    
+    gan_index = Gan.index(gan)
+    zhi_index = Zhi.index(zhi) 
+    result = {}
+    alls = []
+    for i in range(6):
+        ganzhi = "{}{}".format(Gan[(gan_index-6-i*9 )%10], Zhi[(zhi_index-6-i*9)%12])
+        result[ganzhi] = get_year_of_ganzhi(ganzhi)
+        alls += result[ganzhi]
+    alls.sort()
+    result['all'] = alls
+    return result
+
+def get_year_of_ganzhi(ganzhi):
+    
+    seq = ganzhi60.inverse[ganzhi]
+    year = 1983 + seq
+    current_year = get_current_year()
+    result = [year - 60]
+    if year <=  current_year:
+        result.append(year)
+    return result  
+
+def get_current_year():
+    
+    current_date = datetime.date.today()
+    return current_date.year
+
 gan_health = {
     "金":'''
     秋天较走运
     申月、酉月、猴年和鸡年运气较好
     下午三点至下午七点是吉时
+    
     西方是吉方
     住朝西的房子较吉利
     睡房在房子的西方较好
