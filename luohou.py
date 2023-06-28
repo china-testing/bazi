@@ -14,7 +14,83 @@ import collections
 from lunar_python import Lunar
 from colorama import init
 
-from ganzhi import Gan, Zhi, ymc, rmc, zhi_time, jis, zhi_atts, get_jizhu
+from ganzhi import Gan, Zhi, ymc, rmc, zhi_time, jis, zhi_atts, get_jizhu, datouxiu, xiaotouxiu
+
+def get_hou(d, xiazhi, dongzhi):
+    cal_day = sxtwl.fromSolar(d.year, d.month, d.day)
+    lunar = Lunar.fromYmd(cal_day.getLunarYear(), cal_day.getLunarMonth(), cal_day.getLunarDay())
+    ba = lunar.getEightChar()
+    yun = ba.getYun(1)
+    
+    #　计算甲干相合    
+    gz = cal_day.getHourGZ(10)
+    yTG = cal_day.getYearGZ()
+    mTG = cal_day.getMonthGZ()
+    dTG  = cal_day.getDayGZ()
+    
+    
+    gans = Gans(year=Gan[yTG.tg], month=Gan[mTG.tg], 
+                day=Gan[dTG.tg])
+    zhis = Zhis(year=Zhi[yTG.dz], month=Zhi[mTG.dz], 
+                day=Zhi[dTG.dz])
+    
+    
+    print("公历:", end='')
+    print("{}年{}月{}日".format(d.year, d.month, d.day), end='')
+    
+    Lleap = "闰" if cal_day.isLunarLeap() else ""
+    print("\t农:", end='')
+    print("{}年{}{}月{}日  ".format(cal_day.getLunarYear(), Lleap,cal_day.getLunarMonth(), cal_day.getLunarDay()), end='')
+    print(' ',end='')
+    print(''.join([''.join(item) for item in zip(gans, zhis)]), end='')
+    
+    print("\t杀:", end='')   
+    for item in shi_hous[zhis[2]]:
+        print(item + zhi_time[item], end='')
+    
+    
+    day_ganzhi = gans[2] + zhis[2]
+    
+    if day_ganzhi == year_hous[zhis[0]]:
+        print(" 年猴:{}年{}日".format(zhis[0], day_ganzhi), end=' ')
+    
+    if zhis[2] == yue_hous[cal_day.getLunarMonth()]:
+        print(" 月罗:{}日".format(zhis[2]), end=' ')
+    
+    if day_ganzhi in tuple(ji_hous.values()):       
+        birthday = d  
+        for i in range(30):    
+            day_ = sxtwl.fromSolar(birthday.year, birthday.month, birthday.day)
+            if day_.hasJieQi():
+                ji = jis[(day_.getJieQi() + 3)//6]
+                break        
+            birthday += datetime.timedelta(days=-1)
+           
+        if day_ganzhi == ji_hous[ji]:
+            print(" \t季猴:{}季{}日".format(ji, ji_hous[ji]), end=' ')    
+            
+    if d >= xiazhi and d < dongzhi:
+        items = shi_feixings2[Zhi[dTG.dz]]
+    else:
+        items = shi_feixings1[Zhi[dTG.dz]]
+    print()   
+    print(" "*90, lunar.getDayNineStar(), end='')
+    for item in Zhi:
+        print(" {}{}".format(item, items[item]), end='') 
+    print()
+    zeri = ""
+    if zhis.day == zhi_atts[zhis.year]["冲"]:
+        zeri += "\t岁破，大事不宜"
+    elif zhis.day == zhi_atts[zhis.month]["冲"]:
+        zeri += "\t月破，大事不宜" 
+    #print(gans.day + zhis.day)
+    if gans.day + zhis.day in datouxiu:
+        zeri += "\t大偷休" 
+    elif gans.day + zhis.day in xiaotouxiu:
+            zeri += "\t小偷休"    
+    print(zeri)
+
+
 
 init(autoreset=True)
 
@@ -28,6 +104,10 @@ jiuxings_dsp = '''
     七赤金星 —— x 破军：盗贼、小人
     八白土星 —— + 左辅：财星 钱财
     九紫火星 —— + 右弼：婚姻喜庆'''
+
+mountains = {
+    "甲":"", "卯":"", "乙":"", "辰":"", "巽":"", "巳":"", "丙":"", "午":"", "丁":"", "未":"", "坤":"", "申":"", 
+    "庚":"", "酉":"", "辛":"", "戌":"", "乾":"", "亥":"", "壬":"", "子":"", "癸":"", "丑":"", "艮":"", "寅":"", }
 
 
 year_hous = {'子':'癸酉', '丑':'甲戌', '寅':'丁亥', '卯':'甲子', '辰':'乙丑', 
@@ -104,76 +184,18 @@ if options.d:
 else:
     d = datetime.datetime.today()
     
-def get_hou(d, xiazhi, dongzhi):
-    cal_day = sxtwl.fromSolar(d.year, d.month, d.day)
-    lunar = Lunar.fromYmd(cal_day.getLunarYear(), cal_day.getLunarMonth(), cal_day.getLunarDay())
-    ba = lunar.getEightChar()
-    yun = ba.getYun(1)
-    
-    #　计算甲干相合    
-    gz = cal_day.getHourGZ(10)
-    yTG = cal_day.getYearGZ()
-    mTG = cal_day.getMonthGZ()
-    dTG  = cal_day.getDayGZ()
-    
-    
-    gans = Gans(year=Gan[yTG.tg], month=Gan[mTG.tg], 
-                day=Gan[dTG.tg])
-    zhis = Zhis(year=Zhi[yTG.dz], month=Zhi[mTG.dz], 
-                day=Zhi[dTG.dz])
-    
-    
-    print("公历:", end='')
-    print("{}年{}月{}日".format(d.year, d.month, d.day), end='')
-    
-    Lleap = "闰" if cal_day.isLunarLeap() else ""
-    print("\t农:", end='')
-    print("{}年{}{}月{}日  ".format(cal_day.getLunarYear(), Lleap,cal_day.getLunarMonth(), cal_day.getLunarDay()), end='')
-    print(' ',end='')
-    print(''.join([''.join(item) for item in zip(gans, zhis)]), end='')
-    
-    print("\t杀:", end='')   
-    for item in shi_hous[zhis[2]]:
-        print(item + zhi_time[item], end='')
-    
-    
-    day_ganzhi = gans[2] + zhis[2]
-    
-    if day_ganzhi == year_hous[zhis[0]]:
-        print(" 年猴:{}年{}日".format(zhis[0], day_ganzhi), end=' ')
-    
-    if zhis[2] == yue_hous[cal_day.getLunarMonth()]:
-        print(" 月罗:{}日".format(zhis[2]), end=' ')
-    
-    if day_ganzhi in tuple(ji_hous.values()):       
-        birthday = d  
-        for i in range(30):    
-            day_ = sxtwl.fromSolar(birthday.year, birthday.month, birthday.day)
-            if day_.hasJieQi():
-                ji = jis[(day_.getJieQi() + 3)//6]
-                break        
-            birthday += datetime.timedelta(days=-1)
-           
-        if day_ganzhi == ji_hous[ji]:
-            print(" \t季猴:{}季{}日".format(ji, ji_hous[ji]), end=' ')    
-            
-    if d >= xiazhi and d < dongzhi:
-        items = shi_feixings2[Zhi[dTG.dz]]
-    else:
-        items = shi_feixings1[Zhi[dTG.dz]]
-    print()   
-    print(" "*90, lunar.getDayNineStar(), end='')
-    for item in Zhi:
-        print(" {}{}".format(item, items[item]), end='') 
-    print()
-    zeri = ""
-    if zhis.day == zhi_atts[zhis.year]["冲"]:
-        zeri += "\t岁破，大事不宜"
-    elif zhis.day == zhi_atts[zhis.month]["冲"]:
-        zeri += "\t月破，大事不宜"    
-    print(zeri)
-    
-    
+cal_day = sxtwl.fromSolar(d.year, d.month, d.day)
+yTG = cal_day.getYearGZ()
+mTG = cal_day.getMonthGZ()
+dTG  = cal_day.getDayGZ()
+
+
+gans = Gans(year=Gan[yTG.tg], month=Gan[mTG.tg], 
+            day=Gan[dTG.tg])
+zhis = Zhis(year=Zhi[yTG.dz], month=Zhi[mTG.dz], 
+            day=Zhi[dTG.dz])
+mountains[zhis.year] += " 太岁"
+mountains[zhi_atts[zhis.year]['冲']] += " 岁破"
     
 
 # 计算中央位
@@ -184,29 +206,28 @@ index = 9 - index
 #print(index)
 jius = JiuFeiXing(*fangweis[index:], *fangweis[0:index])
 #print(jius)
+
 print(jiuxings_dsp)
-print('-'*90)
+print('-'*120)
 print("{}年九宫飞星".format(year))
-print('-'*90)
-print("\033[1;36;40m{1:{0}<15s}{2:{0}<15s}{3:{0}<15s}\033[0m".format(
+print('-'*120)
+print("\033[1;36;40m{1:{0}<25s}{2:{0}<25s}{3:{0}<25s}\033[0m".format(
     chr(12288), 
     "巽 东南：{}".format(jius.东南), 
     '离   南：{}'.format(jius.南), 
     '坤 西南：{}'.format(jius.西南),))
-print("\033[1;36;40m{1:{0}<15s}{2:{0}<15s}{3:{0}<15s}\033[0m".format(
+print("\033[1;36;40m{1:{0}<25s}{2:{0}<25s}{3:{0}<25s}\033[0m".format(
     chr(12288), 
     "震   东：{}".format(jius.东), 
     '  中   央：{}'.format(jius.中), 
     '    兑   西：{}'.format(jius.西),))
-print("\033[1;36;40m{1:{0}<15s}{2:{0}<15s}{3:{0}<15s}\033[0m".format(
+print("\033[1;36;40m{1:{0}<25s}{2:{0}<25s}{3:{0}<25s}\033[0m".format(
     chr(12288), 
     "艮 东北：{}".format(jius.东北), 
     '坎   北：{}'.format(jius.北), 
     '乾 西北：{}'.format(jius.西北),))
-print('-'*90)
-cal_day = sxtwl.fromSolar(d.year, 5, 5)
-yTG = cal_day.getYearGZ()
-dTG  = cal_day.getDayGZ() 
+print('-'*120)
+
 print("月份九宫飞星", end=' ')
 items = month_feixings[Zhi[yTG.dz]]
 for i in range(1,13):
@@ -216,10 +237,10 @@ year_yas = get_jizhu(Gan[yTG.tg], Zhi[yTG.dz])
 print("太岁压祭主", year_yas)
 day_yas = get_jizhu(Gan[dTG.tg], Zhi[dTG.dz])
 print("日压祭主", day_yas)
-print('-'*90)
+print('-'*120)
 
 #计算夏至日、冬至日
-lunar = Lunar.fromYmd(d.year, 3, 13)
+lunar = Lunar.fromYmd(d.year, d.month, d.day)
 jieqis = lunar.getJieQiTable()
 #start = datetime.strptime(start_time, "%Y-%m-%d %H:%M:%S")
 #print("去年冬至", jieqis['冬至'].toFullString())
