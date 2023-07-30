@@ -22,15 +22,23 @@ def gan_zhi_he(zhu):
         return "|"
     return ""
 
-def get_gong_kus(zhis):
+def get_gong(zhis):
     result = []
     for i in range(3):
+        if  gans[i] != gans[i+1]:
+            continue
         zhi1 = zhis[i]
         zhi2 = zhis[i+1]
         if abs(Zhi.index(zhi1) - Zhi.index(zhi2)) == 2:
             value = Zhi[(Zhi.index(zhi1) + Zhi.index(zhi2))//2]
-            if value in ("丑", "辰", "未", "戌"):
-                result.append(value)
+            #if value in ("丑", "辰", "未", "戌"):
+            result.append(value)
+        if (zhi1 + zhi2 in gong_he) and (gong_he[zhi1 + zhi2] not in zhis):
+            result.append(gong_he[zhi1 + zhi2]) 
+            
+        #if (zhi1 + zhi2 in gong_hui) and (gong_hui[zhi1 + zhi2] not in zhis):
+            #result.append(gong_hui[zhi1 + zhi2])             
+        
     return result
 
 
@@ -355,7 +363,7 @@ for seq, item in enumerate(zhus):
 
 print()
 
-    
+all_ges = []
 
 # 神煞计算
 
@@ -484,7 +492,6 @@ if len(set('子午卯酉')&set(zhis)) == 0:
     print("缺四柱地支缺四正，一生避是非")
 if len(set('辰戌丑未')&set(zhis)) == 0:
     print("四柱地支缺四库，一生没有潜伏性凶灾。")
-print(tuple(gans))
 if ( '甲', '戊', '庚',) in (tuple(gans)[:3], tuple(gans)[1:]):
     print("地上三奇：白天生有申佳，")
 if ( '辛', '壬', '癸',) in (tuple(gans)[:3], tuple(gans)[1:]):
@@ -549,8 +556,22 @@ print()
 temps_scores = temps[gans.year] + temps[gans.month] + temps[me] + temps[gans.time] + temps[zhis.year] + temps[zhis.month]*2 + temps[zhis.day] + temps[zhis.time]
 print("\033[1;36;40m五行分数", scores, '  八字强弱：', strong, "通常>29为强，需要参考月份、坐支等", "weak:", weak)
 
+gongs = get_gong(zhis)
+zhis_g = set(zhis) | set(gongs)
 
-print("湿度分数", temps_scores,"正为暖燥，负为寒湿，正常区间[-6,6] 拱库气：",  get_gong_kus(zhis), "\033[0m")
+jus = []
+for item in zhi_hes:
+    if set(item).issubset(zhis_g):
+        print("三合局", item)
+        jus.append(ju[ten_deities[me].inverse[zhi_hes[item]]])
+        
+        
+for item in zhi_huis:
+    if set(item).issubset(zhis_g):
+        print("三会局", item)
+        jus.append(ju[ten_deities[me].inverse[zhi_huis[item]]])
+
+print("湿度分数", temps_scores,"正为暖燥，负为寒湿，正常区间[-6,6] 拱：",  get_gong(zhis), "\033[0m")
 for item in gan_scores:  
     print("{}[{}]-{} ".format(
         item, ten_deities[me][item], gan_scores[item]),  end='  ')    
@@ -620,6 +641,7 @@ for i in range(3):
 
 # 建禄格
 if zhi_shens[1] == '比':
+    all_ges.append('建')
     print("建禄格：最好天干有财官。如果官杀不成格，有兄弟，且任性。有争财和理财的双重性格。如果创业独自搞比较好，如果合伙有完善的财务制度也可以。")
     if gan_shens[0] in '比劫':
         print("\t建禄年透比劫凶")
@@ -644,8 +666,7 @@ if zhi_shens[1] == '比':
         print("\t 壬：戊申时辰佳；")  
     if me in ('癸'):
         print("\t 癸：己亥时辰佳")      
-        
-        
+                
 
         
 # 甲分析 
@@ -877,6 +898,7 @@ if zhi_shens[3] == '劫' and is_yang():
     
 # 阳刃格        
 if zhi_shens[1] == '劫' and is_yang():
+    all_ges.append('刃')
     print("阳刃格：喜七杀或三四个官。基础90 甲戊庚逢冲多祸，壬丙逢冲还好。")  
     if me in ('庚', '壬','戊'):
         print("阳刃'庚', '壬','午'忌讳正财运。庚逢辛酉凶，丁酉吉，庚辰和丁酉六合不凶。壬逢壬子凶，戊子吉；壬午和戊子换禄不凶。")
@@ -936,8 +958,10 @@ if '枭' in gan_shens:
     if (gan_shens[1] == '枭' and '枭' in zhi_shen3[1]):        
         print("枭月重叠：福薄慧多，青年孤独，有文艺宗教倾向。")
         
-    if '枭' in zhi_shens:
+    if '枭' in zhi_shens2:
         print("成格基础89生财、配印；最喜偏财同时成格，偏印在前，偏财在后。最忌讳日时坐实比劫刃。")
+        all_ges.append('枭')
+              
     if shens2.count('枭') > 2:
         print("偏印过多，性格孤僻，表达太含蓄，要别人猜，说话有时带刺。偏悲观。有偏财和天月德贵人可以改善。有艺术天赋。做事大多有始无终。如四柱全阴，女性声誉不佳。")
         print("对兄弟姐妹不错。男的因才干受子女尊敬。女的偏印多，子女不多。第1克伤食，第2艺术性。")
@@ -999,8 +1023,9 @@ if zhis.time == xiao_lu:
 
 # 印分析    
 if '印' in gan_shens:
-    if '印' in zhi_shens:
+    if '印' in zhi_shens2:
         print("基础82，成格喜官杀、身弱、忌财克印。合印留财，见利忘义.透财官杀通关或印生比劫；合冲印若无他格或调候破格。日主强凶，禄刃一支可以食伤泄。")
+        all_ges.append('印')
         
     if (gan_shens[1] == '印' and '印' in zhi_shen3[1]):        
         print("印月重叠：女迟婚，月阳刃者离寡，能独立谋生，有修养的才女。")
@@ -1095,8 +1120,9 @@ if '才' in gan_shens:
     print("偏财明现天干，不论是否有根:财富外人可见;实际财力不及外观一半。没钱别人都不相信;协助他人常超过自己的能力")
     print("偏财出天干，又与天月德贵人同一天干者。在年月有声明远扬的父亲，月时有聪慧的红颜知己。喜奉承。")
     print("偏财透天干，四柱没有刑冲，长寿。女子为孝顺女，主要针对年月。时柱表示中年以后有自己的事业，善于理财。")
-    if '才' in zhi_shens:
+    if '才' in zhi_shens2:
         print("财格基础80:比劫用食伤通关或官杀制；身弱有比劫仍然用食伤通关。如果时柱坐实比劫，晚年破产。")  
+        all_ges.append('才')
     print("偏财透天干，讲究原则，不拘小节。喜奉承，善于享受。财格基础80")
     
     if '比' in gan_shens or '劫' in gan_shens and gan_shens[3] == '才':
@@ -1130,6 +1156,9 @@ if (gan_shens[0] in ('财', '才')  and gan_shens[1]  in ('财', '才')) or (gan
     
 
 if '财' in gan_shens:
+    if '财' in zhi_shens2:
+        all_ges.append('财')
+        
     if is_yang():        
         print("男日主合财星，夫妻恩爱。如果争合或天干有劫财，双妻。")
     if '财' in zhi_shens:
@@ -1272,8 +1301,9 @@ if zhis[3] == cai_lu:
 
 # 官分析    
 if '官' in gan_shens:
-    if '官' in zhi_shens:
+    if '官' in zhi_shens2:
         print("官若成格：忌伤；忌混杂；基础78。有伤用财通关或印制。混杂用合或者身官两停。日主弱则不可扶。")
+        all_ges.append('官')
         
         if '比' in gan_shens or '劫' in gan_shens:
             print("官格透比或劫：故做清高或有洁癖的文人。")
@@ -1349,8 +1379,9 @@ if zhi_shens[1] == '官' and '伤' in zhi_shens2:
 # 杀分析    
 if '杀' in gan_shens:
     print("七杀是非多。但是对男人有时是贵格。比如毛主席等。成格基础85可杀生印或食制印、身杀两停、阳刃驾杀。")
-    if '杀' in zhi_shens:
+    if '杀' in zhi_shens2:
         print("杀格：喜食神制，要食在前，杀在后。阳刃驾杀：杀在前，刃在后。身杀两停：比如甲寅日庚申月。杀印相生，忌食同成格。")
+        all_ges.append('杀')
         
         if '比' in gan_shens or '劫' in gan_shens:
             print("杀格透比或劫：性急但还有分寸。")
@@ -1494,12 +1525,27 @@ if zhi_ku(zhis[2], (guan,sha)):
         
 if '杀' in gan_shens and zhi_shens.count('杀') > 1:
     print("七杀透干，地支双根，不论贫富，亲属离散。母法总则P79-6 乙未 丙戌 戊寅 甲寅") 
+    
+if  '杀' in jus + all_ges:
+
+    if '比' in gan_shens or '劫' in gan_shens:
+        print("杀格透比或劫：性急但还有分寸。")
+    
+    if '杀' in gan_shens:
+        print("杀格透官：精明琐屑，不怕脏。")    
+        
+    if '食' in gan_shens or '伤' in gan_shens:
+        print("杀格透食伤：外表宁静，内心刚毅。")     
+        
+    if '印' in gan_shens:
+        print("杀格透印：圆润、精明干练。")   
      
 # 食分析    
 if '食' in gan_shens:
-    if '食' in zhi_shens:
+    if '食' in zhi_shens2:
         print("食神成格的情况下，寿命比较好。食神和偏财格比较长寿。食神厚道，为人不慷慨。食神有口福。成格基础84，喜财忌偏印(只能偏财制)。")
         print("食神无财一生衣食无忧，无大福。有印用比劫通关或财制。")
+        all_ges.append('食')
         
         
     if (gan_shens[0] == '食' and gan_shens[1] == '食') or (gan_shens[1] == '食' and '食' in zhi_shen3[1]):
@@ -1581,8 +1627,9 @@ if zhi_ku(zhis[3], (shi, shang)):
 # 伤分析    
 if '伤' in gan_shens:
     print("伤官有才华，但是清高。要生财，或者印制。")
-    if '伤' in zhi_shens:
+    if '伤' in zhi_shens2:
         print("食神重成伤官，不适合伤官配印。金水、土金、木火命造更高。火土要调候，容易火炎土燥。伤官和七杀的局不适合月支为库。")
+        all_ges.append('阳刃')
         print("成格基础87生财、配印。不考虑调候逆用比顺用好，调候更重要。生正财用偏印，生偏财用正印。\n伤官配印，如果透杀，透财不佳。伤官七杀同时成格，不透财为上好命局。")
 
     if (gan_shens[0] == '伤' and gan_shens[1] == '伤') or (gan_shens[1] == '伤' and '伤' in zhi_shen3[1]):
@@ -1821,17 +1868,6 @@ if  nayins[zhus[0]][-1] in '水土':
     if zhis.day in '辰巳':
         print("| 地网：{}".format(zhis.day), end=' ') 		
 
-# 三奇
-flag = False
-if ['乙','丙', '丁'] == list(gans[:3]) or ['乙','丙', '丁'] == list(gans[1:]):
-    flag = True  
-    print("三奇　乙丙丁", end=' ')  
-if ['甲','戊', '庚'] == list(gans[:3]) or ['甲','戊', '庚'] == list(gans[1:]):
-    flag = True   
-    print("三奇　甲戊庚", end=' ')  
-if ['辛','壬', '癸'] == list(zhis[:3]) or ['辛','壬', '癸'] == list(zhis[1:]):
-    flag = True       
-    print("三奇　辛壬癸", end=' ')    
 
 
 # 学堂分析
