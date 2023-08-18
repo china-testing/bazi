@@ -1629,7 +1629,7 @@ if '伤' in gan_shens:
     print("伤官有才华，但是清高。要生财，或者印制。")
     if '伤' in zhi_shens2:
         print("食神重成伤官，不适合伤官配印。金水、土金、木火命造更高。火土要调候，容易火炎土燥。伤官和七杀的局不适合月支为库。")
-        all_ges.append('阳刃')
+        all_ges.append('伤')
         print("成格基础87生财、配印。不考虑调候逆用比顺用好，调候更重要。生正财用偏印，生偏财用正印。\n伤官配印，如果透杀，透财不佳。伤官七杀同时成格，不透财为上好命局。")
 
     if (gan_shens[0] == '伤' and gan_shens[1] == '伤') or (gan_shens[1] == '伤' and '伤' in zhi_shen3[1]):
@@ -1670,6 +1670,8 @@ if zhis[3]  in (shang_lu, shang_di) and  zhis[1]  in (shang_lu, shang_di):
 #print("shang", shang, ten_deities[shang].inverse['建'], zhi_shens)
 if ten_deities[shang].inverse['建'] in zhis and options.n:
     print("女命地支伤官禄：婚姻受不得穷。")        
+    
+print("局", jus, "格", all_ges, )
 
 print("\n\n大运")    
 print("="*120)  
