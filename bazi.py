@@ -700,7 +700,7 @@ if '比' in gan_shens:
         print("月柱干支比肩：争夫感情丰富。30岁以前钱不够花。")
         
     if gan_shens[0] == '比':
-        print("上面有哥或姐，出身一般。")
+        print("年干比：上面有哥或姐，出身一般。")
         
     if zhi_shens[2] == '比':
         print("基52女坐比透比:夫妻互恨 丙辰 辛卯 辛酉 甲午。")  
@@ -1083,7 +1083,7 @@ if zhi_shens[2]  == '印':
         print("坐印，时财正格：晚年发达，妻贤子不孝。 母法总则：P55-2 乙酉 丙申 甲子 己巳") 
 
             
-if zhi_shens[3]  == '印' and len(zhi5[zhis[3]]) == 1:
+if zhi_shens[3]  == '印' and zhis[3] in zhengs:
     print("时支专位正印。男忙碌到老。女的子女各居一方。亲情淡薄。")  
     
 if gan_shens[3]  == '印' and '印' in zhi_shen3[3]:
@@ -1673,6 +1673,12 @@ if ten_deities[shang].inverse['建'] in zhis and options.n:
     
 print("局", jus, "格", all_ges, )
 
+sum_index = ''.join([me, '日', *zhus[3]])
+if sum_index in summarys:
+    print("\n\n命")    
+    print("=========================")      
+    print(summarys[sum_index])
+
 print("\n\n大运")    
 print("="*120)  
 if options.b:
@@ -1838,7 +1844,6 @@ else:
     else:
         d = zhi5[zhi]
         ge = ten_deities[me][max(d, key=d.get)]
-print("格局:", ge, '\t', end=' ')
 
 # 天乙贵人
 flag = False
@@ -2403,11 +2408,6 @@ if tianyin[me] in zhis:
 short = min(scores, key=scores.get)
 print("\n\n五行缺{}的建议参见 http://t.cn/E6zwOMq".format(short))    
 
-sum_index = ''.join([me, '日', *zhus[3]])
-if sum_index in summarys:
-    print("\n\n命")    
-    print("=========================")      
-    print(summarys[sum_index])
     
     
 print("======================================")  
