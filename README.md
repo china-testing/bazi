@@ -4,6 +4,8 @@
 - luohou.py 计算罗喉日时,用于提示风水师何时慎用罗盘。
 - shengxiao.py 用户生肖合婚等。
 
+交流钉钉群21734177
+
 软件部署定制技术支持及批八字学八字：微信或钉钉pythontesting
 
 风水远程查看收费888起，实地1888(仅限湖南邵阳、广东深圳东莞等，其他地方需要加差旅费用）起。
@@ -34,7 +36,7 @@
 - 安裝依赖库
 
 ```python
-pip install  sxtwl bidict
+pip install sxtwl bidict lunar_python
 ```
 
 Windows下如果安装sxtwl报错，安装 [BuildTools_Full.exe](https://url97.ctfile.com/f/18113597-800958828-d3b94d?p=2274) 点击普通下载，不用注册，访问密码: 2274

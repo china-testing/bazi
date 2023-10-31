@@ -15,6 +15,7 @@ from colorama import init
 from datas import *
 from sizi import summarys
 from common import *
+from yue import months
 
 def gan_zhi_he(zhu):
     gan, zhi = zhu
@@ -518,6 +519,11 @@ if zhis[1:].count(piancai_lu) + zhis[1:].count(cai_lu) + zhis[1:].count(piancai_
 if zhis[1:].count(guan_lu) + zhis[1:].count(guan_di) == 0:
     print("月日时支没有官的禄旺。")
     
+if '辰' in zhis and ('戌' not in zhis) and options.n: 
+    print("女命有辰无戌：孤。")
+if '戌' in zhis and ('辰' not in zhis) and options.n: 
+    print("女命有戌无辰：带禄。")
+    
 if emptie4s.get(zhus[2], 0) != 0:
     if scores[emptie4s.get(zhus[2], 0)] == 0:
         print("四大空亡：33岁以前身体不佳！")
@@ -603,7 +609,7 @@ if me == '辛' and zhis.time == '子':
     
 # 六乙鼠贵
 if me == '乙' and zhis.time == '子':
-    print("六阴朝阳格：基础99，乙日时辰为子。忌讳午冲，丑合。月支最好通木局，水也可以，不适合金火。申酉大运有凶，午也不行。夏季为伤官。入其他格以格局论。")
+    print("六阴朝阳格：基础99，乙日时辰为子。忌讳午冲，丑合，不适合有2个子。月支最好通木局，水也可以，不适合金火。申酉大运有凶，午也不行。夏季为伤官。入其他格以格局论。")
 
 # 从格
 if max(scores.values()) > 25:
@@ -959,7 +965,7 @@ if '枭' in gan_shens:
         print("枭月重叠：福薄慧多，青年孤独，有文艺宗教倾向。")
         
     if '枭' in zhi_shens2:
-        print("成格基础89生财、配印；最喜偏财同时成格，偏印在前，偏财在后。最忌讳日时坐实比劫刃。")
+        print("偏印成格基础89生财、配印；最喜偏财同时成格，偏印在前，偏财在后。最忌讳日时坐实比劫刃。")
         all_ges.append('枭')
               
     if shens2.count('枭') > 2:
@@ -1327,7 +1333,7 @@ if '官' in gan_shens:
     if gan_shens[3] == '官' and len(zhi5[zhis[3]]) == 1:
         print("官专位时坐地支，男有得力子息。")
     if gan_shens[0] == '官' :
-        print("年干为官，身强出身书香门第。")
+        print("年干为官，身强有可能出身书香门第。")
         if gan_shens[3] == '官':
             print("男命年干，时干都为官，对后代和头胎不利。")
     if (not '财' in gan_shens) and (not '印' in gan_shens):
@@ -1604,7 +1610,7 @@ if '食' in zhi_shen3[3] and '枭' in zhi_shen3[3] + gan_shens[3]:
     print("时支食神逢偏印：体弱，慢性病，女的一婚不到头。")  
     
 if zhis[2] in kus and zhi_shen3[2][2] in ('食', '伤'):
-    print("自坐食伤库：总觉得钱不够花。")
+    print("自坐食伤库：总觉得钱不够。")
     
 if  '食' in (gan_shens[0], zhi_shens[0]):
     print("年柱食：可三代同堂。")
@@ -1630,7 +1636,7 @@ if '伤' in gan_shens:
     if '伤' in zhi_shens2:
         print("食神重成伤官，不适合伤官配印。金水、土金、木火命造更高。火土要调候，容易火炎土燥。伤官和七杀的局不适合月支为库。")
         all_ges.append('伤')
-        print("成格基础87生财、配印。不考虑调候逆用比顺用好，调候更重要。生正财用偏印，生偏财用正印。\n伤官配印，如果透杀，透财不佳。伤官七杀同时成格，不透财为上好命局。")
+        print("伤官成格基础87生财、配印。不考虑调候逆用比顺用好，调候更重要。生正财用偏印，生偏财用正印。\n伤官配印，如果透杀，透财不佳。伤官七杀同时成格，不透财为上好命局。")
 
     if (gan_shens[0] == '伤' and gan_shens[1] == '伤') or (gan_shens[1] == '伤' and '伤' in zhi_shen3[1]):
         print("父母兄弟均无缘。孤苦，性刚毅好掌权。30岁以前有严重感情苦重，适合老夫少妻，继室先同居后结婚。")
@@ -1672,6 +1678,11 @@ if ten_deities[shang].inverse['建'] in zhis and options.n:
     print("女命地支伤官禄：婚姻受不得穷。")        
     
 print("局", jus, "格", all_ges, )
+
+
+if me+zhis.month in months:
+    print(months[me+zhis.month])
+
 
 sum_index = ''.join([me, '日', *zhus[3]])
 if sum_index in summarys:
@@ -1776,12 +1787,16 @@ else:
             if gan2_ in gans2:
                 for i in range(5):
                     if gan2_ == gans2[i]:
+                        zhi1 = zhis2[i]
                         if abs(Zhi.index(zhi2_) - Zhi.index(zhis2[i])) == 2:
                             # print(2, zhi2_, zhis2[i])
                             jia = jia + "  --夹：" +  Zhi[( Zhi.index(zhi2_) + Zhi.index(zhis2[i]) )//2]
                         if abs( Zhi.index(zhi2_) - Zhi.index(zhis2[i]) ) == 10:
                             # print(10, zhi2_, zhis2[i])
                             jia = jia + "  --夹：" +  Zhi[(Zhi.index(zhi2_) + Zhi.index(zhis2[i]))%12]  
+
+                        if (zhi1 + zhi2_ in gong_he) and (gong_he[zhi1 + zhi2_] not in zhis):
+                            jia = jia + "  --拱：" + gong_he[zhi1 + zhi2_]
                             
             out = out + jia + get_shens(gans, zhis, gan2_, zhi2_)
             all_zhis = set(zhis2) | set(zhi2_)
