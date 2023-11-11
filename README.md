@@ -8,7 +8,7 @@
 
 软件部署定制技术支持及批八字学八字：微信或钉钉pythontesting
 
-风水远程查看收费888起，实地1888(仅限湖南邵阳、广东深圳东莞等，其他地方需要加差旅费用）起。
+风水远程查看收费888起，实地1888(仅限湖南邵阳、珠三角等，其他地方需要加差旅费用）起。
 
 # 命理书籍(访问密码: 2274) 点击“普通下载”下面的“立即下载”可浏览器下载
 
@@ -32,11 +32,13 @@
 - [梁湘润 - 星相书简法卷 黄册.pdf ](https://url97.ctfile.com/f/18113597-756715796-203c11?p=2274)
 - [梁湘润 星相书简法卷地册.pdf](https://url97.ctfile.com/f/18113597-756715783-34e1f8?p=2274)
 
+不建议选择大陆解放后的书籍精读，贫道有精选纸质和电子书，辅以阅读辅导，随缘会友。
+
 # 安装
 - 安裝依赖库
 
 ```python
-pip install sxtwl bidict lunar_python
+pip install sxtwl bidict lunar_python colorama
 ```
 
 Windows下如果安装sxtwl报错，安装 [BuildTools_Full.exe](https://url97.ctfile.com/f/18113597-800958828-d3b94d?p=2274) 点击普通下载，不用注册，访问密码: 2274
