@@ -586,6 +586,9 @@ print("-"*120)
 yinyangs(zhis)
 shen_zhus = list(zip(gan_shens, zhi_shens))
 
+minggong = Zhi[::-1][(Zhi.index(zhis[1]) + Zhi.index(zhis[3]) -6  )%12 ]
+print(minggong, minggongs[minggong])
+
 # 地网
 if '辰' in zhis and '巳' in zhis:
     print("地网：地支辰巳。天罗：戌亥。天罗地网全凶。")
@@ -832,6 +835,8 @@ if zhis[3] == me_ku:
     if piancai_lu == zhis[2]:
         print("时支日库，坐偏财：吉祥近贵，但亲属淡薄。 母法总则P59-6 辛未 辛卯 丁酉 庚戌")
     
+
+
     
 # 时坐禄   
 if me_lu == zhis[3]:
@@ -1300,7 +1305,7 @@ if zhis[3] == cai_lu:
     if zhi_xing[3] or zhi_6chong[3]:
         print("时支正财禄有冲刑：得女伴且文学清贵。 母法总则P60-11 丁丑 辛亥 己巳 乙亥")
     if any(zhi_xing[:3]) or any(zhi_6chong[:3]):
-        print("时支正财禄,它支有冲刑：刑妻、孤高、艺术、近贵人。 母法总则P60-19 乙未 己丑 庚寅 己卯")
+        print("时支正财禄,它支有冲刑：刑妻、孤高、艺术、近贵人。 母法00总则P60-19 乙未 己丑 庚寅 己卯")
     if gan_shens.count('财') >1 :
         print("时支正财禄,天干财星多：孤雅、九流、表面风光。 母法总则P60-20 乙酉 乙酉 庚辰 己卯")
     
