@@ -494,11 +494,11 @@ if len(set('子午卯酉')&set(zhis)) == 0:
 if len(set('辰戌丑未')&set(zhis)) == 0:
     print("四柱地支缺四库，一生没有潜伏性凶灾。")
 if ( '甲', '戊', '庚',) in (tuple(gans)[:3], tuple(gans)[1:]):
-    print("地上三奇：白天生有申佳，")
+    print("地上三奇：白天生有申佳，需身强四柱有贵人。")
 if ( '辛', '壬', '癸',) in (tuple(gans)[:3], tuple(gans)[1:]):
-    print("人间三奇")
+    print("人间三奇，需身强四柱有贵人。")
 if ( '乙', '丙', '丁',) in (tuple(gans)[:3], tuple(gans)[1:]):
-    print("天上三奇：晚上生有亥佳")
+    print("天上三奇：晚上生有亥佳，需身强四柱有贵人。")
     
 if zhi_shens2.count('亡神') > 1:
     print("二重亡神，先丧母；")
@@ -588,6 +588,7 @@ shen_zhus = list(zip(gan_shens, zhi_shens))
 
 minggong = Zhi[::-1][(Zhi.index(zhis[1]) + Zhi.index(zhis[3]) -6  )%12 ]
 print(minggong, minggongs[minggong])
+print("坐：", rizhus[me+zhis.day])
 
 # 地网
 if '辰' in zhis and '巳' in zhis:
@@ -965,11 +966,14 @@ if '枭' in gan_shens:
     print("经典认为：偏印不能扶身，要身旺；偏印见官杀未必是福；喜伤官，喜财；忌日主无根；   女顾兄弟姐妹；男六亲似冰")
     print("偏印格干支有冲、合、刑，地支是偏印的绝位也不佳。")
     
-    #print(zhi_shen3)
+    #print(zhi_shen3)  
     if (gan_shens[1] == '枭' and '枭' in zhi_shen3[1]):        
         print("枭月重叠：福薄慧多，青年孤独，有文艺宗教倾向。")
         
-    if '枭' in zhi_shens2:
+    if zhi_shens2.count('枭') > 1:
+        print("偏印根透2柱，孤独有色情之患难。做事有始无终，女声誉不佳！pd40")
+
+    if  zhi_shens2.count('枭'):
         print("偏印成格基础89生财、配印；最喜偏财同时成格，偏印在前，偏财在后。最忌讳日时坐实比劫刃。")
         all_ges.append('枭')
               
@@ -981,15 +985,30 @@ if '枭' in gan_shens:
         
     if gan_shens.count('枭') > 1:
         print("天干两个偏印：迟婚，独身等，婚姻不好。三偏印，家族人口少，亲属不多建。基56甲午 甲戌 丙午 丙申")
+        
     if shen_zhus[0] == ('枭', '枭'):
         print("偏印在年，干支俱透，不利于长辈。偏母当令，正母无权，可能是领养，庶出、同父异母等。 基56乙卯 甲申 丁丑 丁未")
+
+    if zhi_shen3[1] == ['枭']:
+        print("月专位偏印：有手艺。坐衰其貌不扬。")
         
     
 for seq, zhi_ in enumerate(zhi_shens):
     if zhi_ != '枭' and gan_shens[seq] != '枭':
         continue   
+
     if ten_deities[gans[seq]][zhis[seq]] == '绝':
-        print("偏印坐绝，或者天干坐偏印为绝，难以得志。费力不讨好。基56辛酉 辛卯 丁巳 甲辰  丁卯 丁未 己丑 丁卯")       
+        print("偏印坐绝，或者天干坐偏印为绝，难以得志。费力不讨好。基56辛酉 辛卯 丁巳 甲辰  丁卯 丁未 己丑 丁卯")    
+
+    if  gan_shens[seq] == '枭':
+        if '枭' in zhi_shen3[seq] :
+            print("干支都与偏印，克夫福薄！")  
+
+        if '比' in zhi_shen3[seq] :
+            print("偏印坐比：劳心劳力，常遇阴折 pd41")   
+
+        if zhi_shens[seq] == '伤':
+            print("偏印坐伤官：克夫丧子 pd41")        
 
     
 if zhi_shens[3]  == '枭' and gan_shens[0]  == '枭':
@@ -1012,7 +1031,7 @@ if zhi_shens[2] == '枭' or zhis.day == xiao_lu:
     if zhus[2] in (('丁','卯'),('癸','酉')):
         print("日专坐偏印：丁卯和癸酉。婚姻不顺。又刑冲，因性格而起争端而意外伤害。 基56")   
     if zhis[3] == me_jue:
-        print("日坐偏印，日支绝：无亲人依靠，贫乏。 母法总则P55-5：丙辰 丙申 丁卯 壬子")  
+        print("日坐偏印，日支绝：无亲人依靠，贫乏。 母法总则P55-5：丙辰 丙申 丁卯 壬子。pd41 专位偏印：男女姻缘都不佳。")  
     
     if '枭' in gan_shens and is_yang() and zhis.time == me_di:
         
@@ -1040,9 +1059,12 @@ if '印' in gan_shens:
         
     if (gan_shens[1] == '印' and '印' in zhi_shen3[1]):        
         print("印月重叠：女迟婚，月阳刃者离寡，能独立谋生，有修养的才女。")
+
+    if gan_shens[0] == '印' :        
+        print("年干印为喜：出身于富贵之家。")
             
     if shens2.count('印') > 2:
-        print("正印多的：聪明有谋略，比较含蓄，不害人，识时务。正印不怕日主死绝，反而怕太强。日主强，正印多，孤寂，不善理财。")
+        print("正印多的：聪明有谋略，比较含蓄，不害人，识时务。正印不怕日主死绝，反而怕太强。日主强，正印多，孤寂，不善理财。 pd41男的克妻，子嗣少。女的克母。")
     for seq, gan_ in enumerate(gan_shens):
         if gan_ != '印':
             continue   
@@ -1082,7 +1104,7 @@ if '印' in gan_shens:
 if zhi_shens[1]  == '印':
     print("月支印：女命觉得丈夫不如自己，分居是常态，自己有能力。")  
     if gan_shens[1]  == '印':
-        print("月干支印：男权重于名，女命很自信，与夫平权。")    
+        print("月干支印：男权重于名，女命很自信，与夫平权。pd41:聪明有权谋，自我")    
         if '比' in gan_shens:
             print("月干支印格，透比，有冲亡。")
             
