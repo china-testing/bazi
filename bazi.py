@@ -107,6 +107,8 @@ options = parser.parse_args()
 Gans = collections.namedtuple("Gans", "year month day time")
 Zhis = collections.namedtuple("Zhis", "year month day time")
 
+print("-"*120)
+
 if options.b:
     gans = Gans(year=options.year[0], month=options.month[0], 
                 day=options.day[0],  time=options.time[0])
@@ -228,31 +230,30 @@ me_attrs_ = ten_deities[me].inverse
 strong = gan_scores[me_attrs_['比']] + gan_scores[me_attrs_['劫']] \
     + gan_scores[me_attrs_['枭']] + gan_scores[me_attrs_['印']]
 
+
 if not options.b:
     #print("direction",direction)
     sex = '女' if options.n else '男'
-    print("\n{}命".format(sex))
-    print("======================================")  
-    print("公历:", end='')
-    print("\t{}年{}月{}日".format(day.getSolarYear(), day.getSolarMonth(), day.getSolarDay()))
-
+    print("{}命".format(sex), end=' ')
+    print("\t公历:", end=' ')
+    print("\t{}年{}月{}日".format(day.getSolarYear(), day.getSolarMonth(), day.getSolarDay()), end=' ')
     Lleap = "闰" if day.isLunarLeap() else ""
     lunar = Lunar.fromYmdHms(day.getLunarYear(), day.getLunarMonth(), day.getLunarDay(),int(options.time), 0, 0)
     ba = lunar.getEightChar()
+    yun = ba.getYun(1)   
+    print("\t农历:", end=' ')
+    print("\t{}年{}{}月{}日 穿=害 上运时间：".format(day.getLunarYear(), Lleap, day.getLunarMonth(), day.getLunarDay(), yun.getStartSolar().toFullString()), end=' ')
+
+    # Lleap = "闰" if day.isLunarLeap() else ""
+    # lunar = Lunar.fromYmdHms(day.getLunarYear(), day.getLunarMonth(), day.getLunarDay(),int(options.time), 0, 0)
+
     print("lunar_python:", ba)
     #print(ba.getDayZhi())
     #print(not options.n)
-    yun = ba.getYun(1)   
+    
     #yun_day = "{}年{}月{}日"
-    print("农历:", end='')
-    print("\t{}年{}{}月{}日 穿=害 上运时间：".format(day.getLunarYear(), Lleap, day.getLunarMonth(), day.getLunarDay(), yun.getStartSolar().toFullString()))
+
 print("-"*120)
-print("墓库：", str(kus).replace("'",""), "解读:钉ding或v信pythontesting", end=' ')
-for item in zhus:
-    print(''.join(item), end=' ')
-print()
-print("甲己-中正土  乙庚-仁义金  丙辛-威制水  丁壬-淫慝木  戊癸-无情火", "  三会:", str(zhi_huis).replace("'",""))
-print("="*120)    
 
 #print(zhi_3hes, "生：寅申巳亥 败：子午卯酉　库：辰戌丑未")
 #print("地支六合:", zhi_6hes)
@@ -263,7 +264,7 @@ print('\033[1;36;40m' + ' '.join(list(gans)), ' '*5, ' '.join(list(gan_shens)) +
 out = ''
 for item in zhi_6hes:
     out = out + "{}{} ".format(item, zhi_6hes[item])
-print('\033[1;36;40m' + ' '.join(list(zhis)), ' '*5, ' '.join(list(zhi_shens)) + '\033[0m', ' '*5,  "生：寅申巳亥 败：子午卯酉　库：辰戌丑未", ' '*2,  out)
+print('\033[1;36;40m' + ' '.join(list(zhis)), ' '*5, ' '.join(list(zhi_shens)) + '\033[0m', ' '*5, out, "解读:钉ding或v信pythontesting")
 print("-"*120)
 print("{1:{0}^15s}{2:{0}^15s}{3:{0}^15s}{4:{0}^15s}".format(chr(12288), '【年】{}:{}{}{}'.format(temps[gans.year],temps[zhis.year],ten_deities[gans.year].inverse['建'], gan_zhi_he(zhus[0])), 
     '【月】{}:{}{}{}'.format(temps[gans.month],temps[zhis.month], ten_deities[gans.month].inverse['建'], gan_zhi_he(zhus[1])),
@@ -443,6 +444,10 @@ for i in range(3):
     if zhi_atts[zhis[i]]['刑'] == zhis[i+1] or zhi_atts[zhis[i+1]]['刑'] == zhis[i]:
         zhi_xing[i] = zhi_xing[i+1] = True
        
+print("\n\t大运：", end=' ')
+
+for item in dayuns:
+    print(item, end=' ')
 print()
 print("-"*120)
 
@@ -544,7 +549,7 @@ print("-"*120)
 
 children = ['食','伤'] if options.n else ['官','杀']
 
-liuqins = bidict({'才': '婆婆' if options.n else '父亲',"财":'父亲' if options.n else '妻子', "印": '女婿'if options.n else '母亲', "枭": '母亲'if options.n else '祖父',
+liuqins = bidict({'才': '父亲',"财":'财' if options.n else '妻', "印": '母亲', "枭": '偏印' if options.n else '祖父',
                   "官":'丈夫' if options.n else '女儿', "杀":'情夫' if options.n else '儿子', "劫":'兄弟' if options.n else '姐妹', "比":'姐妹' if options.n else '兄弟', 
                   "食":'女儿' if options.n else '下属', "伤":'儿子' if options.n else '孙女'})
 
