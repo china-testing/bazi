@@ -128,16 +128,14 @@ else:
         day = sxtwl.fromLunar(
             int(options.year), int(options.month), int(options.day), options.r)
 
-    gz = day.getHourGZ(int(options.time))
-    yTG = day.getYearGZ()
-    mTG = day.getMonthGZ()
-    dTG  = day.getDayGZ()
+    lunar = Lunar.fromYmdHms(day.getLunarYear(), day.getLunarMonth(), day.getLunarDay(),int(options.time), 0, 0)
+    ba = str(lunar.getEightChar())
 
     #　计算甲干相合    
-    gans = Gans(year=Gan[yTG.tg], month=Gan[mTG.tg], 
-                day=Gan[dTG.tg], time=Gan[gz.tg])
-    zhis = Zhis(year=Zhi[yTG.dz], month=Zhi[mTG.dz], 
-                day=Zhi[dTG.dz], time=Zhi[gz.dz])
+    gans = Gans(year=ba[0], month=ba[3], 
+                day=ba[6], time=ba[9])
+    zhis = Zhis(year=ba[1], month=ba[4], 
+                day=ba[7], time=ba[10])
 
 
 me = gans.day
@@ -242,12 +240,12 @@ if not options.b:
     ba = lunar.getEightChar()
     yun = ba.getYun(1)   
     print("\t农历:", end=' ')
-    print("\t{}年{}{}月{}日 穿=害 上运时间：".format(day.getLunarYear(), Lleap, day.getLunarMonth(), day.getLunarDay(), yun.getStartSolar().toFullString()), end=' ')
+    print("\t{}年{}{}月{}日 穿=害 上运时间：\n".format(day.getLunarYear(), Lleap, day.getLunarMonth(), day.getLunarDay(), yun.getStartSolar().toFullString()), end=' ')
 
     # Lleap = "闰" if day.isLunarLeap() else ""
     # lunar = Lunar.fromYmdHms(day.getLunarYear(), day.getLunarMonth(), day.getLunarDay(),int(options.time), 0, 0)
 
-    print("lunar_python:", ba)
+    #print("lunar_python:", ba)
     #print(ba.getDayZhi())
     #print(not options.n)
     
@@ -443,8 +441,9 @@ zhi_xing = [False, False, False, False]
 for i in range(3):
     if zhi_atts[zhis[i]]['刑'] == zhis[i+1] or zhi_atts[zhis[i+1]]['刑'] == zhis[i]:
         zhi_xing[i] = zhi_xing[i+1] = True
-       
-print("\n\t大运：", end=' ')
+print()
+print("-"*120)       
+print("大运：", end=' ')
 
 for item in dayuns:
     print(item, end=' ')
@@ -1722,11 +1721,10 @@ if sum_index in summarys:
     print("=========================")      
     print(summarys[sum_index])
 
-print("\n\n大运")    
-print("="*120)  
-if options.b:
-    print(dayuns) 
-else:
+
+if not options.b:
+    print("\n\n大运")    
+    print("="*120)  
     birthday = datetime.date(day.getSolarYear(), day.getSolarMonth(), day.getSolarDay()) 
     count = 0
     
@@ -1749,7 +1747,7 @@ else:
         fu = '*' if (gan_, zhi_) in zhus else " "
         zhi5_ = ''
         for gan in zhi5[zhi_]:
-            zhi5_ = zhi5_ + "{}{}{}　".format(gan, gan5[gan], ten_deities[me][gan]) 
+            zhi5_ = zhi5_ + "{}{}　".format(gan, ten_deities[me][gan]) 
         
         zhi__ = set() # 大运地支关系
         
@@ -1773,7 +1771,7 @@ else:
                     if abs( Zhi.index(zhi_) - Zhi.index(zhis[i]) ) == 10:
                         jia = jia + "  --夹：" +  Zhi[(Zhi.index(zhi_) + Zhi.index(zhis[i]))%12]
                 
-        out = "{1:<4d}{2:<5s}{3} {15} {14} {13}  {4}:{5}{8}{6:{0}<6s}{12}{7}{8}{9} - {10:{0}<15s} {11}".format(
+        out = "{1:<4d}{2:<5s}{3} {15} {14} {13}  {4}:{5}{8}{6:{0}<6s}{12}{7}{8}{9} - {10:{0}<10s} {11}".format(
             chr(12288), int(value[0]), '', dayuns[seq],ten_deities[me][gan_], gan_,check_gan(gan_, gans), 
             zhi_, yinyang(zhi_), ten_deities[me][zhi_], zhi5_, zhi__,empty, fu, nayins[(gan_, zhi_)], ten_deities[me][zhi_]) 
         gan_index = Gan.index(gan_)
@@ -1795,7 +1793,7 @@ else:
             
             zhi6_ = ''
             for gan in zhi5[zhi2_]:
-                zhi6_ = zhi6_ + "{}{}{}　".format(gan, gan5[gan], ten_deities[me][gan])        
+                zhi6_ = zhi6_ + "{}{}　".format(gan, ten_deities[me][gan])        
             
             # 大运地支关系
             zhi__ = set() # 大运地支关系
@@ -1811,7 +1809,7 @@ else:
             empty = chr(12288)
             if zhi2_ in empties[zhus[2]]:
                 empty = '空'       
-            out = "{1:>3d} {2:<5d}{3} {15} {14} {13}  {4}:{5}{8}{6:{0}<6s}{12}{7}{8}{9} - {10:{0}<13s} {11}".format(
+            out = "{1:>3d} {2:<5d}{3} {15} {14} {13}  {4}:{5}{8}{6:{0}<6s}{12}{7}{8}{9} - {10:{0}<10s} {11}".format(
                 chr(12288), int(value[0]) + i, value[1] + i, gan2_+zhi2_,ten_deities[me][gan2_], gan2_,check_gan(gan2_, gans2), 
                 zhi2_, yinyang(zhi2_), ten_deities[me][zhi2_], zhi6_, zhi__,empty, fu2, nayins[(gan2_, zhi2_)], ten_deities[me][zhi2_]) 
             
