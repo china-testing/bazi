@@ -6,8 +6,6 @@ import datetime
 from collections import OrderedDict
 from bidict import bidict
 
-import sxtwl
-
 Gan = ["甲", "乙", "丙", "丁", "戊", "己", "庚", "辛", "壬", "癸"]
 
 Zhi = ["子", "丑", "寅", "卯", "辰", "巳", "午", "未", "申", "酉", "戌", "亥"]
@@ -361,6 +359,7 @@ zhi3 = {
 
 
 def getGZ(gzStr):
+    import sxtwl
     tg = -1
     dz = -1
     for i, v in enumerate(Gan):
