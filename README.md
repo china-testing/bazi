@@ -38,11 +38,8 @@
 - 安裝依赖库
 
 ```python
-pip install sxtwl bidict lunar_python colorama
+pip install bidict lunar_python colorama
 ```
-
-Windows下如果安装sxtwl报错，安装 [BuildTools_Full.exe](https://url97.ctfile.com/f/18113597-800958828-d3b94d?p=2274) 点击普通下载，不用注册，访问密码: 2274
-注意：sxtwl可能不支持python3.11。 Linux下的兼容性会好很多。
 
 - linux打开终端或windows打开cmd或git的bash或powercmd等工具
 
@@ -362,5 +359,3 @@ lunar_python: 丁巳 己酉 癸未 壬戌
 中国罗盘详解 - 2014.pdf
 
 中国罗盘通俗解读 - 2011.pdf
-
--- 鸣谢：本程序的日历使用库　https://pypi.org/project/sxtwl/。

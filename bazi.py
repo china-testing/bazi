@@ -3,13 +3,12 @@
 # Author: 钉钉、抖音或微信pythontesting 钉钉群21734177
 # CreateDate: 2019-2-21
 
-import sxtwl
 import argparse
 import collections
 import pprint
 import datetime
 
-from lunar_python import Lunar
+from lunar_python import Lunar, Solar
 from colorama import init
 
 from datas import *
@@ -113,29 +112,27 @@ if options.b:
     gans = Gans(year=options.year[0], month=options.month[0], 
                 day=options.day[0],  time=options.time[0])
     zhis = Gans(year=options.year[1], month=options.month[1], 
-                day=options.day[1],  time=options.time[1])
-    jds = sxtwl.siZhu2Year(getGZ(options.year), getGZ(options.month), getGZ(options.day), getGZ(options.time), options.start, int(options.end));
-    for jd in jds:
-        t = sxtwl.JD2DD(jd )
-        print("可能出生时间: python bazi.py -g %d %d %d %d :%d:%d"%(t.Y, t.M, t.D, t.h, t.m, round(t.s)))    
+                day=options.day[1],  time=options.time[1])  
+
+    l = Solar.fromBaZi(options.year, options.month, options.day, options.time)
+    for solar in l:
+       print("可能出生时间: python bazi.py -g %d %d %d %s"%(solar.getYear(), solar.getMonth(), solar.getMonth(), 
+            solar.toFullString().split()[1].split(':')[0])) 
     
 else:
 
     if options.g:
-        day = sxtwl.fromSolar(
-            int(options.year), int(options.month), int(options.day))
+        solar = Solar.fromYmdHms(int(options.year), int(options.month), int(options.day), int(options.time), 0, 0)
+        lunar = solar.getLunar()
     else:
-        day = sxtwl.fromLunar(
-            int(options.year), int(options.month), int(options.day), options.r)
+        month_ = int(options.month)*-1 if options.r else int(options.month)
+        lunar = Lunar.fromYmdHms(int(options.year), month_, int(options.day),int(options.time), 0, 0)
+        solar = lunar.getSolar()
 
-    lunar = Lunar.fromYmdHms(day.getLunarYear(), day.getLunarMonth(), day.getLunarDay(),int(options.time), 0, 0)
-    ba = str(lunar.getEightChar())
-
-    #　计算甲干相合    
-    gans = Gans(year=ba[0], month=ba[3], 
-                day=ba[6], time=ba[9])
-    zhis = Zhis(year=ba[1], month=ba[4], 
-                day=ba[7], time=ba[10])
+    day = lunar
+    ba = lunar.getEightChar() 
+    gans = Gans(year=ba.getYearGan(), month=ba.getMonthGan(), day=ba.getDayGan(), time=ba.getTimeGan())
+    zhis = Zhis(year=ba.getYearZhi(), month=ba.getMonthZhi(), day=ba.getDayZhi(), time=ba.getTimeZhi())
 
 
 me = gans.day
@@ -234,22 +231,11 @@ if not options.b:
     sex = '女' if options.n else '男'
     print("{}命".format(sex), end=' ')
     print("\t公历:", end=' ')
-    print("\t{}年{}月{}日".format(day.getSolarYear(), day.getSolarMonth(), day.getSolarDay()), end=' ')
-    Lleap = "闰" if day.isLunarLeap() else ""
-    lunar = Lunar.fromYmdHms(day.getLunarYear(), day.getLunarMonth(), day.getLunarDay(),int(options.time), 0, 0)
-    ba = lunar.getEightChar()
-    yun = ba.getYun(1)   
-    print("\t农历:", end=' ')
-    print("\t{}年{}{}月{}日 穿=害 上运时间：\n".format(day.getLunarYear(), Lleap, day.getLunarMonth(), day.getLunarDay(), yun.getStartSolar().toFullString()), end=' ')
-
-    # Lleap = "闰" if day.isLunarLeap() else ""
-    # lunar = Lunar.fromYmdHms(day.getLunarYear(), day.getLunarMonth(), day.getLunarDay(),int(options.time), 0, 0)
-
-    #print("lunar_python:", ba)
-    #print(ba.getDayZhi())
-    #print(not options.n)
-    
-    #yun_day = "{}年{}月{}日"
+    print("{}年{}月{}日".format(solar.getYear(), solar.getMonth(), solar.getDay()), end=' ')
+    yun = ba.getYun(not options.n)   
+    print("  农历:", end=' ')
+    print("{}年{}月{}日 穿=害 上运时间：{} 命宫:{} 胎元:{}\n".format(lunar.getYear(), lunar.getMonth(), 
+        lunar.getDay(), yun.getStartSolar().toFullString().split()[0], ba.getMingGong(), ba.getTaiYuan()), end=' ')
 
 print("-"*120)
 
@@ -593,6 +579,8 @@ shen_zhus = list(zip(gan_shens, zhi_shens))
 minggong = Zhi[::-1][(Zhi.index(zhis[1]) + Zhi.index(zhis[3]) -6  )%12 ]
 print(minggong, minggongs[minggong])
 print("坐：", rizhus[me+zhis.day])
+
+
 
 # 地网
 if '辰' in zhis and '巳' in zhis:
@@ -1721,29 +1709,12 @@ if sum_index in summarys:
     print("=========================")      
     print(summarys[sum_index])
 
-
 if not options.b:
     print("\n\n大运")    
     print("="*120)  
-    birthday = datetime.date(day.getSolarYear(), day.getSolarMonth(), day.getSolarDay()) 
-    count = 0
-    
-
-    for i in range(30):    
-        #print(birthday)
-        day_ = sxtwl.fromSolar(birthday.year, birthday.month, birthday.day)
-        #if day_.hasJieQi() and day_.getJieQiJD() % 2 == 1
-        if day_.hasJieQi() and day_.getJieQi() % 2 == 1:
-                break
-            #break        
-        birthday += datetime.timedelta(days=direction)
-        count += 1
-
-    ages = [(round(count/3 + 10*i), round(int(options.year) + 10*i + count//3)) for i in range(12)]
-    
-    for (seq, value) in enumerate(ages):
-        gan_ = dayuns[seq][0]
-        zhi_ = dayuns[seq][1]
+    for dayun in yun.getDaYun()[1:]:
+        gan_ = dayun.getGanZhi()[0]
+        zhi_ = dayun.getGanZhi()[1]
         fu = '*' if (gan_, zhi_) in zhus else " "
         zhi5_ = ''
         for gan in zhi5[zhi_]:
@@ -1772,7 +1743,7 @@ if not options.b:
                         jia = jia + "  --夹：" +  Zhi[(Zhi.index(zhi_) + Zhi.index(zhis[i]))%12]
                 
         out = "{1:<4d}{2:<5s}{3} {15} {14} {13}  {4}:{5}{8}{6:{0}<6s}{12}{7}{8}{9} - {10:{0}<10s} {11}".format(
-            chr(12288), int(value[0]), '', dayuns[seq],ten_deities[me][gan_], gan_,check_gan(gan_, gans), 
+            chr(12288), dayun.getStartAge(), '', dayuns[seq],ten_deities[me][gan_], gan_,check_gan(gan_, gans), 
             zhi_, yinyang(zhi_), ten_deities[me][zhi_], zhi5_, zhi__,empty, fu, nayins[(gan_, zhi_)], ten_deities[me][zhi_]) 
         gan_index = Gan.index(gan_)
         zhi_index = Zhi.index(zhi_)
@@ -1781,13 +1752,9 @@ if not options.b:
         print(out)
         zhis2 = list(zhis) + [zhi_]
         gans2 = list(gans) + [gan_]
-        if value[0] > 100:
-            continue
-        for i in range(10):
-            day2 = sxtwl.fromSolar(value[1] + i, 5, 1)       
-            yTG = day2.getYearGZ()
-            gan2_ = Gan[yTG.tg]
-            zhi2_ = Zhi[yTG.dz]
+        for liunian in dayun.getLiuNian():
+            gan2_ = liunian.getGanZhi()[0]
+            zhi2_ = liunian.getGanZhi()[1]
             fu2 = '*' if (gan2_, zhi2_) in zhus else " "
             #print(fu2, (gan2_, zhi2_),zhus)
             
@@ -1810,7 +1777,7 @@ if not options.b:
             if zhi2_ in empties[zhus[2]]:
                 empty = '空'       
             out = "{1:>3d} {2:<5d}{3} {15} {14} {13}  {4}:{5}{8}{6:{0}<6s}{12}{7}{8}{9} - {10:{0}<10s} {11}".format(
-                chr(12288), int(value[0]) + i, value[1] + i, gan2_+zhi2_,ten_deities[me][gan2_], gan2_,check_gan(gan2_, gans2), 
+                chr(12288), liunian.getAge(), liunian.getYear(), gan2_+zhi2_,ten_deities[me][gan2_], gan2_,check_gan(gan2_, gans2), 
                 zhi2_, yinyang(zhi2_), ten_deities[me][zhi2_], zhi6_, zhi__,empty, fu2, nayins[(gan2_, zhi2_)], ten_deities[me][zhi2_]) 
             
             jia = ""
@@ -1841,12 +1808,10 @@ if not options.b:
             print(out)
             
         
-    print(count/3)
-    #print(list(zip(ages, dayuns)))
     
     # 计算星宿
     d2 = datetime.date(1, 1, 4)
-    print("星宿", xingxius[(birthday - d2).days % 28], end=' ')
+    print("星宿", lunar.getXiu(), lunar.getXiuSong())
     
     # 计算建除
     seq = 12 - Zhi.index(zhis.month)
