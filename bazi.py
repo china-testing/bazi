@@ -109,15 +109,15 @@ Zhis = collections.namedtuple("Zhis", "year month day time")
 print("-"*120)
 
 if options.b:
+    import sxtwl
     gans = Gans(year=options.year[0], month=options.month[0], 
                 day=options.day[0],  time=options.time[0])
     zhis = Gans(year=options.year[1], month=options.month[1], 
-                day=options.day[1],  time=options.time[1])  
-
-    l = Solar.fromBaZi(options.year, options.month, options.day, options.time)
-    for solar in l:
-       print("可能出生时间: python bazi.py -g %d %d %d %s"%(solar.getYear(), solar.getMonth(), solar.getMonth(), 
-            solar.toFullString().split()[1].split(':')[0])) 
+                day=options.day[1],  time=options.time[1])
+    jds = sxtwl.siZhu2Year(getGZ(options.year), getGZ(options.month), getGZ(options.day), getGZ(options.time), options.start, int(options.end));
+    for jd in jds:
+        t = sxtwl.JD2DD(jd )
+        print("可能出生时间: python bazi.py -g %d %d %d %d :%d:%d"%(t.Y, t.M, t.D, t.h, t.m, round(t.s)))   
     
 else:
 
