@@ -1700,12 +1700,14 @@ print("局", jus, "格", all_ges, )
 
 
 if me+zhis.month in months:
+    print("\n\n《穷通宝鉴》")    
+    print("=========================")      
     print(months[me+zhis.month])
 
 
 sum_index = ''.join([me, '日', *zhus[3]])
 if sum_index in summarys:
-    print("\n\n命")    
+    print("\n\n《三命通会》")    
     print("=========================")      
     print(summarys[sum_index])
 
@@ -1743,7 +1745,7 @@ if not options.b:
                         jia = jia + "  --夹：" +  Zhi[(Zhi.index(zhi_) + Zhi.index(zhis[i]))%12]
                 
         out = "{1:<4d}{2:<5s}{3} {15} {14} {13}  {4}:{5}{8}{6:{0}<6s}{12}{7}{8}{9} - {10:{0}<10s} {11}".format(
-            chr(12288), dayun.getStartAge(), '', dayuns[seq],ten_deities[me][gan_], gan_,check_gan(gan_, gans), 
+            chr(12288), dayun.getStartAge(), '', dayun.getGanZhi(),ten_deities[me][gan_], gan_,check_gan(gan_, gans), 
             zhi_, yinyang(zhi_), ten_deities[me][zhi_], zhi5_, zhi__,empty, fu, nayins[(gan_, zhi_)], ten_deities[me][zhi_]) 
         gan_index = Gan.index(gan_)
         zhi_index = Zhi.index(zhi_)
