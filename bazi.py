@@ -16,6 +16,39 @@ from sizi import summarys
 from common import *
 from yue import months
 
+def get_gen(gan, zhis):
+    zhus = []
+    zhongs = []
+    weis = []
+    result = ""
+    for item in zhis:
+        zhu = zhi5_list[item][0]
+        if ten_deities[gan]['本'] == ten_deities[zhu]['本']:
+            zhus.append(item)
+
+    for item in zhis:
+        if len(zhi5_list[item]) ==1:
+            continue
+        zhong = zhi5_list[item][1]
+        if ten_deities[gan]['本'] == ten_deities[zhong]['本']:
+            zhongs.append(item)
+
+    for item in zhis:
+        if len(zhi5_list[item]) < 3:
+            continue
+        zhong = zhi5_list[item][2]
+        if ten_deities[gan]['本'] == ten_deities[zhong]['本']:
+            weis.append(item)
+
+    if not (zhus or zhongs or weis):
+        return f"{gan}: 无"
+    else:
+        result = result + "强：{}{}".format(''.join(zhus), chr(12288)) if zhus else result
+        result = result + "中：{}{}".format(''.join(zhongs), chr(12288)) if zhongs else result
+        result = result + "弱：{}".format(''.join(weis)) if weis else result
+        return result
+
+
 def gan_zhi_he(zhu):
     gan, zhi = zhu
     if ten_deities[gan]['合'] in zhi5[zhi]:
@@ -246,8 +279,7 @@ for item in zhi_3hes:
     out = out + "{}:{}  ".format(item, zhi_3hes[item])
 print('\033[1;36;40m' + ' '.join(list(gans)), ' '*5, ' '.join(list(gan_shens)) + '\033[0m',' '*5, out,)
 out = ''
-for item in zhi_6hes:
-    out = out + "{}{} ".format(item, zhi_6hes[item])
+
 print('\033[1;36;40m' + ' '.join(list(zhis)), ' '*5, ' '.join(list(zhi_shens)) + '\033[0m', ' '*5, out, "解读:钉ding或v信pythontesting")
 print("-"*120)
 print("{1:{0}^15s}{2:{0}^15s}{3:{0}^15s}{4:{0}^15s}".format(chr(12288), '【年】{}:{}{}{}'.format(temps[gans.year],temps[zhis.year],ten_deities[gans.year].inverse['建'], gan_zhi_he(zhus[0])), 
@@ -333,6 +365,14 @@ for seq, item in enumerate(zhis):
     print("\033[1;36;40m{1:{0}<15s}\033[0m".format(chr(12288), output), end='')
 
 print()
+
+# 输出根
+for  item in gans:
+    output = output.lstrip('　')
+    print("\033[1;36;40m{1:{0}<15s}\033[0m".format(chr(12288), get_gen(item, zhis)), end='')
+
+print()
+
 for seq, item in enumerate(zhus):
 
     # 检查空亡 
@@ -434,6 +474,9 @@ print("大运：", end=' ')
 for item in dayuns:
     print(item, end=' ')
 print()
+# for item in gans:
+#     print(get_gen(item, zhis), end=" \t")
+# print()
 print("-"*120)
 
 me_lu = ten_deities[me].inverse['建']
