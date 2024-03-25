@@ -41,7 +41,7 @@ def get_gen(gan, zhis):
             weis.append(item)
 
     if not (zhus or zhongs or weis):
-        return f"{gan}: 无"
+        return "无根"
     else:
         result = result + "强：{}{}".format(''.join(zhus), chr(12288)) if zhus else result
         result = result + "中：{}{}".format(''.join(zhongs), chr(12288)) if zhongs else result
