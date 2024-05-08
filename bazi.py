@@ -269,6 +269,9 @@ if not options.b:
     print("  农历:", end=' ')
     print("{}年{}月{}日 穿=害 上运时间：{} 命宫:{} 胎元:{}\n".format(lunar.getYear(), lunar.getMonth(), 
         lunar.getDay(), yun.getStartSolar().toFullString().split()[0], ba.getMingGong(), ba.getTaiYuan()), end=' ')
+    print("\t", siling[zhis.month], lunar.getPrevJieQi(True), lunar.getPrevJieQi(True).getSolar().toYmdHms(),lunar.getNextJieQi(True), 
+        lunar.getNextJieQi(True).getSolar().toYmdHms())
+
 
 print("-"*120)
 
