@@ -304,16 +304,13 @@ print("\033[1;36;40m{1:{0}<15s}{2:{0}<15s}{3:{0}<15s}{4:{0}<15s}\033[0m".format(
 
 print("\033[1;36;40m{1:{0}<15s}{2:{0}<15s}{3:{0}<15s}{4:{0}<15s}\033[0m".format(
     chr(12288),
-    "{}{}{}【{}】{}".format(
-        zhis.year, yinyang(zhis.year), ten_deities[me][zhis.year],
-        ten_deities[gans.year][zhis.year], get_empty(zhus[2],zhis.year)),
-    "{}{}{}【{}】{}".format(
-        zhis.month, yinyang(zhis.month), ten_deities[me][zhis.month],
-        ten_deities[gans.month][zhis.month], get_empty(zhus[2],zhis.month)),
-    "{}{}{}".format(zhis.day, yinyang(zhis.day), ten_deities[me][zhis.day]),   
-    "{}{}{}【{}】{}".format(
-        zhis.time, yinyang(zhis.time), ten_deities[me][zhis.time], 
-        ten_deities[gans.time][zhis.time], get_empty(zhus[2],zhis.time)),
+    "{}{}{}{}【{}】{}{}".format(
+        zhis.year, yinyang(zhis.year), ten_deities[gans.year][zhis.year], ten_deities[gans.month][zhis.year],ten_deities[me][zhis.year], ten_deities[gans.time][zhis.year], get_empty(zhus[2],zhis.year)),
+    "{}{}{}{}【{}】{}{}".format(
+        zhis.month, yinyang(zhis.month), ten_deities[gans.year][zhis.month], ten_deities[gans.month][zhis.month],ten_deities[me][zhis.month], ten_deities[gans.time][zhis.month], get_empty(zhus[2],zhis.month)),
+    "{}{}{}{}【{}】{}".format(zhis.day, yinyang(zhis.day),  ten_deities[gans.year][zhis.day], ten_deities[gans.month][zhis.day], ten_deities[me][zhis.day], ten_deities[gans.time][zhis.day],),   
+    "{}{}{}{}【{}】{}{}".format(
+        zhis.time, yinyang(zhis.time), ten_deities[gans.year][zhis.time], ten_deities[gans.month][zhis.time],ten_deities[me][zhis.time], ten_deities[gans.time][zhis.time], get_empty(zhus[2],zhis.time)),
 ))
 
 statuses = [ten_deities[me][item] for item in zhis]
