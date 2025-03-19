@@ -353,7 +353,7 @@ for seq, item in enumerate(zhis):
     others = zhis[:seq] + zhis[seq+1:] 
     for type_ in zhi_atts[item]:
         flag = False
-        if type_ not in ('害',"会"):
+        if type_ not in ('害',"破","会",'刑'):
             continue
         for zhi in zhi_atts[item][type_]:
             if zhi in others:
