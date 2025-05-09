@@ -277,13 +277,22 @@ print("-"*120)
 
 #print(zhi_3hes, "生：寅申巳亥 败：子午卯酉　库：辰戌丑未")
 #print("地支六合:", zhi_6hes)
-out = ''
-for item in zhi_3hes:
-    out = out + "{}:{}  ".format(item, zhi_3hes[item])
-print('\033[1;36;40m' + ' '.join(list(gans)), ' '*5, ' '.join(list(gan_shens)) + '\033[0m',' '*5, out)
-out = ''
+out = ' '
+for item in list(xiuqius[zhis.month].items()):
+    out = out + "{}:{} ".format(item[0], item[1])
 
-print('\033[1;36;40m' + ' '.join(list(zhis)), ' '*5, ' '.join(list(zhi_shens)) + '\033[0m', ' '*5, out, "解读:钉ding或v信pythontesting: 四柱：" + ' '.join([''.join(item) for item in zip(gans, zhis)]))
+for item in list(scores.items()):
+    out = out + " {}{} ".format(item[0], item[1])
+
+out = "{} {}:{} {} {} {}".format(out, "强弱", strong, "中值29", "强根:", '无' if weak else '有')
+
+
+
+print('\033[1;36;40m' + ' '.join(list(gans)), ' '*5, ' '.join(list(gan_shens)) + '\033[0m',' '*3, out)
+
+temps_scores = temps[gans.year] + temps[gans.month] + temps[me] + temps[gans.time] + temps[zhis.year] + temps[zhis.month]*2 + temps[zhis.day] + temps[zhis.time]
+out = str(temps_scores) + " 湿度[-6,6] 拱：" + str(get_gong(zhis))
+print('\033[1;36;40m' + ' '.join(list(zhis)), ' '*5, ' '.join(list(zhi_shens)) + '\033[0m', ' '*3, out, "解读:钉ding或v信pythontesting: 四柱：" + ' '.join([''.join(item) for item in zip(gans, zhis)]),)
 print("-"*120)
 print("{1:{0}^15s}{2:{0}^15s}{3:{0}^15s}{4:{0}^15s}".format(chr(12288), '【年】{}:{}{}{}'.format(temps[gans.year],temps[zhis.year],ten_deities[gans.year].inverse['建'], gan_zhi_he(zhus[0])), 
     '【月】{}:{}{}{}'.format(temps[gans.month],temps[zhis.month], ten_deities[gans.month].inverse['建'], gan_zhi_he(zhus[1])),
@@ -469,16 +478,56 @@ for i in range(3):
         zhi_xing[i] = zhi_xing[i+1] = True
 print()
 print("-"*120)       
-print("大运：", end=' ')
 
-for item in dayuns:
-    print(item, end=' ')
-print()
-temps_scores = temps[gans.year] + temps[gans.month] + temps[me] + temps[gans.time] + temps[zhis.year] + temps[zhis.month]*2 + temps[zhis.day] + temps[zhis.time]
-print("五行分数", scores, '  八字强弱：', strong, "通常>29为强，需要参考月份、坐支等", "weak:", weak)
-# for item in gans:
-#     print(get_gen(item, zhis), end=" \t")
-# print()
+
+if options.b:
+    print("大运：", end=' ')
+    for item in dayuns:
+        print(item, end=' ')
+    print()
+
+else:
+    for dayun in yun.getDaYun()[1:]:
+        gan_ = dayun.getGanZhi()[0]
+        zhi_ = dayun.getGanZhi()[1]
+        fu = '*' if (gan_, zhi_) in zhus else " "
+        zhi5_ = ''
+        for gan in zhi5[zhi_]:
+            zhi5_ = zhi5_ + "{}{}　".format(gan, ten_deities[me][gan]) 
+        
+        zhi__ = set() # 大运地支关系
+        
+        for item in zhis:
+        
+            for type_ in zhi_atts[zhi_]:
+                if item in zhi_atts[zhi_][type_]:
+                    zhi__.add(type_ + ":" + item)
+        zhi__ = '  '.join(zhi__)
+        
+        empty = chr(12288)
+        if zhi_ in empties[zhus[2]]:
+            empty = '空'        
+        
+        jia = ""
+        if gan_ in gans:
+            for i in range(4):
+                if gan_ == gans[i]:
+                    if abs(Zhi.index(zhi_) - Zhi.index(zhis[i])) == 2:
+                        jia = jia + "  --夹：" +  Zhi[( Zhi.index(zhi_) + Zhi.index(zhis[i]) )//2]
+                    if abs( Zhi.index(zhi_) - Zhi.index(zhis[i]) ) == 10:
+                        jia = jia + "  --夹：" +  Zhi[(Zhi.index(zhi_) + Zhi.index(zhis[i]))%12]
+                
+        out = "{1:<4d}{2:<5s}{3} {15} {14} {13}  {4}:{5}{8}{6:{0}<6s}{12}{7}{8}{9} - {10:{0}<10s} {11}".format(
+            chr(12288), dayun.getStartAge(), '', dayun.getGanZhi(),ten_deities[me][gan_], gan_,check_gan(gan_, gans), 
+            zhi_, yinyang(zhi_), ten_deities[me][zhi_], zhi5_, zhi__,empty, fu, nayins[(gan_, zhi_)], ten_deities[me][zhi_]) 
+        gan_index = Gan.index(gan_)
+        zhi_index = Zhi.index(zhi_)
+        out = out + jia + get_shens(gans, zhis, gan_, zhi_)
+        
+        print(out)
+        zhis2 = list(zhis) + [zhi_]
+        gans2 = list(gans) + [gan_]
+
 print("-"*120)
 
 me_lu = ten_deities[me].inverse['建']
@@ -611,7 +660,6 @@ for item in zhi_huis:
         print("三会局", item)
         jus.append(ju[ten_deities[me].inverse[zhi_huis[item]]])
 
-print("湿度分数", temps_scores,"正为暖燥，负为寒湿，正常区间[-6,6] 拱：",  get_gong(zhis), "\033[0m")
 for item in gan_scores:  
     print("{}[{}]-{} ".format(
         item, ten_deities[me][item], gan_scores[item]),  end='  ')    
