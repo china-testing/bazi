@@ -1806,6 +1806,10 @@ if sum_index in summarys:
     print("=========================")      
     print(summarys[sum_index])
 
+print("\n\n《十二时辰（初中末）出生吉凶》")    
+print("=========================")      
+print(chens[zhis.time])
+
 if not options.b:
     print("\n\n大运")    
     print("="*120)  
