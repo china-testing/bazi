@@ -1790,6 +1790,9 @@ if ten_deities[shang].inverse['建'] in zhis and options.n:
     
 print("局", jus, "格", all_ges, )
 
+print("\n\n《六十日用法口诀》")    
+print("=========================")      
+print(days60[me+zhis.day])
 
 if me+zhis.month in months:
     print("\n\n《穷通宝鉴》")    
