@@ -48,7 +48,7 @@
 - 安裝依赖库
 
 ```python
-pip install bidict lunar_python colorama
+pip install bidict lunar_python colorama sxtwl
 ```
 
 - linux打开终端或windows打开cmd或git的bash或powercmd等工具
