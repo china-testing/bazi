@@ -672,7 +672,7 @@ for item in gan_scores:
         item, ten_deities[me][item], gan_scores[item]),  end='  ')    
 print()
 print("-"*120)
-yinyangs(zhis)
+yinyangs(gans + zhis)
 shen_zhus = list(zip(gan_shens, zhi_shens))
 
 minggong = Zhi[::-1][(Zhi.index(zhis[1]) + Zhi.index(zhis[3]) -6  )%12 ]
