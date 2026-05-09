@@ -131,6 +131,7 @@ parser.add_argument("--end", help="end year", default='2030')
 parser.add_argument('-b', action="store_true", default=False, help=u'直接输入八字')
 parser.add_argument('-g', action="store_true", default=False, help=u'是否采用公历')
 parser.add_argument('-r', action="store_true", default=False, help=u'是否为闰月，仅仅使用于农历')
+parser.add_argument('-s', action="store_true", default=False, help=u'简单模式')
 parser.add_argument('-n', action="store_true", default=False, help=u'是否为女，默认为男')
 parser.add_argument('--version', action='version',
                     version='%(prog)s 1.0 Rongzhong xu 2022 06 15')
@@ -150,7 +151,7 @@ if options.b:
     jds = sxtwl.siZhu2Year(getGZ(options.year), getGZ(options.month), getGZ(options.day), getGZ(options.time), options.start, int(options.end));
     for jd in jds:
         t = sxtwl.JD2DD(jd )
-        print("可能出生时间: python bazi.py -g %d %d %d %d :%d:%d"%(t.Y, t.M, t.D, t.h, t.m, round(t.s)))   
+        print("可能出生时间: python bazi.py -gs %d %d %d %d :%d:%d"%(t.Y, t.M, t.D, t.h, t.m, round(t.s)))   
     
 else:
 
@@ -267,7 +268,7 @@ if not options.b:
     print("{}年{}月{}日".format(solar.getYear(), solar.getMonth(), solar.getDay()), end=' ')
     yun = ba.getYun(not options.n)   
     print("  农历:", end=' ')
-    print("{}年{}月{}日 穿=害 上运时间：{} 命宫:{} 胎元:{} 身宫:{}\n".format(lunar.getYear(), lunar.getMonth(), 
+    print("{}年{}月{}日 上运时间：{} 命宫:{} 胎元:{} 身宫:{}\n".format(lunar.getYear(), lunar.getMonth(), 
         lunar.getDay(), yun.getStartSolar().toFullString().split()[0], ba.getMingGong(), ba.getTaiYuan(), ba.getShenGong()), end=' ')
     print("\t", siling[zhis.month], lunar.getPrevJieQi(True), lunar.getPrevJieQi(True).getSolar().toYmdHms(),lunar.getNextJieQi(True), 
         lunar.getNextJieQi(True).getSolar().toYmdHms())
@@ -578,6 +579,9 @@ shi_ku = ten_deities[shi]['库'][0]
 print("调候：", tiaohous['{}{}'.format(me, zhis[1])], "\t##金不换大运：", jinbuhuan['{}{}'.format(me, zhis[1])])
 print("金不换大运：说明：", jins['{}'.format(me)])
 print("格局选用：", ges[ten_deities[me]['本']][zhis[1]])
+
+if options.s:
+    exit(0)
 if len(set('寅申巳亥')&set(zhis)) == 0:
     print("缺四生：一生不敢作为")
 if len(set('子午卯酉')&set(zhis)) == 0:
