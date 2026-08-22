@@ -3,6 +3,7 @@
 - bazi.py 八字排盘，能比常用的排盘更清晰地显示冲、合、刑等关系，计算五行分数，附加《三命通会》等命理评判
 - luohou.py 计算罗喉日时,用于提示风水师何时慎用罗盘。
 - shengxiao.py 用户生肖合婚等。
+- [手相](https://github.com/china-testing/bazi/tree/master/%E6%89%8B%E7%9B%B8) 手相教程PPT。
 
 
 赞赏
