@@ -575,7 +575,7 @@ yin_ku = ten_deities[yin]['库'][0]
 shi_ku = ten_deities[shi]['库'][0]
 
 
-
+print("动:比伤才杀印 静:劫食财官枭 右:比食财官印 左:劫伤才杀枭")
 print("调候：", tiaohous['{}{}'.format(me, zhis[1])], "\t##金不换大运：", jinbuhuan['{}{}'.format(me, zhis[1])])
 print("金不换大运：说明：", jins['{}'.format(me)])
 print("格局选用：", ges[ten_deities[me]['本']][zhis[1]])
