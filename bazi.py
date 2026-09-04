@@ -425,7 +425,7 @@ for item in month_shens:
             all_shens_list.append(item)
             
 for item in day_shens:
-    for i in (0,1,3):
+    for i in (0,1,2,3):
         if zhis[i] in day_shens[item][zhis.day]:     
             strs[i] = item if not strs[i] else strs[i] + chr(12288) + item    
             all_shens.add(item)
